@@ -384,3 +384,99 @@ class Parser:
       return EqualNode(token.node_y)
         
     self.raise_error()
+
+# Interpreter #
+
+class Interpreter:
+  def visit(self, node):
+    method_name = f'visit_{type(node).__name__}'
+    method = getattr(self, method_name)
+    return method(node)
+
+  def visit_IntNode(self, node):
+    if (isinstance(node.value, int)):
+      return IntNode(node.value)
+
+  def visit_FloatNode(self, node):
+    if (isinstance(node.value, float)):
+      return FloatNode(node.value)
+
+  def visit_NumberSignNode(self, node):
+    return NumberSignNode(node.value)
+
+  def visit_StringSignNode(self, node):
+    return StringSignNode(node.value)
+
+  def visit_ArraySignNode(self, node):
+    return ArraySignNode(node.value)
+
+  def visit_StringNode(self, node):
+    return StringNode(node.value)
+
+  def visit_EqualNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if check_x and check_y:
+      return EqualNode(check_y)
+
+  def visit_AddNode(self, node):
+    check_num_a = self.visit(node.node_a).value
+    check_num_b = self.visit(node.node_b).value
+
+    if (isinstance(check_num_a, int) and isinstance(check_num_b, int)):
+      return IntNode(check_num_a + check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a + check_num_b)
+    elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a + check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
+      return FloatNode(check_num_a + check_num_b)
+
+  def visit_SubtractNode(self, node):
+    check_num_a = self.visit(node.node_a).value
+    check_num_b = self.visit(node.node_b).value
+
+    if (isinstance(check_num_a, int) and isinstance(check_num_b, int)):
+      return IntNode(check_num_a - check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a - check_num_b)
+    elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a - check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
+      return FloatNode(check_num_a - check_num_b)
+
+  def visit_MultiplyNode(self, node):
+    check_num_a = self.visit(node.node_a).value
+    check_num_b = self.visit(node.node_b).value
+
+    if (isinstance(check_num_a, int) and isinstance(check_num_b, int)):
+      return IntNode(check_num_a * check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a * check_num_b)
+    elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
+      return FloatNode(check_num_a * check_num_b)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
+      return FloatNode(check_num_a * check_num_b)
+
+  def visit_DivideNode(self, node):
+    try:
+      check_num_a = self.visit(node.node_a).value
+      check_num_b = self.visit(node.node_b).value
+    
+      if isinstance(check_num_a, int) and isinstance(check_num_b, int):
+        return IntNode(check_num_a / check_num_b)
+      elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
+        return FloatNode(check_num_a / check_num_b)
+      elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
+        return FloatNode(check_num_a / check_num_b)
+      elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
+        return FloatNode  (check_num_a / check_num_b)
+    except:
+      raise Exception("Runtime math error")
+  
+  def visit_PlusNode(self, node):
+    return self.visit(node.node)
+  
+  def visit_MinusNode(self, node):
+    return IntNode(-self.visit(node.node).value) or FloatNode(-self.visit(node.node).value)
