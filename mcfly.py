@@ -9,6 +9,13 @@ DIGITS  = '0123456789'
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
 
+# Dictionary #
+
+important_numbers = {
+  '#pi': 3.14159265,
+  '#e': 2.71828182
+}
+
 # Tokens #
 
 class TokenType(Enum):
@@ -191,6 +198,8 @@ class Lexer:
 class Token:
   type: TokenType
   value: any = None
+  StartValuePi = important_numbers['#pi']
+  StartValueE = important_numbers['#e']
 
   def __repr__(self):
     return self.type.name + ((f":{self.value}") if self.value != None else "")
@@ -265,6 +274,8 @@ class MinusNode:
 @dataclass
 class NumberSignNode:
   value: str
+  StartValuePi = important_numbers['#pi']
+  StartValueE = important_numbers['#e']
 
   def __repr__(self):
     return f"{self.value}"
@@ -402,7 +413,12 @@ class Interpreter:
       return FloatNode(node.value)
 
   def visit_NumberSignNode(self, node):
-    return NumberSignNode(node.value)
+    if node.value == '#pi':
+      return NumberSignNode(node.StartValuePi)
+    elif node.value == '#e':
+      return NumberSignNode(node.StartValueE)
+    else:
+      return NumberSignNode(node.value)
 
   def visit_StringSignNode(self, node):
     return StringSignNode(node.value)
