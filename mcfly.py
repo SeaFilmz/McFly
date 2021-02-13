@@ -1,5 +1,6 @@
 from enum import Enum
 import string
+from dataclasses import dataclass, field
 
 # Important Characters #
 
@@ -183,3 +184,109 @@ class Lexer:
       equal_sign = equal_sign
 
     return Token(TokenType.EQUAL, str(equal_sign))
+
+# Nodes #
+
+@dataclass
+class Token:
+  type: TokenType
+  value: any = None
+
+  def __repr__(self):
+    return self.type.name + ((f":{self.value}") if self.value != None else "")
+
+@dataclass
+class IntNode:
+  value: int
+
+  def __repr__(self):
+    return f"{self.value:g}"
+
+@dataclass
+class FloatNode:
+  value: float
+
+  def __repr__(self):
+    return f"{self.value}"
+
+@dataclass
+class StringNode:
+  value: str
+
+  def __repr__(self):
+    return f"{self.value}"
+
+@dataclass
+class AddNode:
+  node_a: any
+  node_b: any
+
+  def __repr__(self):
+    return f"({self.node_a}+{self.node_b})"
+
+@dataclass
+class SubtractNode:
+  node_a: any
+  node_b: any
+
+  def __repr__(self):
+    return f"({self.node_a}-{self.node_b})"
+
+@dataclass
+class MultiplyNode:
+  node_a: any
+  node_b: any
+
+  def __repr__(self):
+    return f"({self.node_a}*{self.node_b})"
+
+@dataclass
+class DivideNode:
+  node_a: any
+  node_b: any
+
+  def __repr__(self):
+    return f"({self.node_a}/{self.node_b})"
+
+@dataclass
+class PlusNode:
+  node: any
+
+  def __repr__(self):
+    return f"(+{self.node})"
+
+@dataclass
+class MinusNode:
+  node: any
+
+  def __repr__(self):
+    return f"(-{self.node})"
+
+@dataclass
+class NumberSignNode:
+  value: str
+
+  def __repr__(self):
+    return f"{self.value}"
+
+@dataclass
+class StringSignNode:
+  value: str
+
+  def __repr__(self):
+    return f"{self.value}"
+
+@dataclass
+class ArraySignNode:
+  value: str
+
+  def __repr__(self):
+    return f"{self.value}"
+
+@dataclass
+class EqualNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"({self.node_x}={self.node_y})"
