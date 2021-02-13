@@ -480,3 +480,17 @@ class Interpreter:
   
   def visit_MinusNode(self, node):
     return IntNode(-self.visit(node.node).value) or FloatNode(-self.visit(node.node).value)
+
+# Run #
+
+while True:
+  text = input("Enter a math function: ")
+  lexer = Lexer(text)
+  tokens = lexer.generate_tokens()
+  parser = Parser(tokens)
+  tree = parser.parse()
+  if not tree: continue
+  interpreter = Interpreter()
+  value = interpreter.visit(tree)
+  print(tree)
+  print(value)
