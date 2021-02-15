@@ -8,6 +8,7 @@ WHITESPACE = ' \n\t'
 DIGITS  = '0123456789'
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
+MATH_OPERATORS = '+-*/'
 
 # Dictionary #
 
@@ -44,7 +45,7 @@ class Lexer:
     try:
       self.current_char = next(self.text)
     except StopIteration:
-      self.current_char = None
+      self.current_char = None 
 
   def generate_tokens(self):
     while self.current_char != None:
@@ -125,7 +126,9 @@ class Lexer:
       if self.current_char == '#': 
         number_sign_count += 1
         if number_sign_count > 1:
-          break
+          break    
+      if self.current_char == '$' or self.current_char == '@' or self.current_char in MATH_OPERATORS:
+        print('Error: Number Variable Names Do Not Include the Characters $, @, +, -, * or /')
 
       num_sign_var += self.current_char
       self.advance()
@@ -145,6 +148,8 @@ class Lexer:
         string_sign_count += 1
         if string_sign_count > 1:
           break
+      if self.current_char == '#' or self.current_char == '@' or self.current_char in MATH_OPERATORS:
+        print('Error: Number Variable Names Do Not Include the Characters #, @, +, -, * or /')
 
       str_sign_var += self.current_char
       self.advance()
@@ -164,6 +169,8 @@ class Lexer:
         array_sign_count += 1
         if array_sign_count > 1:
           break
+      if self.current_char == '#' or self.current_char == '$' or self.current_char in MATH_OPERATORS:
+        print('Error: Number Variable Names Do Not Include the Characters #, $, +, -, * or /')
 
       array_sign_var += self.current_char
       self.advance()
@@ -301,6 +308,8 @@ class EqualNode:
 
   def __repr__(self): 
     return f"({self.node_x}={self.node_y})"
+
+# Parser #
 
 class Parser:
   def __init__(self, tokens):
