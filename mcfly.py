@@ -7,8 +7,7 @@ from dataclasses import dataclass, field
 WHITESPACE = ' \n\t'
 DIGITS  = '0123456789'
 LETTERS = string.ascii_letters
-LETTERS_DIGITS = LETTERS + DIGITS
-MATH_OPERATORS = '+-*/'
+LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
 
 # Dictionary #
 
@@ -122,14 +121,12 @@ class Lexer:
     num_sign_var = self.current_char
     self.advance()
 
-    while self.current_char != None and self.current_char not in MATH_OPERATORS:
+    while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
       if self.current_char == '#': 
         number_sign_count += 1
         if number_sign_count > 1:
-          break    
-      if self.current_char == '$' or self.current_char == '@':
-        print('Error: Number Variable Names Do Not Include the Characters $ or @')         
-      
+          break        
+    
       num_sign_var += self.current_char
       self.advance()
 
@@ -143,13 +140,11 @@ class Lexer:
     str_sign_var = self.current_char
     self.advance()
 
-    while self.current_char != None:
+    while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
       if self.current_char == '$': 
         string_sign_count += 1
         if string_sign_count > 1:
           break
-      if self.current_char == '#' or self.current_char == '@' or self.current_char in MATH_OPERATORS:
-        print('Error: Number Variable Names Do Not Include the Characters #, @, +, -, * or /')
 
       str_sign_var += self.current_char
       self.advance()
@@ -164,13 +159,11 @@ class Lexer:
     array_sign_var = self.current_char
     self.advance()
 
-    while self.current_char != None:
+    while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
       if self.current_char == '@': 
         array_sign_count += 1
         if array_sign_count > 1:
           break
-      if self.current_char == '#' or self.current_char == '$' or self.current_char in MATH_OPERATORS:
-        print('Error: Number Variable Names Do Not Include the Characters #, $, +, -, * or /')
 
       array_sign_var += self.current_char
       self.advance()
