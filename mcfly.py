@@ -122,14 +122,14 @@ class Lexer:
     num_sign_var = self.current_char
     self.advance()
 
-    while self.current_char != None:
+    while self.current_char != None and self.current_char not in MATH_OPERATORS:
       if self.current_char == '#': 
         number_sign_count += 1
         if number_sign_count > 1:
           break    
-      if self.current_char == '$' or self.current_char == '@' or self.current_char in MATH_OPERATORS:
-        print('Error: Number Variable Names Do Not Include the Characters $, @, +, -, * or /')
-
+      if self.current_char == '$' or self.current_char == '@':
+        print('Error: Number Variable Names Do Not Include the Characters $ or @')         
+      
       num_sign_var += self.current_char
       self.advance()
 
@@ -195,7 +195,7 @@ class Lexer:
       self.advance()
 
     if equal_sign.startswith('='):
-      equal_sign = equal_sign
+      print('Error: You Can Not Start a Program with an =')
 
     return Token(TokenType.EQUAL, str(equal_sign))
 
@@ -404,6 +404,7 @@ class Parser:
       return EqualNode(token.node_y)
         
     self.raise_error()
+
 
 # Interpreter #
 
