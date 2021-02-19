@@ -182,7 +182,7 @@ class IntNode:
   value: int
 
   def __repr__(self):
-    return f"{self.value:g}"
+    return f"{self.value:d}"
 
 @dataclass
 class FloatNode:
