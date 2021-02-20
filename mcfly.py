@@ -19,11 +19,14 @@ important_numbers = {
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating functions.',
   'if': 'Coming Soon: The word if is reseversed for conditionals.',
-  'and': 'Coming Soon: The word and is reserved for a boolean operator.',
-  'or': 'Coming Soon: The word or is reserved for a boolean operator.',
-  'not': 'Cooming Soon: The word not is reserved for a boolean operator.',
   'sum': 'Cooming Soon: The word sum is reserved for adding all the numbers in a set together.',
   'avg': 'Cooming Soon: The term avg is reserved for calculating the average of a set numbers.'
+}
+
+error_words = {
+  'and': 'Error: Code can not start with the word and.',
+  'or': 'Error: Code can not start with the word or.',
+  'not': 'Error: Code can not start with the word not.'
 }
 
 # Tokens #
@@ -123,7 +126,7 @@ class Lexer:
 
       string_str += self.current_char
       self.advance()
-    
+
     return Token(TokenType.STRING, str(string_str))
 
   def generate_num_var(self):
@@ -205,9 +208,9 @@ class StringNode:
   value: str
   WordFun = important_words['fun']
   WordIf = important_words['if']  
-  WordAnd = important_words['and']
-  WordOr = important_words['or']
-  WordNot = important_words['not']
+  ErrorAnd = error_words['and']
+  ErrorOr = error_words['or']
+  ErrorNot = error_words['not']
   WordSum = important_words['sum']
   WordAvg = important_words['avg']
 
@@ -423,11 +426,11 @@ class Interpreter:
     elif node.value == 'if':
       return StringNode(node.WordIf)    
     elif node.value == 'and':
-      return StringNode(node.WordAnd)
+      return StringNode(node.ErrorAnd)
     elif node.value == 'or':
-      return StringNode(node.WordOr)
+      return StringNode(node.ErrorOr)
     elif node.value == 'not':
-      return StringNode(node.WordNot)
+      return StringNode(node.ErrorNot)
     elif node.value == 'sum':
       return StringNode(node.WordSum)
     elif node.value == 'avg':
