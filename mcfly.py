@@ -16,6 +16,16 @@ important_numbers = {
   '#e': 2.71828182
 }
 
+important_words = {
+  'fun': 'Coming Soon: The word fun is reserved for creating functions.',
+  'if': 'Coming Soon: The word if is reseversed for conditionals.',
+  'and': 'Coming Soon: The word and is reserved for a boolean operator.',
+  'or': 'Coming Soon: The word or is reserved for a boolean operator.',
+  'not': 'Cooming Soon: The word not is reserved for a boolean operator.',
+  'sum': 'Cooming Soon: The word sum is reserved for adding all the numbers in a set together.',
+  'avg': 'Cooming Soon: The term avg is reserved for calculating the average of a set numbers.'
+}
+
 # Tokens #
 
 class TokenType(Enum):
@@ -123,7 +133,7 @@ class Lexer:
     while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
       num_sign_var += self.current_char
       self.advance()
-    
+
     return Token(TokenType.NUMBER_VAR, num_sign_var)
 
   def generate_str_var(self):
@@ -145,6 +155,7 @@ class Lexer:
       self.advance()
 
     return Token(TokenType.ARRAY_VAR, array_sign_var)
+
 
   def make_equal(self):
     equal_sign_count = 0
@@ -192,6 +203,13 @@ class FloatNode:
 @dataclass
 class StringNode:
   value: str
+  WordFun = important_words['fun']
+  WordIf = important_words['if']  
+  WordAnd = important_words['and']
+  WordOr = important_words['or']
+  WordNot = important_words['not']
+  WordSum = important_words['sum']
+  WordAvg = important_words['avg']
 
   def __repr__(self):
     return f"{self.value}"
@@ -369,7 +387,6 @@ class Parser:
         
     self.raise_error()
 
-
 # Interpreter #
 
 class Interpreter:
@@ -401,7 +418,22 @@ class Interpreter:
     return ArraySignNode(node.value)
 
   def visit_StringNode(self, node):
-    return StringNode(node.value)
+    if node.value == 'fun':
+      return StringNode(node.WordFun)
+    elif node.value == 'if':
+      return StringNode(node.WordIf)    
+    elif node.value == 'and':
+      return StringNode(node.WordAnd)
+    elif node.value == 'or':
+      return StringNode(node.WordOr)
+    elif node.value == 'not':
+      return StringNode(node.WordNot)
+    elif node.value == 'sum':
+      return StringNode(node.WordSum)
+    elif node.value == 'avg':
+      return StringNode(node.WordAvg)             
+    else:
+      return StringNode(node.value)    
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
