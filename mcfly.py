@@ -92,7 +92,8 @@ class Lexer:
         self.advance()
         yield Token(TokenType.RPAREN)
       elif self.current_char == '=':
-        yield self.make_equal()
+        self.advance()
+        yield Token(TokenType.EQUAL)
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -158,26 +159,6 @@ class Lexer:
       self.advance()
 
     return Token(TokenType.ARRAY_VAR, array_sign_var)
-
-
-  def make_equal(self):
-    equal_sign_count = 0
-    equal_sign = self.current_char
-    self.advance()
-
-    while self.current_char != None:
-      if self.current_char == '=': 
-        equal_sign_count += 1
-        if equal_sign_count > 1:
-          break
-
-      equal_sign += self.current_char
-      self.advance()
-
-    if equal_sign.startswith('='):
-      print('Error: You Can Not Start a Program with an =')
-
-    return Token(TokenType.EQUAL, str(equal_sign))
 
 # Nodes #
 
