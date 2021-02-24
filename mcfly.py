@@ -18,7 +18,7 @@ important_numbers = {
 
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating functions.',
-  'if': 'Coming Soon: The word if is reseversed for conditionals.',
+  'if': 'Coming Soon: The word if is reserved for conditionals.',
   'sum': 'Cooming Soon: The word sum is reserved for adding all the numbers in a set together.',
   'avg': 'Cooming Soon: The term avg is reserved for calculating the average of a set numbers.'
 }
