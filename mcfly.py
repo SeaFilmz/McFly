@@ -44,7 +44,9 @@ class TokenType(Enum):
   STRING_VAR     = 9
   ARRAY_VAR      = 10
   EQUAL          = 11
-  STRING         = 12
+  GT             = 12
+  LT             = 13
+  STRING         = 14
 
 # Lexer #
 
@@ -94,6 +96,12 @@ class Lexer:
       elif self.current_char == '=':
         self.advance()
         yield Token(TokenType.EQUAL)
+      elif self.current_char == '>':
+        self.advance()
+        yield Token(TokenType.GT)
+      elif self.current_char == '<':
+        self.advance()
+        yield Token(TokenType.LT)
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -274,6 +282,22 @@ class EqualNode:
 
   def __repr__(self): 
     return f"({self.node_x}={self.node_y})"
+
+@dataclass
+class GreaterThanNode:
+  node_a: any
+  node_b: any
+
+  def __repr__(self): 
+    return f"({self.node_a}>{self.node_b})"
+
+@dataclass
+class LessThanNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"({self.node_x}<{self.node_y})"
 
 # Parser #
 
