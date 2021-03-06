@@ -509,7 +509,12 @@ class Interpreter:
     return self.visit(node.node)
   
   def visit_MinusNode(self, node):
-    return IntNode(-self.visit(node.node).value) or FloatNode(-self.visit(node.node).value)
+    check_num = self.visit(node.node).value
+
+    if isinstance(check_num, int):
+      return IntNode(-check_num)  
+    elif isinstance(check_num, float):
+      return FloatNode(-check_num)
 
 # Run #
 
