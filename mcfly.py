@@ -59,7 +59,7 @@ class Lexer:
     try:
       self.current_char = next(self.text)
     except StopIteration:
-      self.current_char = None 
+      self.current_char = None
 
   def generate_tokens(self):
     while self.current_char != None:
@@ -206,6 +206,23 @@ class StringNode:
   def __repr__(self):
     return f"{self.value}"
 
+
+""" @dataclass
+class Node(MathOperator):
+  node_a: any
+  node_b: any
+  
+  def __init__(self, op):
+    self.op = op
+  def __repr__(self):
+    return f"({self.node_a}{self.op}{self.node_b})"
+
+AddNode = Node(+)
+SubtractNode = Node(-)
+MultiplyNode = Node(*)
+DivideNode = Node(/) """
+
+
 @dataclass
 class AddNode:
   node_a: any
@@ -340,15 +357,28 @@ class Parser:
     return result
 
   def term(self):
-    result = self.factor()
+    result = self.equalCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
       if self.current_token.type == TokenType.MULTIPLY:
         self.advance()
-        result = MultiplyNode(result, self.factor())
+        result = MultiplyNode(result, self.equalCheck())
       elif self.current_token.type == TokenType.DIVIDE:
         self.advance()
-        result = DivideNode(result, self.factor())
+        result = DivideNode(result, self.equalCheck())
+
+    return result
+
+  def equalCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.EQUAL, TokenType.EQUAL):
+      if self.current_token.type == TokenType.EQUAL:
+        self.advance()
+        result = EqualNode(result, self.factor())
+      elif self.current_token.type == TokenType.EQUAL:
+        self.advance()
+        result = EqualNode(result, self.factor())
 
     return result
 
@@ -364,7 +394,6 @@ class Parser:
       
       self.advance()
       return result
-
     elif token.type == TokenType.INTEGER:
       self.advance()
       return IntNode(token.value)
@@ -389,10 +418,6 @@ class Parser:
     elif token.type == TokenType.ARRAY_VAR:
       self.advance()
       return ArraySignNode(token.value)
-    elif token.type == TokenType.EQUAL:
-      self.advance()
-      return EqualNode(token.node_y)
-        
     self.raise_error()
 
 # Interpreter #
@@ -441,14 +466,26 @@ class Interpreter:
     elif node.value == 'avg':
       return StringNode(node.WordAvg)             
     else:
-      return StringNode(node.value)    
+      return StringNode(node.value)
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
-    if check_x and check_y:
-      return EqualNode(check_y)
+    if isinstance(check_x, int) and isinstance(check_y, float):    
+      return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, int):    
+      return 'False'
+    elif isinstance(check_x, int) and isinstance(check_y, int):
+      if int(check_x) == int(check_y):
+        return 'True'
+      elif int(check_x) != int(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, float):
+      if float(check_x) == float(check_y):
+        return 'True'
+      elif float(check_x) != float(check_y):
+        return 'False'
 
   def visit_AddNode(self, node):
     check_num_a = self.visit(node.node_a).value
