@@ -285,11 +285,11 @@ class EqualNode:
 
 @dataclass
 class GreaterThanNode:
-  node_a: any
-  node_b: any
+  node_x: any
+  node_y: any
 
   def __repr__(self): 
-    return f"({self.node_a}>{self.node_b})"
+    return f"({self.node_x}>{self.node_y})"
 
 @dataclass
 class LessThanNode:
@@ -353,17 +353,32 @@ class Parser:
     return result
 
   def equalCheck(self):
-    result = self.factor()
+    result = self.greaterCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.EQUAL, TokenType.EQUAL):
       if self.current_token.type == TokenType.EQUAL:
         self.advance()
-        result = EqualNode(result, self.factor())
+        result = EqualNode(result, self.greaterCheck())
       elif self.current_token.type == TokenType.EQUAL:
         self.advance()
-        result = EqualNode(result, self.factor())
+        result = EqualNode(result, self.greaterCheck())
 
     return result
+
+
+  def greaterCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.GT, TokenType.GT):
+      if self.current_token.type == TokenType.GT:
+        self.advance()
+        result = GreaterThanNode(result, self.factor())
+      elif self.current_token.type == TokenType.GT:
+        self.advance()
+        result = GreaterThanNode(result, self.factor())
+
+    return result
+
 
   def factor(self):
     token = self.current_token
@@ -468,6 +483,39 @@ class Interpreter:
       if float(check_x) == float(check_y):
         return 'True'
       elif float(check_x) != float(check_y):
+        return 'False'
+
+  def visit_GreaterThanNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if isinstance(check_x, int) and isinstance(check_y, int):
+      if int(check_x) > int(check_y):
+        return 'True'
+      elif int(check_x) < int(check_y):
+        return 'False'
+      elif int(check_x) == int(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, float):
+      if float(check_x) > float(check_y):
+        return 'True'
+      elif float(check_x) < float(check_y):
+        return 'False'
+      elif float(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, int) and isinstance(check_y, float):
+      if int(check_x) > float(check_y):
+        return 'True'
+      elif int(check_x) < float(check_y):
+        return 'False'
+      elif int(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, int):
+      if float(check_x) > int(check_y):
+        return 'True'
+      elif float(check_x) < int(check_y):
+        return 'False'
+      elif float(check_x) == int(check_y):
         return 'False'
 
   def visit_AddNode(self, node):
