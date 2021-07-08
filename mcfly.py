@@ -367,18 +367,30 @@ class Parser:
 
 
   def greaterCheck(self):
-    result = self.factor()
+    result = self.lessCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.GT, TokenType.GT):
       if self.current_token.type == TokenType.GT:
         self.advance()
-        result = GreaterThanNode(result, self.factor())
+        result = GreaterThanNode(result, self.lessCheck())
       elif self.current_token.type == TokenType.GT:
         self.advance()
-        result = GreaterThanNode(result, self.factor())
+        result = GreaterThanNode(result, self.lessCheck())
 
     return result
 
+  def lessCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.LT, TokenType.LT):
+      if self.current_token.type == TokenType.LT:
+        self.advance()
+        result = LessThanNode(result, self.factor())
+      elif self.current_token.type == TokenType.LT:
+        self.advance()
+        result = LessThanNode(result, self.factor())
+
+    return result
 
   def factor(self):
     token = self.current_token
@@ -515,6 +527,39 @@ class Interpreter:
         return 'True'
       elif float(check_x) < int(check_y):
         return 'False'
+      elif float(check_x) == int(check_y):
+        return 'False'
+
+  def visit_LessThanNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if isinstance(check_x, int) and isinstance(check_y, int):
+      if int(check_x) > int(check_y):
+        return 'False'
+      elif int(check_x) < int(check_y):
+        return 'True'
+      elif int(check_x) == int(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, float):
+      if float(check_x) > float(check_y):
+        return 'False'
+      elif float(check_x) < float(check_y):
+        return 'True'
+      elif float(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, int) and isinstance(check_y, float):
+      if int(check_x) > float(check_y):
+        return 'False'
+      elif int(check_x) < float(check_y):
+        return 'True'
+      elif int(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, int):
+      if float(check_x) > int(check_y):
+        return 'False'
+      elif float(check_x) < int(check_y):
+        return 'True'
       elif float(check_x) == int(check_y):
         return 'False'
 
