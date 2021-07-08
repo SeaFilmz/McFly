@@ -16,6 +16,8 @@
 <h3>Comparison Operations</h3> 
   <ul>
     <li>= for equals</li>
+    <li>> for greater than</li>
+    <li>< for less than</li>
   </ul>
 
 <h3>Special Commands</h3>
