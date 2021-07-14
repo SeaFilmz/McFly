@@ -46,7 +46,8 @@ class TokenType(Enum):
   EQUAL          = 11
   GT             = 12
   LT             = 13
-  STRING         = 14
+  GTE            = 14
+  STRING         = 15
 
 # Lexer #
 
@@ -97,8 +98,7 @@ class Lexer:
         self.advance()
         yield Token(TokenType.EQUAL)
       elif self.current_char == '>':
-        self.advance()
-        yield Token(TokenType.GT)
+        yield self.generate_greater_equal()
       elif self.current_char == '<':
         self.advance()
         yield Token(TokenType.LT)
@@ -167,6 +167,14 @@ class Lexer:
       self.advance()
 
     return Token(TokenType.ARRAY_VAR, array_sign_var)
+
+  def generate_greater_equal(self):
+    self.advance()
+    if self.current_char == '=': 
+      self.advance()
+      return Token(TokenType.GTE)
+    else:
+      return Token(TokenType.GT)
 
 # Nodes #
 
@@ -299,6 +307,14 @@ class LessThanNode:
   def __repr__(self): 
     return f"({self.node_x}<{self.node_y})"
 
+@dataclass
+class GreaterThanEqualNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"({self.node_x}>={self.node_y})"
+
 # Parser #
 
 class Parser:
@@ -365,7 +381,6 @@ class Parser:
 
     return result
 
-
   def greaterCheck(self):
     result = self.lessCheck()
 
@@ -380,15 +395,28 @@ class Parser:
     return result
 
   def lessCheck(self):
-    result = self.factor()
+    result = self.greaterEqualCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.LT, TokenType.LT):
       if self.current_token.type == TokenType.LT:
         self.advance()
-        result = LessThanNode(result, self.factor())
+        result = LessThanNode(result, self.greaterEqualCheck())
       elif self.current_token.type == TokenType.LT:
         self.advance()
-        result = LessThanNode(result, self.factor())
+        result = LessThanNode(result, self.greaterEqualCheck())
+
+    return result
+
+  def greaterEqualCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.GTE, TokenType.GTE):
+      if self.current_token.type == TokenType.GTE:
+        self.advance()
+        result = GreaterThanEqualNode(result, self.factor())
+      elif self.current_token.type == TokenType.GTE:
+        self.advance()
+        result = GreaterThanEqualNode(result, self.factor())
 
     return result
 
@@ -560,6 +588,39 @@ class Interpreter:
         return 'False'
       elif float(check_x) < int(check_y):
         return 'True'
+      elif float(check_x) == int(check_y):
+        return 'False'
+
+  def visit_GreaterThanEqualNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if isinstance(check_x, int) and isinstance(check_y, int):
+      if int(check_x) > int(check_y):
+        return 'True'
+      elif int(check_x) < int(check_y):
+        return 'False'
+      elif int(check_x) == int(check_y):
+        return 'True'
+    elif isinstance(check_x, float) and isinstance(check_y, float):
+      if float(check_x) > float(check_y):
+        return 'True'
+      elif float(check_x) < float(check_y):
+        return 'False'
+      elif float(check_x) == float(check_y):
+        return 'True'
+    elif isinstance(check_x, int) and isinstance(check_y, float):
+      if int(check_x) > float(check_y):
+        return 'True'
+      elif int(check_x) < float(check_y):
+        return 'False'
+      elif int(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, int):
+      if float(check_x) > int(check_y):
+        return 'True'
+      elif float(check_x) < int(check_y):
+        return 'False'
       elif float(check_x) == int(check_y):
         return 'False'
 
