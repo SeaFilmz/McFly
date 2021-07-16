@@ -48,7 +48,8 @@ class TokenType(Enum):
   LT             = 13
   GTE            = 14
   LTE            = 15
-  STRING         = 16
+  NE             = 16
+  STRING         = 17
 
 # Lexer #
 
@@ -102,6 +103,8 @@ class Lexer:
         yield self.generate_greater_equal()
       elif self.current_char == '<':
         yield self.generate_less_equal()
+      elif self.current_char == '!':
+        yield self.generate_not_equal()
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -183,6 +186,12 @@ class Lexer:
       return Token(TokenType.LTE)
     else:
       return Token(TokenType.LT)
+
+  def generate_not_equal(self):
+    self.advance()
+    if self.current_char == '=': 
+      self.advance()
+      return Token(TokenType.NE)
 
 # Nodes #
 
@@ -331,6 +340,14 @@ class LessThanEqualNode:
   def __repr__(self): 
     return f"({self.node_x}<={self.node_y})"
 
+@dataclass
+class NotEqualNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"({self.node_x}!={self.node_y})"
+
 # Parser #
 
 class Parser:
@@ -437,15 +454,28 @@ class Parser:
     return result
 
   def lessEqualCheck(self):
-    result = self.factor()
+    result = self.notEqualCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.LTE, TokenType.LTE):
       if self.current_token.type == TokenType.LTE:
         self.advance()
-        result = LessThanEqualNode(result, self.factor())
+        result = LessThanEqualNode(result, self.notEqualCheck())
       elif self.current_token.type == TokenType.LTE:
         self.advance()
-        result = LessThanEqualNode(result, self.factor())
+        result = LessThanEqualNode(result, self.notEqualCheck())
+
+    return result
+
+  def notEqualCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.NE, TokenType.NE):
+      if self.current_token.type == TokenType.NE:
+        self.advance()
+        result = NotEqualNode(result, self.factor())
+      elif self.current_token.type == TokenType.NE:
+        self.advance()
+        result = NotEqualNode(result, self.factor())
 
     return result
 
@@ -683,6 +713,31 @@ class Interpreter:
         return 'True'
       elif float(check_x) > int(check_y):
         return 'False'
+      elif float(check_x) == int(check_y):
+        return 'False'
+
+  def visit_NotEqualNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if isinstance(check_x, int) and isinstance(check_y, int):
+      if int(check_x) != int(check_y):
+        return 'True'
+      elif int(check_x) == int(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, float):
+      if float(check_x) != float(check_y):
+        return 'True'
+      elif float(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, int) and isinstance(check_y, float):
+      if int(check_x) != float(check_y):
+        return 'True'
+      elif int(check_x) == float(check_y):
+        return 'False'
+    elif isinstance(check_x, float) and isinstance(check_y, int):
+      if float(check_x) != int(check_y):
+        return 'True'
       elif float(check_x) == int(check_y):
         return 'False'
 
