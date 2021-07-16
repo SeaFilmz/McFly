@@ -569,9 +569,7 @@ class Interpreter:
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
-    if isinstance(check_x, int) and isinstance(check_y, float):    
-      return 'False'
-    elif isinstance(check_x, float) and isinstance(check_y, int):    
+    if (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):    
       return 'False'
     elif isinstance(check_x, int) and isinstance(check_y, int):
       if int(check_x) == int(check_y):
