@@ -582,7 +582,6 @@ class Interpreter:
       elif float(check_x) != float(check_y):
         return 'False'
 
-
   def visit_GreaterThanNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
@@ -701,15 +700,10 @@ class Interpreter:
         return 'True'
       elif float(check_x) == float(check_y):
         return 'False'
-    elif isinstance(check_x, int) and isinstance(check_y, float):
-      if int(check_x) != float(check_y):
+    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
+      if (int(check_x) != float(check_y)) or (float(check_x) != int(check_y)):
         return 'True'
-      elif int(check_x) == float(check_y):
-        return 'False'
-    elif isinstance(check_x, float) and isinstance(check_y, int):
-      if float(check_x) != int(check_y):
-        return 'True'
-      elif float(check_x) == int(check_y):
+      elif (int(check_x) == float(check_y)) or (float(check_x) == int(check_y)):
         return 'False'
 
   def visit_AddNode(self, node):
