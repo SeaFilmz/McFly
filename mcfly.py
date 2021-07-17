@@ -561,7 +561,7 @@ class Interpreter:
     elif node.value == 'sum':
       return StringNode(node.WordSum)
     elif node.value == 'avg':
-      return StringNode(node.WordAvg)             
+      return StringNode(node.WordAvg)
     else:
       return StringNode(node.value)
 
@@ -571,15 +571,10 @@ class Interpreter:
 
     if (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):    
       return 'False'
-    elif isinstance(check_x, int) and isinstance(check_y, int):
-      if int(check_x) == int(check_y):
+    elif (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
+      if (int(check_x) == int(check_y)) or (float(check_x) == float(check_y)):
         return 'True'
-      elif int(check_x) != int(check_y):
-        return 'False'
-    elif isinstance(check_x, float) and isinstance(check_y, float):
-      if float(check_x) == float(check_y):
-        return 'True'
-      elif float(check_x) != float(check_y):
+      elif (int(check_x) != int(check_y)) or (float(check_x) != float(check_y)):
         return 'False'
 
   def visit_GreaterThanNode(self, node):
