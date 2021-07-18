@@ -15,7 +15,7 @@
 
 <h3>Comparison Operations</h3> 
   <ul>
-    <li>= for equals</li>
+    <li>= for comparing if 2 numbers have the same type and have the same numerical value</li>
     <li>== for comparing if 2 numbers do have the same numerical value</li>
     <li>> for greater than</li>
     <li>< for less than</li>
