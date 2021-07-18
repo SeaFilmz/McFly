@@ -16,6 +16,7 @@
 <h3>Comparison Operations</h3> 
   <ul>
     <li>= for equals</li>
+    <li>== for comparing if 2 numbers do have the same numerical value</li>
     <li>> for greater than</li>
     <li>< for less than</li>
     <li>>= for greater than or equal to</li>
