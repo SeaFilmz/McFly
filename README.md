@@ -20,7 +20,7 @@
     <li>< for less than</li>
     <li>>= for greater than or equal to</li>
     <li><= for less than or equal to</li>
-    <li>!= for comparing if 2 numbers have the same numerical value</li>
+    <li>!= for comparing if 2 numbers do not have the same numerical value</li>
   </ul>
 
 <h3>Special Commands</h3>
