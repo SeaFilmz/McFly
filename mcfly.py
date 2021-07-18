@@ -694,10 +694,10 @@ class Interpreter:
       elif check_x == check_y:
         return 'False'
     elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
-      if check_x != check_y:
-        return 'True'
-      elif check_x == check_y:
+      if check_x == check_y:
         return 'False'
+      elif check_x != check_y:
+        return 'True'
 
   def visit_AddNode(self, node):
     check_num_a = self.visit(node.node_a).value
