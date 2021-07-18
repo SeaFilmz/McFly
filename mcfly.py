@@ -659,14 +659,14 @@ class Interpreter:
     check_y = self.visit(node.node_y).value
 
     if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
-      if int(check_x) != int(check_y) or float(check_x) != float(check_y):
+      if check_x != check_y:
         return 'True'
-      elif (int(check_x) == int(check_y)) or (float(check_x) == float(check_y)):
+      elif check_x == check_y:
         return 'False'
     elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
-      if (int(check_x) != float(check_y)) or (float(check_x) != int(check_y)):
+      if check_x != check_y:
         return 'True'
-      elif (int(check_x) == float(check_y)) or (float(check_x) == int(check_y)):
+      elif check_x == check_y:
         return 'False'
 
   def visit_AddNode(self, node):
