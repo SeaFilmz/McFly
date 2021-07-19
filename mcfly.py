@@ -50,7 +50,8 @@ class TokenType(Enum):
   LTE            = 15
   NE             = 16
   MATH_EQUALS    = 17
-  STRING         = 18
+  TNE            = 18
+  STRING         = 19
 
 # Lexer #
 
@@ -200,6 +201,8 @@ class Lexer:
     if self.current_char == '=': 
       self.advance()
       return Token(TokenType.NE)
+    else:
+      return Token(TokenType.TNE)
 
 # Nodes #
 
@@ -364,6 +367,14 @@ class NotEqualNode:
   def __repr__(self): 
     return f"({self.node_x}!={self.node_y})"
 
+@dataclass
+class TypeNotEqualNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"({self.node_x}!{self.node_y})"
+
 # Parser #
 
 class Parser:
@@ -483,15 +494,28 @@ class Parser:
     return result
 
   def notEqualCheck(self):
-    result = self.mathEqualCheck()
+    result = self.typeNotEqualCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.NE, TokenType.NE):
       if self.current_token.type == TokenType.NE:
         self.advance()
-        result = NotEqualNode(result, self.mathEqualCheck())
+        result = NotEqualNode(result, self.typeNotEqualCheck())
       elif self.current_token.type == TokenType.NE:
         self.advance()
-        result = NotEqualNode(result, self.mathEqualCheck())
+        result = NotEqualNode(result, self.typeNotEqualCheck())
+
+    return result
+
+  def typeNotEqualCheck(self):
+    result = self.mathEqualCheck()
+
+    while self.current_token != None and self.current_token.type in (TokenType.TNE, TokenType.TNE):
+      if self.current_token.type == TokenType.TNE:
+        self.advance()
+        result = TypeNotEqualNode(result, self.mathEqualCheck())
+      elif self.current_token.type == TokenType.TNE:
+        self.advance()
+        result = TypeNotEqualNode(result, self.mathEqualCheck())
 
     return result
 
@@ -674,6 +698,19 @@ class Interpreter:
         return 'True'
       elif check_x == check_y:
         return 'False'
+
+  def visit_TypeNotEqualNode(self, node):
+    check_x = self.visit(node.node_x).value
+    check_y = self.visit(node.node_y).value
+
+    if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
+      if check_x == check_y:
+        return 'False'
+      elif check_x != check_y:
+        return 'True'
+    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):    
+      if (check_x == check_y) or (check_x != check_y):
+        return 'True'
 
   def visit_AddNode(self, node):
     check_num_a = self.visit(node.node_a).value
