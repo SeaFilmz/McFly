@@ -17,10 +17,10 @@
   <ul>
     <li>= for comparing if 2 numbers have the same type and have the same numerical value</li>
     <li>== for comparing if 2 numbers do have the same numerical value</li>
-    <li>> for greater than</li>
-    <li>< for less than</li>
-    <li>>= for greater than or equal to</li>
-    <li><= for less than or equal to</li>
+    <li>> for comparing if 1 number is greater than another number</li>
+    <li>< for comparing if 1 number is less than another number</li>
+    <li>>= for comparing if 1 number is greater than another number or has the same numerical value</li>
+    <li><= for comparing if 1 number is less than another number or has the same numerical value</li>
     <li>! for comparing if 2 numbers do not have the same type and do not have the same numerical value</li>
     <li>!= for comparing if 2 numbers do not have the same numerical value</li>
   </ul>
