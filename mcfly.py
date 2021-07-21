@@ -458,9 +458,6 @@ class Parser:
       if self.current_token.type == TokenType.LT:
         self.advance()
         result = LessThanNode(result, self.greaterEqualCheck())
-      elif self.current_token.type == TokenType.LT:
-        self.advance()
-        result = LessThanNode(result, self.greaterEqualCheck())
 
     return result
 
