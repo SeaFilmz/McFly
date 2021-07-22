@@ -435,9 +435,6 @@ class Parser:
       if self.current_token.type == TokenType.EQUAL:
         self.advance()
         result = EqualNode(result, self.greaterCheck())
-      elif self.current_token.type == TokenType.EQUAL:
-        self.advance()
-        result = EqualNode(result, self.greaterCheck())
 
     return result
 
