@@ -52,6 +52,8 @@ class TokenType(Enum):
   MATH_EQUALS    = 17
   TNE            = 18
   STRING         = 19
+  NUMBER_TYPE    = 20
+  STRING_TYPE    = 21
 
 # Lexer #
 
@@ -150,7 +152,12 @@ class Lexer:
       num_sign_var += self.current_char
       self.advance()
 
-    return Token(TokenType.NUMBER_VAR, num_sign_var)
+    if self.current_char == '#': 
+      self.advance()
+      return Token(TokenType.NUMBER_TYPE)
+    else:
+      return Token(TokenType.NUMBER_VAR, num_sign_var)
+
 
   def generate_str_var(self):
     str_sign_var = self.current_char
@@ -160,7 +167,11 @@ class Lexer:
       str_sign_var += self.current_char
       self.advance()
 
-    return Token(TokenType.STRING_VAR, str_sign_var)
+    if self.current_char == '$': 
+      self.advance()
+      return Token(TokenType.STRING_TYPE)
+    else:
+      return Token(TokenType.STRING_VAR, str_sign_var)
 
   def generate_array_var(self):
     array_sign_var = self.current_char
@@ -375,6 +386,22 @@ class TypeNotEqualNode:
   def __repr__(self): 
     return f"({self.node_x}!{self.node_y})"
 
+
+@dataclass
+class NumberTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"(##{self.node})"
+
+@dataclass
+class StringTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"($${self.node})"
+
+
 # Parser #
 
 class Parser:
@@ -547,6 +574,12 @@ class Parser:
     elif token.type == TokenType.ARRAY_VAR:
       self.advance()
       return ArraySignNode(token.value)
+    elif token.type == TokenType.NUMBER_TYPE:
+      self.advance()
+      return NumberTypeNode(self.factor())
+    elif token.type == TokenType.STRING_TYPE:
+      self.advance()
+      return StringTypeNode(self.factor())
     self.raise_error()
 
 # Interpreter #
@@ -748,6 +781,22 @@ class Interpreter:
       return IntNode(-check_num)
     elif isinstance(check_num, float):
       return FloatNode(-check_num)
+  
+  def visit_NumberTypeNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if isinstance(check_text, int) or isinstance(check_text, float):
+      return 'True'
+    elif isinstance(check_text, str):
+      return 'False'
+      
+  def visit_StringTypeNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if isinstance(check_text, str):
+      return 'True'
+    elif isinstance(check_text, int) or isinstance(check_text, float):
+      return 'False'
 
 # Run #
 
