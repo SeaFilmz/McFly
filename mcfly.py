@@ -485,9 +485,6 @@ class Parser:
       if self.current_token.type == TokenType.NE:
         self.advance()
         result = NotEqualNode(result, self.typeNotEqualCheck())
-      elif self.current_token.type == TokenType.NE:
-        self.advance()
-        result = NotEqualNode(result, self.typeNotEqualCheck())
 
     return result
 
