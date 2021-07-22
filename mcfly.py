@@ -495,9 +495,6 @@ class Parser:
       if self.current_token.type == TokenType.TNE:
         self.advance()
         result = TypeNotEqualNode(result, self.mathEqualCheck())
-      elif self.current_token.type == TokenType.TNE:
-        self.advance()
-        result = TypeNotEqualNode(result, self.mathEqualCheck())
 
     return result
 
