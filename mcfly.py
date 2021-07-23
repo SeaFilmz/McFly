@@ -80,7 +80,7 @@ class Lexer:
         yield self.generate_str_var()
       elif self.current_char == '@':
         yield self.generate_array_var()
-      elif self.current_char in LETTERS:
+      elif self.current_char == '"':
         yield self.generate_string()
       elif self.current_char == '+':
         self.advance()
@@ -613,6 +613,9 @@ class Interpreter:
     return ArraySignNode(node.value)
 
   def visit_StringNode(self, node):
+    NV = node.value
+    NVF = NV.replace('"', '', 1)
+
     if node.value == 'fun':
       return StringNode(node.WordFun)
     elif node.value == 'if':
@@ -628,7 +631,7 @@ class Interpreter:
     elif node.value == 'avg':
       return StringNode(node.WordAvg)
     else:
-      return StringNode(node.value)
+      return StringNode(NVF)
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
