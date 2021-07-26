@@ -26,7 +26,6 @@ important_words = {
 error_words = {
   'and': 'Error: Code can not start with the word and.',
   'or': 'Error: Code can not start with the word or.',
-  'not': 'Error: Code can not start with the word not.'
 }
 
 # Tokens #
@@ -54,6 +53,7 @@ class TokenType(Enum):
   STRING         = 19
   NUMBER_TYPE    = 20
   STRING_TYPE    = 21
+  NOT_BOOLEAN    = 22
 
 # Lexer #
 
@@ -108,6 +108,8 @@ class Lexer:
         yield self.generate_less_equal()
       elif self.current_char == '!':
         yield self.generate_not_equal()
+      elif self.current_char == 'n':
+        yield self.generate_not_boolean()
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -157,7 +159,6 @@ class Lexer:
       return Token(TokenType.NUMBER_TYPE)
     else:
       return Token(TokenType.NUMBER_VAR, num_sign_var)
-
 
   def generate_str_var(self):
     str_sign_var = self.current_char
@@ -215,6 +216,14 @@ class Lexer:
     else:
       return Token(TokenType.TNE)
 
+  def generate_not_boolean(self):
+    self.advance()
+    if self.current_char == 'o': 
+      self.advance()
+      if self.current_char == 't':
+        self.advance()
+        return Token(TokenType.NOT_BOOLEAN)
+
 # Nodes #
 
 @dataclass
@@ -246,7 +255,6 @@ class StringNode:
   WordIf = important_words['if']  
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
-  ErrorNot = error_words['not']
   WordSum = important_words['sum']
   WordAvg = important_words['avg']
 
@@ -386,7 +394,6 @@ class TypeNotEqualNode:
   def __repr__(self): 
     return f"({self.node_x}!{self.node_y})"
 
-
 @dataclass
 class NumberTypeNode:
   node: any
@@ -401,6 +408,12 @@ class StringTypeNode:
   def __repr__(self):
     return f"($${self.node})"
 
+@dataclass
+class NotBooleanNode:
+  node: any
+
+  def __repr__(self):
+    return f"(not{self.node})"
 
 # Parser #
 
@@ -538,6 +551,7 @@ class Parser:
 
     return result
 
+
   def factor(self):
     token = self.current_token
 
@@ -580,6 +594,9 @@ class Parser:
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
+    elif token.type == TokenType.NOT_BOOLEAN:
+      self.advance()
+      return NotBooleanNode(self.factor())
     self.raise_error()
 
 # Interpreter #
@@ -624,8 +641,6 @@ class Interpreter:
       return StringNode(node.ErrorAnd)
     elif node.value == 'or':
       return StringNode(node.ErrorOr)
-    elif node.value == 'not':
-      return StringNode(node.ErrorNot)
     elif node.value == 'sum':
       return StringNode(node.WordSum)
     elif node.value == 'avg':
@@ -800,6 +815,14 @@ class Interpreter:
       return 'True'
     elif isinstance(check_text, int) or isinstance(check_text, float):
       return 'False'
+
+  def visit_NotBooleanNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if check_text == 'True':
+      return 'False'
+    elif check_text == 'False':
+      return 'True'
 
 # Run #
 
