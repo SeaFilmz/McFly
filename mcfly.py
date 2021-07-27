@@ -545,12 +545,8 @@ class Parser:
       if self.current_token.type == TokenType.MATH_EQUALS:
         self.advance()
         result = MathEqualNode(result, self.factor())
-      elif self.current_token.type == TokenType.MATH_EQUALS:
-        self.advance()
-        result = MathEqualNode(result, self.factor())
 
     return result
-
 
   def factor(self):
     token = self.current_token
