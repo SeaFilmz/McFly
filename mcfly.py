@@ -54,6 +54,7 @@ class TokenType(Enum):
   NUMBER_TYPE    = 20
   STRING_TYPE    = 21
   NOT_BOOLEAN    = 22
+  KEYWORDS       = 23
 
 # Lexer #
 
@@ -110,6 +111,8 @@ class Lexer:
         yield self.generate_not_equal()
       elif self.current_char == 'n':
         yield self.generate_not_boolean()
+      elif self.current_char in LETTERS:
+        yield self.generate_keywords()
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -224,6 +227,17 @@ class Lexer:
         self.advance()
         return Token(TokenType.NOT_BOOLEAN)
 
+  def generate_keywords(self):
+    keywords_str = self.current_char
+    self.advance()
+
+    while self.current_char != None:
+
+      keywords_str += self.current_char
+      self.advance()
+
+    return Token(TokenType.KEYWORDS, str(keywords_str))
+
 # Nodes #
 
 @dataclass
@@ -251,12 +265,6 @@ class FloatNode:
 @dataclass
 class StringNode:
   value: str
-  WordFun = important_words['fun']
-  WordIf = important_words['if']  
-  ErrorAnd = error_words['and']
-  ErrorOr = error_words['or']
-  WordSum = important_words['sum']
-  WordAvg = important_words['avg']
 
   def __repr__(self):
     return f"{self.value}"
@@ -414,6 +422,19 @@ class NotBooleanNode:
 
   def __repr__(self):
     return f"(not{self.node})"
+
+@dataclass
+class KeywordsNode:
+  value: str
+  WordFun = important_words['fun']
+  WordIf = important_words['if']  
+  ErrorAnd = error_words['and']
+  ErrorOr = error_words['or']
+  WordSum = important_words['sum']
+  WordAvg = important_words['avg']
+
+  def __repr__(self):
+    return f"{self.value}"
 
 # Parser #
 
@@ -574,7 +595,7 @@ class Parser:
       return MinusNode(self.factor())
     elif token.type == TokenType.STRING:
       self.advance()
-      return StringNode(token.value)
+      return StringNode(token.value)  
     elif token.type == TokenType.NUMBER_VAR:
       self.advance()
       return NumberSignNode(token.value)
@@ -593,6 +614,9 @@ class Parser:
     elif token.type == TokenType.NOT_BOOLEAN:
       self.advance()
       return NotBooleanNode(self.factor())
+    elif token.type == TokenType.KEYWORDS:
+      self.advance()
+      return KeywordsNode(token.value)  
     self.raise_error()
 
 # Interpreter #
@@ -629,20 +653,24 @@ class Interpreter:
     NV = node.value
     NVF = NV.replace('"', '', 1)
 
+    return StringNode(NVF)
+
+
+  def visit_KeywordsNode(self, node):
+
     if node.value == 'fun':
-      return StringNode(node.WordFun)
+      return KeywordsNode(node.WordFun)
     elif node.value == 'if':
-      return StringNode(node.WordIf)    
+      return KeywordsNode(node.WordIf)    
     elif node.value == 'and':
-      return StringNode(node.ErrorAnd)
+      return KeywordsNode(node.ErrorAnd)
     elif node.value == 'or':
-      return StringNode(node.ErrorOr)
+      return KeywordsNode(node.ErrorOr)
     elif node.value == 'sum':
-      return StringNode(node.WordSum)
+      return KeywordsNode(node.WordSum)
     elif node.value == 'avg':
-      return StringNode(node.WordAvg)
-    else:
-      return StringNode(NVF)
+      return KeywordsNode(node.WordAvg)
+
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
