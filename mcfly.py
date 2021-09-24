@@ -655,7 +655,6 @@ class Interpreter:
 
     return StringNode(NVF)
 
-
   def visit_KeywordsNode(self, node):
 
     if node.value == 'fun':
@@ -671,7 +670,6 @@ class Interpreter:
     elif node.value == 'avg':
       return KeywordsNode(node.WordAvg)
 
-
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
@@ -679,11 +677,10 @@ class Interpreter:
     if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
       if check_x == check_y:
         return 'True'
-      elif check_x != check_y:
+      else:
         return 'False'
-    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):    
-      if (check_x == check_y) or (check_x != check_y):
-        return 'False'
+    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
+      return 'False'
 
   def visit_MathEqualNode(self, node):
     check_x = self.visit(node.node_x).value
