@@ -749,10 +749,9 @@ class Interpreter:
     if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
       if check_x == check_y:
         return 'False'
-      elif check_x != check_y:
+      else:
         return 'True'
-    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):    
-      if (check_x == check_y) or (check_x != check_y):
+    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
         return 'True'
 
   def visit_AddNode(self, node):
