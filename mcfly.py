@@ -13,7 +13,8 @@ LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
 
 important_numbers = {
   '#pi': 3.14159265,
-  '#e': 2.71828182
+  '#tau': 6.28318531,
+  '#e': 2.71828183
 }
 
 important_words = {
@@ -319,6 +320,7 @@ class MinusNode:
 class NumberSignNode:
   value: str
   StartValuePi = important_numbers['#pi']
+  StartValueTau = important_numbers['#tau']
   StartValueE = important_numbers['#e']
 
   def __repr__(self):
@@ -638,6 +640,8 @@ class Interpreter:
   def visit_NumberSignNode(self, node):
     if node.value == '#pi':
       return NumberSignNode(node.StartValuePi)
+    elif node.value == '#tau':
+      return NumberSignNode(node.StartValueTau)
     elif node.value == '#e':
       return NumberSignNode(node.StartValueE)
     else:
