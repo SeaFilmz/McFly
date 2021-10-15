@@ -42,7 +42,7 @@ class TokenType(Enum):
   NUMBER_VAR     = 8
   STRING_VAR     = 9
   ARRAY_VAR      = 10
-  EQUAL          = 11
+  TYPE_EQUAL     = 11
   GT             = 12
   LT             = 13
   GTE            = 14
@@ -193,7 +193,7 @@ class Lexer:
       self.advance()
       return Token(TokenType.MATH_EQUALS)
     else:
-      return Token(TokenType.EQUAL)
+      return Token(TokenType.TYPE_EQUAL)
 
   def generate_greater_equal(self):
     self.advance()
@@ -339,7 +339,7 @@ class ArraySignNode:
     return f"{self.value}"
 
 @dataclass
-class EqualNode:
+class TypeEqualNode:
   node_x: any
   node_y: any
 
@@ -477,25 +477,25 @@ class Parser:
     return result
 
   def term(self):
-    result = self.equalCheck()
+    result = self.typeEqualCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
       if self.current_token.type == TokenType.MULTIPLY:
         self.advance()
-        result = MultiplyNode(result, self.equalCheck())
+        result = MultiplyNode(result, self.typeEqualCheck())
       elif self.current_token.type == TokenType.DIVIDE:
         self.advance()
-        result = DivideNode(result, self.equalCheck())
+        result = DivideNode(result, self.typeEqualCheck())
 
     return result
 
-  def equalCheck(self):
+  def typeEqualCheck(self):
     result = self.greaterCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.EQUAL, TokenType.EQUAL):
-      if self.current_token.type == TokenType.EQUAL:
+    while self.current_token != None and self.current_token.type in (TokenType.TYPE_EQUAL, TokenType.TYPE_EQUAL):
+      if self.current_token.type == TokenType.TYPE_EQUAL:
         self.advance()
-        result = EqualNode(result, self.greaterCheck())
+        result = TypeEqualNode(result, self.greaterCheck())
 
     return result
 
@@ -670,7 +670,7 @@ class Interpreter:
     elif node.value == 'avg':
       return KeywordsNode(node.WordAvg)
 
-  def visit_EqualNode(self, node):
+  def visit_TypeEqualNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
