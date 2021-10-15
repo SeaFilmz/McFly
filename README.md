@@ -36,7 +36,8 @@
 <h3>Special Commands</h3>
   <ul>
     <li>#pi is equal to 3.14159265</li>
-    <li>#e is equal to 2.71828182</li>
+     <li>#tau is equal to 6.28318531</li>   
+    <li>#e is equal to 2.71828183</li>
   </ul>
   
 <h2>Examples:</h2>
