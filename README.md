@@ -15,8 +15,8 @@
 
 <h3>Comparison Operations</h3> 
   <ul>
-    <li>= for comparing if 2 numbers have the same type and have the same numerical value</li>
-    <li>== for comparing if 2 numbers do have the same numerical value</li>
+    <li>== for comparing if 2 numbers do have the same numerical value</li> 
+    <li>=== for comparing if 2 numbers have the same type and have the same numerical value</li>
     <li>> for comparing if 1 number is greater than another number</li>
     <li>< for comparing if 1 number is less than another number</li>
     <li>>= for comparing if 1 number is greater than another number or has the same numerical value</li>
@@ -44,7 +44,7 @@
   <p>Input: 3+3-3*3/3 Outputs: 3.0
   <p>Input: #pi  Outputs: 3.14159265</p> 
   <p>Input: 3+#pi*2 Outputs: 9.2831853</p>
-  <p>Input: 3=3 Outputs: True</p>
-  <p>Input: 3.14=3.5 Outputs: False</p>
-  <p>Input: 3.0=3 Outputs: False</p>
+  <p>Input: 3.0==3 Outputs: True</p>
+  <p>Input: 3.14==3.5 Outputs: False</p>
+  <p>Input: 3.0===3 Outputs: False</p>
   <p>Input: "Hello World! Outputs: Hello World!</p>
