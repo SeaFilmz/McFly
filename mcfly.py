@@ -103,7 +103,7 @@ class Lexer:
         self.advance()
         yield Token(TokenType.RPAREN)
       elif self.current_char == '=':
-        yield self.generate_equal()
+        yield self.generate_equals()
       elif self.current_char == '>':
         yield self.generate_greater_equal()
       elif self.current_char == '<':
@@ -188,13 +188,15 @@ class Lexer:
 
     return Token(TokenType.ARRAY_VAR, array_sign_var)
 
-  def generate_equal(self):
+  def generate_equals(self):
     self.advance()
     if self.current_char == '=': 
       self.advance()
-      return Token(TokenType.MATH_EQUALS)
-    else:
-      return Token(TokenType.TYPE_EQUAL)
+      if self.current_char == '=':
+        self.advance()
+        return Token(TokenType.TYPE_EQUAL)
+      else:
+        return Token(TokenType.MATH_EQUALS)
 
   def generate_greater_equal(self):
     self.advance()
@@ -346,7 +348,7 @@ class TypeEqualNode:
   node_y: any
 
   def __repr__(self): 
-    return f"({self.node_x}={self.node_y})"
+    return f"({self.node_x}==={self.node_y})"
 
 @dataclass
 class MathEqualNode:
