@@ -21,8 +21,8 @@
     <li>< for comparing if 1 number is less than another number</li>
     <li>>= for comparing if 1 number is greater than another number or has the same numerical value</li>
     <li><= for comparing if 1 number is less than another number or has the same numerical value</li>
-    <li>! for comparing if 2 numbers do not have the same type and do not have the same numerical value</li>
     <li>!= for comparing if 2 numbers do not have the same numerical value</li>
+    <li>!== for comparing if 2 numbers do not have the same type and do not have the same numerical value</li>
   </ul>
   
 <h3>Boolean Operations</h3> 
