@@ -218,9 +218,11 @@ class Lexer:
     self.advance()
     if self.current_char == '=': 
       self.advance()
-      return Token(TokenType.NE)
-    else:
-      return Token(TokenType.TNE)
+      if self.current_char == '=':
+        self.advance()
+        return Token(TokenType.TNE)
+      else:
+        return Token(TokenType.NE)
 
   def generate_not_boolean(self):
     self.advance()
@@ -404,7 +406,7 @@ class TypeNotEqualNode:
   node_y: any
 
   def __repr__(self): 
-    return f"({self.node_x}!{self.node_y})"
+    return f"({self.node_x}!=={self.node_y})"
 
 @dataclass
 class NumberTypeNode:
