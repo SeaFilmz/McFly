@@ -55,7 +55,8 @@ class TokenType(Enum):
   NUMBER_TYPE    = 20
   STRING_TYPE    = 21
   NOT_BOOLEAN    = 22
-  KEYWORDS       = 23
+  TRUE           = 23
+  KEYWORDS       = 24
 
 # Lexer #
 
@@ -112,6 +113,8 @@ class Lexer:
         yield self.generate_not_equal()
       elif self.current_char == 'n':
         yield self.generate_not_boolean()
+      elif self.current_char == 'T':
+        yield self.generate_true()
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -231,6 +234,16 @@ class Lexer:
       if self.current_char == 't':
         self.advance()
         return Token(TokenType.NOT_BOOLEAN)
+
+  def generate_true(self):
+    self.advance()
+    if self.current_char == 'r': 
+      self.advance()
+      if self.current_char == 'u':
+        self.advance()
+        if self.current_char == 'e':
+          self.advance()
+        return Token(TokenType.TRUE)
 
   def generate_keywords(self):
     keywords_str = self.current_char
@@ -430,6 +443,13 @@ class NotBooleanNode:
     return f"(not{self.node})"
 
 @dataclass
+class TrueNode:
+  node: any
+
+  def __repr__(self):
+    return f"True"
+
+@dataclass
 class KeywordsNode:
   value: str
   WordFun = important_words['fun']
@@ -620,6 +640,9 @@ class Parser:
     elif token.type == TokenType.NOT_BOOLEAN:
       self.advance()
       return NotBooleanNode(self.factor())
+    elif token.type == TokenType.TRUE:
+      self.advance()
+      return TrueNode(token.value)
     elif token.type == TokenType.KEYWORDS:
       self.advance()
       return KeywordsNode(token.value)  
@@ -851,6 +874,10 @@ class Interpreter:
       return 'False'
     elif check_text == 'False':
       return 'True'
+
+  def visit_TrueNode(self, node):
+    if True:
+      return TrueNode(node.node)
 
 # Run #
 
