@@ -901,12 +901,10 @@ class Interpreter:
       return 'True'
 
   def visit_TrueNode(self, node):
-    if True:
-      return TrueNode(node.node)
+    return TrueNode(node.node)
 
   def visit_FalseNode(self, node):
-    if True:
-      return FalseNode(node.node)
+    return FalseNode(node.node)
 
 # Run #
 
