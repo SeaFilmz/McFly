@@ -52,12 +52,12 @@
 <h2>Installation for Windows:</h2>
 <ol>
   <li><a href="https://www.python.org/downloads/">Install a Python 3 version.</a> If you already have a version 3 of Python installed you can skip this step.</li>
-  <li><a href="https://github.com/SeaFilmz/McFly/blob/DevCode/mcfly.py">Go to McFly GitHub.</a></li>
-  <li>Save McFly code in a mcfly.py file on your computer</li>
-  <li>Go to where mcfly.py file is saved in File Explorer.</li>
+  <li><a href="https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py">Go to the raw mcfly.py file on GitHub.</a></li>
+  <li>Then right click on that page and click Save As..</li>
+  <li>Next save this file with the file name mcfly and save as type Python File.</li>
+  <li>After that go to where mcfly.py file is saved in File Explorer.</li>
   <li>Then go to the Address bar and click in it to highlight the text.</li>
   <li>Next delete the text and type powershell. After that hit enter.</li>
-  <li>Then wait for powershell to open.</li>
-  <li>Finally type python mcfly.py. Hit Enter. It is working and ready to use if it returns Enter a math function:</li>
-  <li>If you close powershell to rerun McFly repeat instructions 4-8.
+  <li>In powershell type python mcfly.py. Hit Enter. It is working and ready to use if it returns Enter a math function:</li>
+  <li>If you close powershell to rerun McFly repeat instructions 5-8.
  </ol>
