@@ -1,6 +1,6 @@
 from enum import Enum
 import string
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 # Important Characters #
 
@@ -154,7 +154,10 @@ class Lexer:
       string_str += self.current_char
       self.advance()
 
-    return Token(TokenType.STRING, str(string_str))
+    if string_str.endswith('"'):
+      return Token(TokenType.STRING, str(string_str))
+    else:
+     raise Exception('Error: To print or use a string the input has to start with a " and end with a "')
 
   def generate_num_var(self):
     num_sign_var = self.current_char
@@ -707,9 +710,9 @@ class Interpreter:
 
   def visit_StringNode(self, node):
     NV = node.value
-    NVF = NV.replace('"', '', 1)
-
-    return StringNode(NVF)
+    NVFLQ = NV[1:-1]  
+    
+    return StringNode(NVFLQ)
 
   def visit_KeywordsNode(self, node):
 
