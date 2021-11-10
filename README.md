@@ -47,7 +47,7 @@
   <p>Input: 3.0==3 Outputs: True</p>
   <p>Input: 3.14==3.5 Outputs: False</p>
   <p>Input: 3.0===3 Outputs: False</p>
-  <p>Input: "Hello World! Outputs: Hello World!</p>
+  <p>Input: "Hello World!" Outputs: Hello World!</p>
 
 <h2>Installation for Windows:</h2>
 <ol>
