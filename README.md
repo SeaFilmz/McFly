@@ -1,7 +1,7 @@
 <h1>McFly</h1>
 
 <h2>What is McFly?</h2>
-<p>McFly is a calculator/ new programming language being developing with python. It does math calculations based on order of operations. In addition, you compare 2 numbers to each other using the = sign operator. Also, McFly can take in a string of text and return that string of text back.</p>
+<p>McFly is a calculator/ new programming language being developing with python. It does math calculations based on order of operations. In addition, you can compare 1 number to another number using 1 of the many comparsion operations. Also, McFly can take in a string of text and return that string of text back.</p>
 
 <h2>Things Included in McFly:</h2>
 
