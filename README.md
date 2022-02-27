@@ -1,7 +1,7 @@
 <h1>McFly</h1>
 
 <h2>What is McFly?</h2>
-<p>McFly is a calculator/ new programming language being developing with python. It does math calculations based on order of operations. In addition, you can compare 1 number to another number using 1 of the many comparsion operations. Also, McFly can take in a string of text and return that string of text back.</p>
+<p>McFly is a calculator/ new programming language being developing with python. It does math calculations based on order of operations. In addition, you can compare 1 number to another number using 1 of the many comparsion operations. Also, McFly can take in a quoted string of text and return that string of text back without the quotes.</p>
 
 <h2>Things Included in McFly:</h2>
 
@@ -31,7 +31,7 @@
   </ul>
   
 <h3>String Command</h3>
-  <p><b>"</b> is used at the beginning of text to convert it to a string. In addition, the string is printed out without " printed at the beginning of the text.</p>
+  <p><b>"</b> is used at the beginning and end of text to convert it to a string. In addition, the string is printed out without the beginning and ending ".</p>
 
 <h3>Special Commands</h3>
   <ul>
