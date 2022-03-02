@@ -12,9 +12,9 @@ LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
 # Dictionary #
 
 important_numbers = {
-  '#pi': 3.14159265,
-  '#tau': 6.28318531,
-  '#e': 2.71828183
+  '#pi': 3.141592653589793,
+  '#tau': 6.283185307179586,
+  '#e': 2.718281828459045
 }
 
 important_words = {
