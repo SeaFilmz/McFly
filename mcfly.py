@@ -18,7 +18,7 @@ important_numbers = {
 }
 
 important_words = {
-  'fun': 'Coming Soon: The word fun is reserved for creating functions.',
+  'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
   'if': 'Coming Soon: The word if is reserved for conditionals.',
   'sum': 'Cooming Soon: The word sum is reserved for adding all the numbers in a set together.',
   'avg': 'Cooming Soon: The term avg is reserved for calculating the average of a set numbers.'
@@ -57,7 +57,8 @@ class TokenType(Enum):
   NOT_BOOLEAN    = 22
   TRUE           = 23
   FALSE          = 24
-  KEYWORDS       = 25
+  FUNCTION       = 25
+  KEYWORDS       = 26
 
 # Lexer #
 
@@ -118,6 +119,8 @@ class Lexer:
         yield self.generate_true()
       elif self.current_char == 'F':
         yield self.generate_false()
+      elif self.current_char == 'f':
+        yield self.generate_fun()
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -262,6 +265,14 @@ class Lexer:
           if self.current_char == 'e':
             self.advance()
           return Token(TokenType.FALSE)
+
+  def generate_fun(self):
+    self.advance()
+    if self.current_char == 'u': 
+      self.advance()
+      if self.current_char == 'n':
+        self.advance()
+      return Token(TokenType.FUNCTION)
 
   def generate_keywords(self):
     keywords_str = self.current_char
@@ -475,10 +486,19 @@ class FalseNode:
     return f"False"
 
 @dataclass
-class KeywordsNode:
+class FunctionNode:
   value: str
   WordFun = important_words['fun']
-  WordIf = important_words['if']  
+
+  def __repr__(self):
+    if self.value:
+      return f"{self.value}"
+    return 'fun' 
+
+@dataclass
+class KeywordsNode:
+  value: str
+  WordIf = important_words['if'] 
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
   WordSum = important_words['sum']
@@ -671,6 +691,9 @@ class Parser:
     elif token.type == TokenType.FALSE:
       self.advance()
       return FalseNode(token.value)
+    elif token.type == TokenType.FUNCTION:
+      self.advance()
+      return FunctionNode(token.value)  
     elif token.type == TokenType.KEYWORDS:
       self.advance()
       return KeywordsNode(token.value)  
@@ -714,11 +737,15 @@ class Interpreter:
     
     return StringNode(NVFLQ)
 
+
+  def visit_FunctionNode(self, node):
+    if isinstance(node, FunctionNode):
+      return FunctionNode(node.WordFun)
+
   def visit_KeywordsNode(self, node):
 
-    if node.value == 'fun':
-      return KeywordsNode(node.WordFun)
     elif node.value == 'if':
+    if node.value == 'if':
       return KeywordsNode(node.WordIf)    
     elif node.value == 'and':
       return KeywordsNode(node.ErrorAnd)
