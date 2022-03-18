@@ -744,7 +744,6 @@ class Interpreter:
 
   def visit_KeywordsNode(self, node):
 
-    elif node.value == 'if':
     if node.value == 'if':
       return KeywordsNode(node.WordIf)    
     elif node.value == 'and':
