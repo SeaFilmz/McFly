@@ -739,7 +739,6 @@ class Interpreter:
 
 
   def visit_FunctionNode(self, node):
-    if isinstance(node, FunctionNode):
       return FunctionNode(node.WordFun)
 
   def visit_KeywordsNode(self, node):
