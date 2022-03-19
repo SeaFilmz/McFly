@@ -58,7 +58,8 @@ class TokenType(Enum):
   TRUE           = 23
   FALSE          = 24
   FUNCTION       = 25
-  KEYWORDS       = 26
+  CONDITIONAL    = 26
+  KEYWORDS       = 27
 
 # Lexer #
 
@@ -121,6 +122,8 @@ class Lexer:
         yield self.generate_false()
       elif self.current_char == 'f':
         yield self.generate_fun()
+      elif self.current_char == 'i':
+        yield self.generate_if()
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -273,6 +276,12 @@ class Lexer:
       if self.current_char == 'n':
         self.advance()
       return Token(TokenType.FUNCTION)
+
+  def generate_if(self):
+    self.advance()
+    if self.current_char == 'f': 
+      self.advance()
+    return Token(TokenType.CONDITIONAL)
 
   def generate_keywords(self):
     keywords_str = self.current_char
@@ -493,12 +502,22 @@ class FunctionNode:
   def __repr__(self):
     if self.value:
       return f"{self.value}"
-    return 'fun' 
+    return 'fun'
+
+@dataclass
+class ConditionalNode:
+  value: str
+  WordIf = important_words['if']
+
+  def __repr__(self):
+    if self.value:
+      return f"{self.value}"
+    return 'if'
 
 @dataclass
 class KeywordsNode:
   value: str
-  WordIf = important_words['if'] 
+  #WordIf = important_words['if'] 
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
   WordSum = important_words['sum']
@@ -693,7 +712,10 @@ class Parser:
       return FalseNode(token.value)
     elif token.type == TokenType.FUNCTION:
       self.advance()
-      return FunctionNode(token.value)  
+      return FunctionNode(token.value)
+    elif token.type == TokenType.CONDITIONAL:
+      self.advance()
+      return ConditionalNode(token.value)
     elif token.type == TokenType.KEYWORDS:
       self.advance()
       return KeywordsNode(token.value)  
@@ -737,15 +759,15 @@ class Interpreter:
     
     return StringNode(NVFLQ)
 
-
   def visit_FunctionNode(self, node):
       return FunctionNode(node.WordFun)
 
+  def visit_ConditionalNode(self, node):
+      return ConditionalNode(node.WordIf)
+
   def visit_KeywordsNode(self, node):
 
-    if node.value == 'if':
-      return KeywordsNode(node.WordIf)    
-    elif node.value == 'and':
+    if node.value == 'and':
       return KeywordsNode(node.ErrorAnd)
     elif node.value == 'or':
       return KeywordsNode(node.ErrorOr)
