@@ -478,7 +478,7 @@ class NotBooleanNode:
   node: any
 
   def __repr__(self):
-    return f"(not{self.node})"
+    return f"not {self.node}"
 
 @dataclass
 class TrueNode:
@@ -943,11 +943,10 @@ class Interpreter:
       return 'False'
 
   def visit_NotBooleanNode(self, node):
-    check_text = self.visit(node.node).value
-    
-    if check_text == 'True':
+
+    if isinstance(node.node, TrueNode):
       return 'False'
-    elif check_text == 'False':
+    elif isinstance(node.node, FalseNode):
       return 'True'
 
   def visit_TrueNode(self, node):
