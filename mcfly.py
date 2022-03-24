@@ -59,7 +59,8 @@ class TokenType(Enum):
   FALSE          = 24
   FUNCTION       = 25
   CONDITIONAL    = 26
-  KEYWORDS       = 27
+  SUM            = 27
+  KEYWORDS       = 28
 
 # Lexer #
 
@@ -124,6 +125,8 @@ class Lexer:
         yield self.generate_fun()
       elif self.current_char == 'i':
         yield self.generate_if()
+      elif self.current_char == 's':
+        yield self.generate_sum()
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -282,6 +285,14 @@ class Lexer:
     if self.current_char == 'f': 
       self.advance()
     return Token(TokenType.CONDITIONAL)
+
+  def generate_sum(self):
+    self.advance()
+    if self.current_char == 'u': 
+      self.advance()
+      if self.current_char == 'm':
+        self.advance()
+      return Token(TokenType.SUM)
 
   def generate_keywords(self):
     keywords_str = self.current_char
@@ -515,11 +526,20 @@ class ConditionalNode:
     return 'if'
 
 @dataclass
-class KeywordsNode:
+class SumNode:
   value: str
+  WordSum = important_words['sum']
+
+  def __repr__(self):
+    if self.value:
+      return f"{self.value}"
+    return 'sum'
+
+@dataclass
+class KeywordsNode:
+  value: str 
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
-  WordSum = important_words['sum']
   WordAvg = important_words['avg']
 
   def __repr__(self):
@@ -715,6 +735,9 @@ class Parser:
     elif token.type == TokenType.CONDITIONAL:
       self.advance()
       return ConditionalNode(token.value)
+    elif token.type == TokenType.SUM:
+      self.advance()
+      return SumNode(token.value)
     elif token.type == TokenType.KEYWORDS:
       self.advance()
       return KeywordsNode(token.value)  
@@ -764,14 +787,15 @@ class Interpreter:
   def visit_ConditionalNode(self, node):
       return ConditionalNode(node.WordIf)
 
+  def visit_SumNode(self, node):
+      return SumNode(node.WordSum)
+
   def visit_KeywordsNode(self, node):
 
     if node.value == 'and':
       return KeywordsNode(node.ErrorAnd)
     elif node.value == 'or':
       return KeywordsNode(node.ErrorOr)
-    elif node.value == 'sum':
-      return KeywordsNode(node.WordSum)
     elif node.value == 'avg':
       return KeywordsNode(node.WordAvg)
 
