@@ -517,7 +517,6 @@ class ConditionalNode:
 @dataclass
 class KeywordsNode:
   value: str
-  #WordIf = important_words['if'] 
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
   WordSum = important_words['sum']
