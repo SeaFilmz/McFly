@@ -55,14 +55,15 @@ class TokenType(Enum):
   NUMBER_TYPE    = 20
   STRING_TYPE    = 21
   AND_BOOLEAN    = 22
-  NOT_BOOLEAN    = 23
-  TRUE           = 24
-  FALSE          = 25
-  FUNCTION       = 26
-  CONDITIONAL    = 27
-  SUM            = 28
-  AVERAGE        = 29
-  KEYWORDS       = 30
+  OR_BOOLEAN     = 23
+  NOT_BOOLEAN    = 24
+  TRUE           = 25
+  FALSE          = 26
+  FUNCTION       = 27
+  CONDITIONAL    = 28
+  SUM            = 29
+  AVERAGE        = 30
+  KEYWORDS       = 31
 
 # Lexer #
 
@@ -119,6 +120,8 @@ class Lexer:
         yield self.generate_not_equal()
       elif self.current_char == 'a':
         yield self.generate_and_boolean()
+      elif self.current_char == 'o':
+        yield self.generate_or_boolean()
       elif self.current_char == 'n':
         yield self.generate_not_boolean()
       elif self.current_char == 'T':
@@ -255,6 +258,12 @@ class Lexer:
       if self.current_char == 'd':
         self.advance()
         return Token(TokenType.AND_BOOLEAN)
+
+  def generate_or_boolean(self):
+    self.advance()
+    if self.current_char == 'r': 
+      self.advance()
+      return Token(TokenType.OR_BOOLEAN)  
 
   def generate_not_boolean(self):
     self.advance()
@@ -515,6 +524,14 @@ class AndBooleanNode:
     return f"{self.node_x} and {self.node_y}"
 
 @dataclass
+class OrBooleanNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"{self.node_x} or {self.node_y}"
+
+@dataclass
 class NotBooleanNode:
   node: any
 
@@ -718,12 +735,22 @@ class Parser:
     return result
 
   def andCheck(self):
-    result = self.factor()
+    result = self.orCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.AND_BOOLEAN, TokenType.AND_BOOLEAN):
       if self.current_token.type == TokenType.AND_BOOLEAN:
         self.advance()
-        result = AndBooleanNode(result, self.factor())
+        result = AndBooleanNode(result, self.orCheck())
+
+    return result
+
+  def orCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.OR_BOOLEAN, TokenType.OR_BOOLEAN):
+      if self.current_token.type == TokenType.OR_BOOLEAN:
+        self.advance()
+        result = OrBooleanNode(result, self.factor())
 
     return result
 
@@ -1025,6 +1052,16 @@ class Interpreter:
       return 'False'
     elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
       return 'False'
+
+  def visit_OrBooleanNode(self, node):
+    if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
+      return 'True'
+    elif (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
+      return 'False'
+    elif (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode)):
+      return 'True'
+    elif (isinstance(node.node_x, FalseNode)) or (isinstance(node.node_y, TrueNode)):
+      return 'True'
 
   def visit_NotBooleanNode(self, node):
 
