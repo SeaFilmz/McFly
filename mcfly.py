@@ -56,14 +56,15 @@ class TokenType(Enum):
   STRING_TYPE    = 21
   AND_BOOLEAN    = 22
   OR_BOOLEAN     = 23
-  NOT_BOOLEAN    = 24
-  TRUE           = 25
-  FALSE          = 26
-  FUNCTION       = 27
-  CONDITIONAL    = 28
-  SUM            = 29
-  AVERAGE        = 30
-  KEYWORDS       = 31
+  XOR_BOOLEAN    = 24
+  NOT_BOOLEAN    = 25
+  TRUE           = 26
+  FALSE          = 27
+  FUNCTION       = 28
+  CONDITIONAL    = 29
+  SUM            = 30
+  AVERAGE        = 31
+  KEYWORDS       = 32
 
 # Lexer #
 
@@ -122,6 +123,8 @@ class Lexer:
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
         yield self.generate_or_boolean()
+      elif self.current_char == 'x':
+        yield self.generate_xor_boolean()
       elif self.current_char == 'n':
         yield self.generate_not_boolean()
       elif self.current_char == 'T':
@@ -267,6 +270,14 @@ class Lexer:
     if self.current_char == 'r': 
       self.advance()
       return Token(TokenType.OR_BOOLEAN)  
+
+  def generate_xor_boolean(self):
+    self.advance()
+    if self.current_char == 'o': 
+      self.advance()
+      if self.current_char == 'r':
+        self.advance()
+      return Token(TokenType.XOR_BOOLEAN)
 
   def generate_not_boolean(self):
     self.advance()
@@ -527,6 +538,14 @@ class OrBooleanNode:
     return f"{self.node_x} or {self.node_y}"
 
 @dataclass
+class XorBooleanNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self): 
+    return f"{self.node_x} xor {self.node_y}"
+
+@dataclass
 class NotBooleanNode:
   node: any
 
@@ -740,12 +759,22 @@ class Parser:
     return result
 
   def orCheck(self):
-    result = self.factor()
+    result = self.xorCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.OR_BOOLEAN, TokenType.OR_BOOLEAN):
       if self.current_token.type == TokenType.OR_BOOLEAN:
         self.advance()
-        result = OrBooleanNode(result, self.factor())
+        result = OrBooleanNode(result, self.xorCheck())
+
+    return result
+
+  def xorCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.XOR_BOOLEAN, TokenType.XOR_BOOLEAN):
+      if self.current_token.type == TokenType.XOR_BOOLEAN:
+        self.advance()
+        result = XorBooleanNode(result, self.factor())
 
     return result
 
@@ -1051,6 +1080,16 @@ class Interpreter:
   def visit_OrBooleanNode(self, node):
     if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
       return 'True'
+    elif (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
+      return 'False'
+    elif (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode)):
+      return 'True'
+    elif (isinstance(node.node_x, FalseNode)) or (isinstance(node.node_y, TrueNode)):
+      return 'True'
+
+  def visit_XorBooleanNode(self, node):
+    if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
+      return 'False'
     elif (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
       return 'False'
     elif (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode)):
