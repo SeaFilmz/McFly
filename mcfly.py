@@ -119,7 +119,7 @@ class Lexer:
       elif self.current_char == '!':
         yield self.generate_not_equal()
       elif self.current_char == 'a':
-        yield self.generate_and_boolean()
+        yield self.generate_a_keywords()
       elif self.current_char == 'o':
         yield self.generate_or_boolean()
       elif self.current_char == 'n':
@@ -133,9 +133,7 @@ class Lexer:
       elif self.current_char == 'i':
         yield self.generate_if()
       elif self.current_char == 's':
-        yield self.generate_sum()
-      elif self.current_char == 'a':
-        yield self.generate_avg()      
+        yield self.generate_sum()    
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -251,13 +249,18 @@ class Lexer:
       else:
         return Token(TokenType.NE)
 
-  def generate_and_boolean(self):
+  def generate_a_keywords(self):
     self.advance()
     if self.current_char == 'n': 
       self.advance()
       if self.current_char == 'd':
         self.advance()
         return Token(TokenType.AND_BOOLEAN)
+    elif self.current_char == 'v': 
+      self.advance()
+      if self.current_char == 'g':
+        self.advance()
+      return Token(TokenType.AVERAGE)
 
   def generate_or_boolean(self):
     self.advance()
@@ -316,14 +319,6 @@ class Lexer:
       if self.current_char == 'm':
         self.advance()
       return Token(TokenType.SUM)
-
-  def generate_avg(self):
-    self.advance()
-    if self.current_char == 'v': 
-      self.advance()
-      if self.current_char == 'g':
-        self.advance()
-      return Token(TokenType.AVERAGE)
 
   def generate_keywords(self):
     keywords_str = self.current_char
