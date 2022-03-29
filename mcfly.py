@@ -20,13 +20,13 @@ important_numbers = {
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
   'if': 'Coming Soon: The word if is reserved for conditionals.',
-  'sum': 'Cooming Soon: The word sum is reserved for adding all the numbers in a set together.',
-  'avg': 'Cooming Soon: The term avg is reserved for calculating the average of a set numbers.'
+  'sum': 'Coming Soon: The word sum is reserved for adding all the numbers in a set together.',
+  'avg': 'Coming Soon: The term avg is reserved for calculating the average of a set numbers.'
 }
 
 error_words = {
   'and': 'Error: Code can not start with the word and.',
-  'or': 'Error: Code can not start with the word or.',
+  'or': 'Error: Code can not start with the word or.'
 }
 
 # Tokens #
@@ -136,7 +136,7 @@ class Lexer:
       elif self.current_char == 'i':
         yield self.generate_if()
       elif self.current_char == 's':
-        yield self.generate_sum()    
+        yield self.generate_sum()
       elif self.current_char in LETTERS:
         yield self.generate_keywords()
       else:
@@ -145,10 +145,10 @@ class Lexer:
   def generate_number(self):
     decimal_point_count = 0
     number_str = self.current_char
-    self.advance() 
+    self.advance()
 
     while self.current_char != None and (self.current_char in DIGITS + '.'):
-      if self.current_char == '.': 
+      if self.current_char == '.':
         decimal_point_count += 1
         if decimal_point_count > 1:
           break
@@ -186,7 +186,7 @@ class Lexer:
       num_sign_var += self.current_char
       self.advance()
 
-    if self.current_char == '#': 
+    if self.current_char == '#':
       self.advance()
       return Token(TokenType.NUMBER_TYPE)
     else:
@@ -200,7 +200,7 @@ class Lexer:
       str_sign_var += self.current_char
       self.advance()
 
-    if self.current_char == '$': 
+    if self.current_char == '$':
       self.advance()
       return Token(TokenType.STRING_TYPE)
     else:
@@ -218,7 +218,7 @@ class Lexer:
 
   def generate_equals(self):
     self.advance()
-    if self.current_char == '=': 
+    if self.current_char == '=':
       self.advance()
       if self.current_char == '=':
         self.advance()
@@ -228,7 +228,7 @@ class Lexer:
 
   def generate_greater_equal(self):
     self.advance()
-    if self.current_char == '=': 
+    if self.current_char == '=':
       self.advance()
       return Token(TokenType.GTE)
     else:
@@ -236,7 +236,7 @@ class Lexer:
 
   def generate_less_equal(self):
     self.advance()
-    if self.current_char == '=': 
+    if self.current_char == '=':
       self.advance()
       return Token(TokenType.LTE)
     else:
@@ -244,7 +244,7 @@ class Lexer:
 
   def generate_not_equal(self):
     self.advance()
-    if self.current_char == '=': 
+    if self.current_char == '=':
       self.advance()
       if self.current_char == '=':
         self.advance()
@@ -254,12 +254,12 @@ class Lexer:
 
   def generate_a_keywords(self):
     self.advance()
-    if self.current_char == 'n': 
+    if self.current_char == 'n':
       self.advance()
       if self.current_char == 'd':
         self.advance()
         return Token(TokenType.AND_BOOLEAN)
-    elif self.current_char == 'v': 
+    elif self.current_char == 'v':
       self.advance()
       if self.current_char == 'g':
         self.advance()
@@ -267,13 +267,13 @@ class Lexer:
 
   def generate_or_boolean(self):
     self.advance()
-    if self.current_char == 'r': 
+    if self.current_char == 'r':
       self.advance()
       return Token(TokenType.OR_BOOLEAN)  
 
   def generate_xor_boolean(self):
     self.advance()
-    if self.current_char == 'o': 
+    if self.current_char == 'o':
       self.advance()
       if self.current_char == 'r':
         self.advance()
@@ -281,7 +281,7 @@ class Lexer:
 
   def generate_not_boolean(self):
     self.advance()
-    if self.current_char == 'o': 
+    if self.current_char == 'o':
       self.advance()
       if self.current_char == 't':
         self.advance()
@@ -289,7 +289,7 @@ class Lexer:
 
   def generate_true(self):
     self.advance()
-    if self.current_char == 'r': 
+    if self.current_char == 'r':
       self.advance()
       if self.current_char == 'u':
         self.advance()
@@ -299,7 +299,7 @@ class Lexer:
 
   def generate_false(self):
     self.advance()
-    if self.current_char == 'a': 
+    if self.current_char == 'a':
       self.advance()
       if self.current_char == 'l':
         self.advance()
@@ -311,7 +311,7 @@ class Lexer:
 
   def generate_fun(self):
     self.advance()
-    if self.current_char == 'u': 
+    if self.current_char == 'u':
       self.advance()
       if self.current_char == 'n':
         self.advance()
@@ -319,13 +319,13 @@ class Lexer:
 
   def generate_if(self):
     self.advance()
-    if self.current_char == 'f': 
+    if self.current_char == 'f':
       self.advance()
     return Token(TokenType.CONDITIONAL)
 
   def generate_sum(self):
     self.advance()
-    if self.current_char == 'u': 
+    if self.current_char == 'u':
       self.advance()
       if self.current_char == 'm':
         self.advance()
@@ -456,7 +456,7 @@ class MathEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}=={self.node_y})"
 
 @dataclass
@@ -464,7 +464,7 @@ class GreaterThanNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}>{self.node_y})"
 
 @dataclass
@@ -472,7 +472,7 @@ class LessThanNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}<{self.node_y})"
 
 @dataclass
@@ -480,7 +480,7 @@ class GreaterThanEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}>={self.node_y})"
 
 @dataclass
@@ -488,7 +488,7 @@ class LessThanEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}<={self.node_y})"
 
 @dataclass
@@ -496,7 +496,7 @@ class NotEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}!={self.node_y})"
 
 @dataclass
@@ -504,7 +504,7 @@ class TypeNotEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}!=={self.node_y})"
 
 @dataclass
@@ -526,7 +526,7 @@ class AndBooleanNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"{self.node_x} and {self.node_y}"
 
 @dataclass
@@ -534,7 +534,7 @@ class OrBooleanNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"{self.node_x} or {self.node_y}"
 
 @dataclass
@@ -542,7 +542,7 @@ class XorBooleanNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"{self.node_x} xor {self.node_y}"
 
 @dataclass
@@ -608,7 +608,7 @@ class AverageNode:
 
 @dataclass
 class KeywordsNode:
-  value: str 
+  value: str
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
 
@@ -804,7 +804,7 @@ class Parser:
       return MinusNode(self.factor())
     elif token.type == TokenType.STRING:
       self.advance()
-      return StringNode(token.value)  
+      return StringNode(token.value)
     elif token.type == TokenType.NUMBER_VAR:
       self.advance()
       return NumberSignNode(token.value)
@@ -843,7 +843,7 @@ class Parser:
       return AverageNode(token.value)
     elif token.type == TokenType.KEYWORDS:
       self.advance()
-      return KeywordsNode(token.value)  
+      return KeywordsNode(token.value)
     self.raise_error()
 
 # Interpreter #
@@ -880,7 +880,7 @@ class Interpreter:
 
   def visit_StringNode(self, node):
     NV = node.value
-    NVFLQ = NV[1:-1]  
+    NVFLQ = NV[1:-1]
     
     return StringNode(NVFLQ)
 
