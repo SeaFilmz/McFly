@@ -1076,13 +1076,9 @@ class Interpreter:
       return 'False'
 
   def visit_OrBooleanNode(self, node):
-    if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
-      return 'True'
-    elif (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
+    if (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
       return 'False'
-    elif (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode)):
-      return 'True'
-    elif (isinstance(node.node_x, FalseNode)) or (isinstance(node.node_y, TrueNode)):
+    elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
       return 'True'
 
   def visit_XorBooleanNode(self, node):
