@@ -58,14 +58,15 @@ class TokenType(Enum):
   NAND_BOOLEAN   = 23
   OR_BOOLEAN     = 24
   XOR_BOOLEAN    = 25
-  NOT_BOOLEAN    = 26
-  TRUE           = 27
-  FALSE          = 28
-  FUNCTION       = 29
-  CONDITIONAL    = 30
-  SUM            = 31
-  AVERAGE        = 32
-  KEYWORDS       = 33
+  NOR_BOOLEAN    = 26
+  NOT_BOOLEAN    = 27
+  TRUE           = 28
+  FALSE          = 29
+  FUNCTION       = 30
+  CONDITIONAL    = 31
+  SUM            = 32
+  AVERAGE        = 33
+  KEYWORDS       = 34
 
 # Lexer #
 
@@ -287,6 +288,9 @@ class Lexer:
       if self.current_char == 't':
         self.advance()
         return Token(TokenType.NOT_BOOLEAN)
+      elif self.current_char == 'r':
+        self.advance()  
+        return Token(TokenType.NOR_BOOLEAN)    
     elif self.current_char == 'a':
       self.advance()
       if self.current_char == 'n':
@@ -562,6 +566,14 @@ class XorBooleanNode:
     return f"{self.node_x} xor {self.node_y}"
 
 @dataclass
+class NorBooleanNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self):
+    return f"{self.node_x} nor {self.node_y}"
+
+@dataclass
 class NotBooleanNode:
   node: any
 
@@ -795,14 +807,24 @@ class Parser:
     return result
 
   def nandCheck(self):
-    result = self.factor()
+    result = self.norCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.NAND_BOOLEAN, TokenType.NAND_BOOLEAN):
       if self.current_token.type == TokenType.NAND_BOOLEAN:
         self.advance()
-        result = NandBooleanNode(result, self.factor())
+        result = NandBooleanNode(result, self.norCheck())
 
     return result  
+
+  def norCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.NOR_BOOLEAN, TokenType.NOR_BOOLEAN):
+      if self.current_token.type == TokenType.NOR_BOOLEAN:
+        self.advance()
+        result = NorBooleanNode(result, self.factor())
+
+    return result
 
   def factor(self):
     token = self.current_token
@@ -1118,6 +1140,14 @@ class Interpreter:
       return 'False'
     elif ((isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode))) or ((isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, TrueNode))):
       return 'True'
+
+
+  def visit_NorBooleanNode(self, node):
+    if (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
+      return 'True'
+    elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
+      return 'False'
+
 
   def visit_NotBooleanNode(self, node):
 
