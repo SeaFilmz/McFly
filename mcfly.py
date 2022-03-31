@@ -55,16 +55,17 @@ class TokenType(Enum):
   NUMBER_TYPE    = 20
   STRING_TYPE    = 21
   AND_BOOLEAN    = 22
-  OR_BOOLEAN     = 23
-  XOR_BOOLEAN    = 24
-  NOT_BOOLEAN    = 25
-  TRUE           = 26
-  FALSE          = 27
-  FUNCTION       = 28
-  CONDITIONAL    = 29
-  SUM            = 30
-  AVERAGE        = 31
-  KEYWORDS       = 32
+  NAND_BOOLEAN   = 23
+  OR_BOOLEAN     = 24
+  XOR_BOOLEAN    = 25
+  NOT_BOOLEAN    = 26
+  TRUE           = 27
+  FALSE          = 28
+  FUNCTION       = 29
+  CONDITIONAL    = 30
+  SUM            = 31
+  AVERAGE        = 32
+  KEYWORDS       = 33
 
 # Lexer #
 
@@ -126,7 +127,7 @@ class Lexer:
       elif self.current_char == 'x':
         yield self.generate_xor_boolean()
       elif self.current_char == 'n':
-        yield self.generate_not_boolean()
+        yield self.generate_n_boolean()
       elif self.current_char == 'T':
         yield self.generate_true()
       elif self.current_char == 'F':
@@ -279,13 +280,20 @@ class Lexer:
         self.advance()
       return Token(TokenType.XOR_BOOLEAN)
 
-  def generate_not_boolean(self):
+  def generate_n_boolean(self):
     self.advance()
     if self.current_char == 'o':
       self.advance()
       if self.current_char == 't':
         self.advance()
         return Token(TokenType.NOT_BOOLEAN)
+    elif self.current_char == 'a':
+      self.advance()
+      if self.current_char == 'n':
+        self.advance()
+        if self.current_char == 'd':
+          self.advance()
+        return Token(TokenType.NAND_BOOLEAN)
 
   def generate_true(self):
     self.advance()
@@ -530,6 +538,14 @@ class AndBooleanNode:
     return f"{self.node_x} and {self.node_y}"
 
 @dataclass
+class NandBooleanNode:
+  node_x: any
+  node_y: any
+
+  def __repr__(self):
+    return f"{self.node_x} nand {self.node_y}"
+
+@dataclass
 class OrBooleanNode:
   node_x: any
   node_y: any
@@ -769,14 +785,24 @@ class Parser:
     return result
 
   def xorCheck(self):
-    result = self.factor()
+    result = self.nandCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.XOR_BOOLEAN, TokenType.XOR_BOOLEAN):
       if self.current_token.type == TokenType.XOR_BOOLEAN:
         self.advance()
-        result = XorBooleanNode(result, self.factor())
+        result = XorBooleanNode(result, self.nandCheck())
 
     return result
+
+  def nandCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.NAND_BOOLEAN, TokenType.NAND_BOOLEAN):
+      if self.current_token.type == TokenType.NAND_BOOLEAN:
+        self.advance()
+        result = NandBooleanNode(result, self.factor())
+
+    return result  
 
   def factor(self):
     token = self.current_token
@@ -1074,6 +1100,12 @@ class Interpreter:
       return 'True'
     elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
       return 'False'
+
+  def visit_NandBooleanNode(self, node):
+    if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
+      return 'False'
+    elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
+      return 'True'
 
   def visit_OrBooleanNode(self, node):
     if (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
