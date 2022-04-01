@@ -1141,16 +1141,13 @@ class Interpreter:
     elif ((isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode))) or ((isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, TrueNode))):
       return 'True'
 
-
   def visit_NorBooleanNode(self, node):
     if (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
       return 'True'
     elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
       return 'False'
 
-
   def visit_NotBooleanNode(self, node):
-
     if isinstance(node.node, TrueNode):
       return 'False'
     elif isinstance(node.node, FalseNode):
