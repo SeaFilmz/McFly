@@ -66,7 +66,7 @@ class TokenType(Enum):
   CONDITIONAL    = 31
   SUM            = 32
   AVERAGE        = 33
-  KEYWORDS       = 34
+  ERROR_WORDS    = 34
 
 # Lexer #
 
@@ -80,6 +80,17 @@ class Lexer:
       self.current_char = next(self.text)
     except StopIteration:
       self.current_char = None
+
+  def check_words(self):
+    error_words_str = self.current_char
+    self.advance()
+
+    while self.current_char != None:
+
+      error_words_str += self.current_char
+      self.advance()
+
+    return error_words_str
 
   def generate_tokens(self):
     while self.current_char != None:
@@ -140,7 +151,7 @@ class Lexer:
       elif self.current_char == 's':
         yield self.generate_sum()
       elif self.current_char in LETTERS:
-        yield self.generate_keywords()
+        yield self.generate_error_words()
       else:
         raise Exception(f"llegal Character '{self.current_char}'")
 
@@ -266,12 +277,16 @@ class Lexer:
       if self.current_char == 'g':
         self.advance()
       return Token(TokenType.AVERAGE)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'a' + str(self.check_words()))
 
   def generate_or_boolean(self):
     self.advance()
     if self.current_char == 'r':
       self.advance()
       return Token(TokenType.OR_BOOLEAN)  
+    else:
+      return Token(TokenType.ERROR_WORDS, 'o' + str(self.check_words()))
 
   def generate_xor_boolean(self):
     self.advance()
@@ -280,6 +295,8 @@ class Lexer:
       if self.current_char == 'r':
         self.advance()
       return Token(TokenType.XOR_BOOLEAN)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'x' + str(self.check_words()))
 
   def generate_n_boolean(self):
     self.advance()
@@ -298,6 +315,8 @@ class Lexer:
         if self.current_char == 'd':
           self.advance()
         return Token(TokenType.NAND_BOOLEAN)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'n' + str(self.check_words()))
 
   def generate_true(self):
     self.advance()
@@ -308,6 +327,8 @@ class Lexer:
         if self.current_char == 'e':
           self.advance()
         return Token(TokenType.TRUE)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'T' + str(self.check_words()))
 
   def generate_false(self):
     self.advance()
@@ -320,6 +341,8 @@ class Lexer:
           if self.current_char == 'e':
             self.advance()
           return Token(TokenType.FALSE)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'F' + str(self.check_words()))
 
   def generate_fun(self):
     self.advance()
@@ -328,12 +351,16 @@ class Lexer:
       if self.current_char == 'n':
         self.advance()
       return Token(TokenType.FUNCTION)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'f' + str(self.check_words()))
 
   def generate_if(self):
     self.advance()
     if self.current_char == 'f':
       self.advance()
-    return Token(TokenType.CONDITIONAL)
+      return Token(TokenType.CONDITIONAL)
+    else:
+      return Token(TokenType.ERROR_WORDS, 'i' + str(self.check_words()))
 
   def generate_sum(self):
     self.advance()
@@ -342,17 +369,11 @@ class Lexer:
       if self.current_char == 'm':
         self.advance()
       return Token(TokenType.SUM)
+    else:
+      return Token(TokenType.ERROR_WORDS, 's' + str(self.check_words()))
 
-  def generate_keywords(self):
-    keywords_str = self.current_char
-    self.advance()
-
-    while self.current_char != None:
-
-      keywords_str += self.current_char
-      self.advance()
-
-    return Token(TokenType.KEYWORDS, str(keywords_str))
+  def generate_error_words(self):
+    return Token(TokenType.ERROR_WORDS, str(self.check_words()))
 
 # Nodes #
 
@@ -635,7 +656,7 @@ class AverageNode:
     return 'avg'
 
 @dataclass
-class KeywordsNode:
+class ErrorWordsNode:
   value: str
   ErrorAnd = error_words['and']
   ErrorOr = error_words['or']
@@ -889,9 +910,9 @@ class Parser:
     elif token.type == TokenType.AVERAGE:
       self.advance()
       return AverageNode(token.value)
-    elif token.type == TokenType.KEYWORDS:
+    elif token.type == TokenType.ERROR_WORDS:
       self.advance()
-      return KeywordsNode(token.value)
+      return ErrorWordsNode(token.value)
     self.raise_error()
 
 # Interpreter #
@@ -944,12 +965,13 @@ class Interpreter:
   def visit_AverageNode(self, node):
       return AverageNode(node.WordAvg)
 
-  def visit_KeywordsNode(self, node):
-
+  def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
-      return KeywordsNode(node.ErrorAnd)
+      return ErrorWordsNode(node.ErrorAnd)
     elif node.value == 'or':
-      return KeywordsNode(node.ErrorOr)
+      return ErrorWordsNode(node.ErrorOr)
+    else:
+      return 'Error: Not a Keyword'
 
   def visit_TypeEqualNode(self, node):
     check_x = self.visit(node.node_x).value
