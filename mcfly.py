@@ -271,7 +271,9 @@ class Lexer:
       self.advance()
       if self.current_char == 'd':
         self.advance()
-        return Token(TokenType.AND_BOOLEAN)
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, 'and' + str(self.check_words()))
+      return Token(TokenType.AND_BOOLEAN)
     elif self.current_char == 'v':
       self.advance()
       if self.current_char == 'g':
@@ -284,7 +286,9 @@ class Lexer:
     self.advance()
     if self.current_char == 'r':
       self.advance()
-      return Token(TokenType.OR_BOOLEAN)  
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, 'or' + str(self.check_words()))
+      return Token(TokenType.OR_BOOLEAN)
     else:
       return Token(TokenType.ERROR_WORDS, 'o' + str(self.check_words()))
 
@@ -294,6 +298,8 @@ class Lexer:
       self.advance()
       if self.current_char == 'r':
         self.advance()
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, 'xor' + str(self.check_words()))
       return Token(TokenType.XOR_BOOLEAN)
     else:
       return Token(TokenType.ERROR_WORDS, 'x' + str(self.check_words()))
@@ -304,9 +310,13 @@ class Lexer:
       self.advance()
       if self.current_char == 't':
         self.advance()
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, 'not' + str(self.check_words()))
         return Token(TokenType.NOT_BOOLEAN)
       elif self.current_char == 'r':
         self.advance()  
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, 'nor' + str(self.check_words()))
         return Token(TokenType.NOR_BOOLEAN)    
     elif self.current_char == 'a':
       self.advance()
@@ -314,6 +324,8 @@ class Lexer:
         self.advance()
         if self.current_char == 'd':
           self.advance()
+          if self.current_char in LETTERS:
+            return Token(TokenType.ERROR_WORDS, 'nand' + str(self.check_words()))
         return Token(TokenType.NAND_BOOLEAN)
     else:
       return Token(TokenType.ERROR_WORDS, 'n' + str(self.check_words()))
