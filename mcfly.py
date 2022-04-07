@@ -659,13 +659,11 @@ class SumNode:
 
 @dataclass
 class AverageNode:
-  value: str
-  WordAvg = important_words['avg']
+  node_a: any
+  node_b: any
 
   def __repr__(self):
-    if self.value:
-      return f"{self.value}"
-    return 'avg'
+    return f"(({self.node_a}+{self.node_b})/2)"
 
 @dataclass
 class ErrorWordsNode:
@@ -850,14 +848,24 @@ class Parser:
     return result  
 
   def norCheck(self):
-    result = self.factor()
+    result = self.avgCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.NOR_BOOLEAN, TokenType.NOR_BOOLEAN):
       if self.current_token.type == TokenType.NOR_BOOLEAN:
         self.advance()
-        result = NorBooleanNode(result, self.factor())
+        result = NorBooleanNode(result, self.avgCheck())
 
     return result
+
+  def avgCheck(self):
+    result = self.factor()
+
+    while self.current_token != None and self.current_token.type in (TokenType.AVERAGE, TokenType.AVERAGE):
+      if self.current_token.type == TokenType.AVERAGE:
+        self.advance()
+        result = AverageNode(result, self.factor())
+
+    return result    
 
   def factor(self):
     token = self.current_token
@@ -919,9 +927,6 @@ class Parser:
     elif token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
-    elif token.type == TokenType.AVERAGE:
-      self.advance()
-      return AverageNode(token.value)
     elif token.type == TokenType.ERROR_WORDS:
       self.advance()
       return ErrorWordsNode(token.value)
@@ -975,7 +980,24 @@ class Interpreter:
       return SumNode(node.WordSum)
 
   def visit_AverageNode(self, node):
-      return AverageNode(node.WordAvg)
+    check_num_a = self.visit(node.node_a).value
+    check_num_b = self.visit(node.node_b).value
+    
+    if isinstance(check_num_a, int) and isinstance(check_num_b, int): 
+      total = check_num_a + check_num_b
+      if ((total % 2) == 0):
+       return IntNode(int(total/2))
+      else:
+        return FloatNode(total/2)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
+      total = check_num_a + check_num_b
+      return FloatNode(total/2)
+    elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
+      total = check_num_a + check_num_b
+      return FloatNode(total/2)
+    elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
+      total = check_num_a + check_num_b
+      return FloatNode(total/2)
 
   def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
@@ -1198,7 +1220,9 @@ class Interpreter:
 while True:
   text = input("Enter a math function: ")
   lexer = Lexer(text)
-  tokens = lexer.generate_tokens()
+  #tokens = lexer.generate_tokens()
+  tokens = list(lexer.generate_tokens())
+  print(tokens)
   parser = Parser(tokens)
   tree = parser.parse()
   if not tree: continue
