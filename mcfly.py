@@ -1134,15 +1134,31 @@ class Interpreter:
     try:
       check_num_a = self.visit(node.node_a).value
       check_num_b = self.visit(node.node_b).value
-    
+
       if isinstance(check_num_a, int) and isinstance(check_num_b, int):
-        return IntNode(check_num_a / check_num_b)
+        quotient = check_num_a / check_num_b
+        if ((quotient % 1) == 0):
+          return IntNode(int(quotient))
+        else:
+          return FloatNode(quotient)
       elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
-        return FloatNode(check_num_a / check_num_b)
+        quotient = check_num_a / check_num_b
+        if ((quotient % 1) == 0):
+          return IntNode(int(quotient))
+        else:
+          return FloatNode(quotient)
       elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
-        return FloatNode(check_num_a / check_num_b)
+        quotient = check_num_a / check_num_b
+        if ((quotient % 1) == 0):
+          return IntNode(int(quotient))
+        else:
+          return FloatNode(quotient)
       elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
-        return FloatNode  (check_num_a / check_num_b)
+        quotient = check_num_a / check_num_b
+        if ((quotient % 1) == 0):
+          return IntNode(int(quotient))
+        else:
+          return FloatNode(quotient)
     except:
       raise Exception("Runtime math error")
   
@@ -1220,9 +1236,7 @@ class Interpreter:
 while True:
   text = input("Enter a math function: ")
   lexer = Lexer(text)
-  #tokens = lexer.generate_tokens()
-  tokens = list(lexer.generate_tokens())
-  print(tokens)
+  tokens = lexer.generate_tokens()
   parser = Parser(tokens)
   tree = parser.parse()
   if not tree: continue
