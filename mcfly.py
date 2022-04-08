@@ -53,20 +53,21 @@ class TokenType(Enum):
   TNE            = 18
   STRING         = 19
   NUMBER_TYPE    = 20
-  STRING_TYPE    = 21
-  AND_BOOLEAN    = 22
-  NAND_BOOLEAN   = 23
-  OR_BOOLEAN     = 24
-  XOR_BOOLEAN    = 25
-  NOR_BOOLEAN    = 26
-  NOT_BOOLEAN    = 27
-  TRUE           = 28
-  FALSE          = 29
-  FUNCTION       = 30
-  CONDITIONAL    = 31
-  SUM            = 32
-  AVERAGE        = 33
-  ERROR_WORDS    = 34
+  INTEGER_TYPE   = 21
+  STRING_TYPE    = 22
+  AND_BOOLEAN    = 23
+  NAND_BOOLEAN   = 24
+  OR_BOOLEAN     = 25
+  XOR_BOOLEAN    = 26
+  NOR_BOOLEAN    = 27
+  NOT_BOOLEAN    = 28
+  TRUE           = 29
+  FALSE          = 30
+  FUNCTION       = 31
+  CONDITIONAL    = 32
+  SUM            = 33
+  AVERAGE        = 34
+  ERROR_WORDS    = 35
 
 # Lexer #
 
@@ -371,6 +372,13 @@ class Lexer:
     if self.current_char == 'f':
       self.advance()
       return Token(TokenType.CONDITIONAL)
+    elif self.current_char == 'n':
+      self.advance()
+      if self.current_char == 't':
+        self.advance()
+        if self.current_char == '?':
+          self.advance()
+          return Token(TokenType.INTEGER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, 'i' + str(self.check_words()))
 
@@ -558,6 +566,13 @@ class NumberTypeNode:
 
   def __repr__(self):
     return f"(##{self.node})"
+
+@dataclass
+class IntegerTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"(int?{self.node})"
 
 @dataclass
 class StringTypeNode:
@@ -906,6 +921,9 @@ class Parser:
     elif token.type == TokenType.NUMBER_TYPE:
       self.advance()
       return NumberTypeNode(self.factor())
+    elif token.type == TokenType.INTEGER_TYPE:
+      self.advance()
+      return IntegerTypeNode(self.factor())
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
@@ -1180,7 +1198,15 @@ class Interpreter:
       return 'True'
     elif isinstance(check_text, str):
       return 'False'
-      
+
+  def visit_IntegerTypeNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if isinstance(check_text, int):
+      return 'True'
+    else:
+      return 'False'
+
   def visit_StringTypeNode(self, node):
     check_text = self.visit(node.node).value
     
