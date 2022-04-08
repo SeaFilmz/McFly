@@ -54,20 +54,21 @@ class TokenType(Enum):
   STRING         = 19
   NUMBER_TYPE    = 20
   INTEGER_TYPE   = 21
-  STRING_TYPE    = 22
-  AND_BOOLEAN    = 23
-  NAND_BOOLEAN   = 24
-  OR_BOOLEAN     = 25
-  XOR_BOOLEAN    = 26
-  NOR_BOOLEAN    = 27
-  NOT_BOOLEAN    = 28
-  TRUE           = 29
-  FALSE          = 30
-  FUNCTION       = 31
-  CONDITIONAL    = 32
-  SUM            = 33
-  AVERAGE        = 34
-  ERROR_WORDS    = 35
+  FLOAT_TYPE     = 22
+  STRING_TYPE    = 23
+  AND_BOOLEAN    = 24
+  NAND_BOOLEAN   = 25
+  OR_BOOLEAN     = 26
+  XOR_BOOLEAN    = 27
+  NOR_BOOLEAN    = 28
+  NOT_BOOLEAN    = 29
+  TRUE           = 30
+  FALSE          = 31
+  FUNCTION       = 32
+  CONDITIONAL    = 33
+  SUM            = 34
+  AVERAGE        = 35
+  ERROR_WORDS    = 36
 
 # Lexer #
 
@@ -364,6 +365,17 @@ class Lexer:
       if self.current_char == 'n':
         self.advance()
       return Token(TokenType.FUNCTION)
+    elif self.current_char == 'l':
+      self.advance()
+      if self.current_char == 'o':
+        self.advance()
+        if self.current_char == 'a':
+          self.advance()
+          if self.current_char == 't':
+            self.advance()
+            if self.current_char == '?':
+              self.advance()
+              return Token(TokenType.FLOAT_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, 'f' + str(self.check_words()))
 
@@ -573,6 +585,13 @@ class IntegerTypeNode:
 
   def __repr__(self):
     return f"(int?{self.node})"
+
+@dataclass
+class FloatTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"(float?{self.node})"
 
 @dataclass
 class StringTypeNode:
@@ -924,6 +943,9 @@ class Parser:
     elif token.type == TokenType.INTEGER_TYPE:
       self.advance()
       return IntegerTypeNode(self.factor())
+    elif token.type == TokenType.FLOAT_TYPE:
+      self.advance()
+      return FloatTypeNode(self.factor())
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
@@ -1203,6 +1225,14 @@ class Interpreter:
     check_text = self.visit(node.node).value
     
     if isinstance(check_text, int):
+      return 'True'
+    else:
+      return 'False'
+
+  def visit_FloatTypeNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if isinstance(check_text, float):
       return 'True'
     else:
       return 'False'
