@@ -56,19 +56,20 @@ class TokenType(Enum):
   INTEGER_TYPE   = 21
   FLOAT_TYPE     = 22
   STRING_TYPE    = 23
-  AND_BOOLEAN    = 24
-  NAND_BOOLEAN   = 25
-  OR_BOOLEAN     = 26
-  XOR_BOOLEAN    = 27
-  NOR_BOOLEAN    = 28
-  NOT_BOOLEAN    = 29
-  TRUE           = 30
-  FALSE          = 31
-  FUNCTION       = 32
-  CONDITIONAL    = 33
-  SUM            = 34
-  AVERAGE        = 35
-  ERROR_WORDS    = 36
+  EVEN_CHECK     = 24 
+  AND_BOOLEAN    = 25
+  NAND_BOOLEAN   = 26
+  OR_BOOLEAN     = 27
+  XOR_BOOLEAN    = 28
+  NOR_BOOLEAN    = 29
+  NOT_BOOLEAN    = 30
+  TRUE           = 31
+  FALSE          = 32
+  FUNCTION       = 33
+  CONDITIONAL    = 34
+  SUM            = 35
+  AVERAGE        = 36
+  ERROR_WORDS    = 37
 
 # Lexer #
 
@@ -152,6 +153,8 @@ class Lexer:
         yield self.generate_if()
       elif self.current_char == 's':
         yield self.generate_sum()
+      elif self.current_char == 'e':
+        yield self.generate_even()
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
@@ -404,6 +407,20 @@ class Lexer:
     else:
       return Token(TokenType.ERROR_WORDS, 's' + str(self.check_words()))
 
+  def generate_even(self):
+    self.advance()
+    if self.current_char == 'v':
+      self.advance()
+      if self.current_char == 'e':
+        self.advance()
+        if self.current_char == 'n':
+          self.advance()
+          if self.current_char == '?':
+            self.advance()
+            return Token(TokenType.EVEN_CHECK)
+    else:
+      return Token(TokenType.ERROR_WORDS, 's' + str(self.check_words()))
+
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, str(self.check_words()))
 
@@ -592,6 +609,13 @@ class FloatTypeNode:
 
   def __repr__(self):
     return f"(float?{self.node})"
+
+@dataclass
+class EvenCheckNode:
+  node: any
+
+  def __repr__(self):
+    return f"(even?{self.node})"
 
 @dataclass
 class StringTypeNode:
@@ -946,6 +970,9 @@ class Parser:
     elif token.type == TokenType.FLOAT_TYPE:
       self.advance()
       return FloatTypeNode(self.factor())
+    elif token.type == TokenType.EVEN_CHECK:
+      self.advance()
+      return EvenCheckNode(self.factor())
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
@@ -1233,6 +1260,14 @@ class Interpreter:
     check_text = self.visit(node.node).value
     
     if isinstance(check_text, float):
+      return 'True'
+    else:
+      return 'False'
+
+  def visit_EvenCheckNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if ((check_text % 2) == 0):
       return 'True'
     else:
       return 'False'
