@@ -56,20 +56,21 @@ class TokenType(Enum):
   INTEGER_TYPE   = 21
   FLOAT_TYPE     = 22
   STRING_TYPE    = 23
-  EVEN_CHECK     = 24 
-  AND_BOOLEAN    = 25
-  NAND_BOOLEAN   = 26
-  OR_BOOLEAN     = 27
-  XOR_BOOLEAN    = 28
-  NOR_BOOLEAN    = 29
-  NOT_BOOLEAN    = 30
-  TRUE           = 31
-  FALSE          = 32
-  FUNCTION       = 33
-  CONDITIONAL    = 34
-  SUM            = 35
-  AVERAGE        = 36
-  ERROR_WORDS    = 37
+  EVEN_CHECK     = 24
+  ODD_CHECK      = 25 
+  AND_BOOLEAN    = 26
+  NAND_BOOLEAN   = 27
+  OR_BOOLEAN     = 28
+  XOR_BOOLEAN    = 29
+  NOR_BOOLEAN    = 30
+  NOT_BOOLEAN    = 31
+  TRUE           = 32
+  FALSE          = 33
+  FUNCTION       = 34
+  CONDITIONAL    = 35
+  SUM            = 36
+  AVERAGE        = 37
+  ERROR_WORDS    = 38
 
 # Lexer #
 
@@ -138,7 +139,7 @@ class Lexer:
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
-        yield self.generate_or_boolean()
+        yield self.generate_o_keywords()
       elif self.current_char == 'x':
         yield self.generate_xor_boolean()
       elif self.current_char == 'n':
@@ -287,13 +288,20 @@ class Lexer:
     else:
       return Token(TokenType.ERROR_WORDS, 'a' + str(self.check_words()))
 
-  def generate_or_boolean(self):
+  def generate_o_keywords(self):
     self.advance()
     if self.current_char == 'r':
       self.advance()
       if self.current_char in LETTERS:
         return Token(TokenType.ERROR_WORDS, 'or' + str(self.check_words()))
       return Token(TokenType.OR_BOOLEAN)
+    elif self.current_char == 'd':
+      self.advance()
+      if self.current_char == 'd':
+        self.advance()
+        if self.current_char == '?':
+          self.advance()
+          return Token(TokenType.ODD_CHECK)    
     else:
       return Token(TokenType.ERROR_WORDS, 'o' + str(self.check_words()))
 
@@ -616,6 +624,13 @@ class EvenCheckNode:
 
   def __repr__(self):
     return f"(even?{self.node})"
+
+@dataclass
+class OddCheckNode:
+  node: any
+
+  def __repr__(self):
+    return f"(odd?{self.node})"
 
 @dataclass
 class StringTypeNode:
@@ -973,6 +988,9 @@ class Parser:
     elif token.type == TokenType.EVEN_CHECK:
       self.advance()
       return EvenCheckNode(self.factor())
+    elif token.type == TokenType.ODD_CHECK:
+      self.advance()
+      return OddCheckNode(self.factor())
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
@@ -1271,6 +1289,14 @@ class Interpreter:
       return 'True'
     else:
       return 'False'
+  
+  def visit_OddCheckNode(self, node):
+    check_text = self.visit(node.node).value
+    
+    if ((check_text % 2) == 0):
+      return 'False'
+    else:
+      return 'True'
 
   def visit_StringTypeNode(self, node):
     check_text = self.visit(node.node).value
