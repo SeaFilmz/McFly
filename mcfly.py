@@ -301,6 +301,8 @@ class Lexer:
         self.advance()
         if self.current_char == '?':
           self.advance()
+          if self.current_char in LETTERS:
+            return Token(TokenType.ERROR_WORDS, 'odd?' + str(self.check_words()))
           return Token(TokenType.ODD_CHECK)    
     else:
       return Token(TokenType.ERROR_WORDS, 'o' + str(self.check_words()))
@@ -386,6 +388,8 @@ class Lexer:
             self.advance()
             if self.current_char == '?':
               self.advance()
+              if self.current_char in LETTERS:
+                return Token(TokenType.ERROR_WORDS, 'float?' + str(self.check_words()))
               return Token(TokenType.FLOAT_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, 'f' + str(self.check_words()))
@@ -401,6 +405,8 @@ class Lexer:
         self.advance()
         if self.current_char == '?':
           self.advance()
+          if self.current_char in LETTERS:
+            return Token(TokenType.ERROR_WORDS, 'int?' + str(self.check_words()))
           return Token(TokenType.INTEGER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, 'i' + str(self.check_words()))
@@ -425,9 +431,11 @@ class Lexer:
           self.advance()
           if self.current_char == '?':
             self.advance()
+            if self.current_char in LETTERS:
+              return Token(TokenType.ERROR_WORDS, 'even?' + str(self.check_words()))
             return Token(TokenType.EVEN_CHECK)
     else:
-      return Token(TokenType.ERROR_WORDS, 's' + str(self.check_words()))
+      return Token(TokenType.ERROR_WORDS, 'e' + str(self.check_words()))
 
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, str(self.check_words()))
