@@ -414,8 +414,7 @@ class Lexer:
     self.advance()
     if self.current_char == 'u':
       self.advance()
-      if self.current_char == 'm':
-        self.advance()
+      self.lastCharCheckAdvance('m')
       return Token(TokenType.SUM)
     else:
       return Token(TokenType.ERROR_WORDS, 's' + str(self.check_words()))
