@@ -101,6 +101,10 @@ class Lexer:
     if self.current_char == '?':
       self.advance()
 
+  def lastCharCheckAdvance(self, char):
+    if self.current_char == char:
+      self.advance()
+
   def generate_tokens(self):
     while self.current_char != None:
       if self.current_char in WHITESPACE:
@@ -280,10 +284,9 @@ class Lexer:
     self.advance()
     if self.current_char == 'n':
       self.advance()
-      if self.current_char == 'd':
-        self.advance()
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, 'and' + str(self.check_words()))
+      self.lastCharCheckAdvance('d')
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, 'and' + str(self.check_words()))
       return Token(TokenType.AND_BOOLEAN)
     elif self.current_char == 'v':
       self.advance()
@@ -316,10 +319,9 @@ class Lexer:
     self.advance()
     if self.current_char == 'o':
       self.advance()
-      if self.current_char == 'r':
-        self.advance()
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, 'xor' + str(self.check_words()))
+      self.lastCharCheckAdvance('r')
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, 'xor' + str(self.check_words()))
       return Token(TokenType.XOR_BOOLEAN)
     else:
       return Token(TokenType.ERROR_WORDS, 'x' + str(self.check_words()))
@@ -342,10 +344,9 @@ class Lexer:
       self.advance()
       if self.current_char == 'n':
         self.advance()
-        if self.current_char == 'd':
-          self.advance()
-          if self.current_char in LETTERS:
-            return Token(TokenType.ERROR_WORDS, 'nand' + str(self.check_words()))
+        self.lastCharCheckAdvance('d')
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, 'nand' + str(self.check_words()))
         return Token(TokenType.NAND_BOOLEAN)
     else:
       return Token(TokenType.ERROR_WORDS, 'n' + str(self.check_words()))
