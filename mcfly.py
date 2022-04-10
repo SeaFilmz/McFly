@@ -96,11 +96,6 @@ class Lexer:
 
     return error_words_str
 
-  def advanceQuestionMark(self):
-    self.advance()
-    if self.current_char == '?':
-      self.advance()
-
   def lastCharCheckAdvance(self, char):
     if self.current_char == char:
       self.advance()
@@ -308,7 +303,8 @@ class Lexer:
     elif self.current_char == 'd':
       self.advance()
       if self.current_char == 'd':
-        self.advanceQuestionMark()
+        self.advance()
+        self.lastCharCheckAdvance('?')
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, 'odd?' + str(self.check_words()))
         return Token(TokenType.ODD_CHECK)    
@@ -391,7 +387,8 @@ class Lexer:
         if self.current_char == 'a':
           self.advance()
           if self.current_char == 't':
-            self.advanceQuestionMark()
+            self.advance()
+            self.lastCharCheckAdvance('?')
             if self.current_char in LETTERS:
               return Token(TokenType.ERROR_WORDS, 'float?' + str(self.check_words()))
             return Token(TokenType.FLOAT_TYPE)
@@ -406,7 +403,8 @@ class Lexer:
     elif self.current_char == 'n':
       self.advance()
       if self.current_char == 't':
-        self.advanceQuestionMark()
+        self.advance()
+        self.lastCharCheckAdvance('?')
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, 'int?' + str(self.check_words()))
         return Token(TokenType.INTEGER_TYPE)
@@ -430,7 +428,8 @@ class Lexer:
       if self.current_char == 'e':
         self.advance()
         if self.current_char == 'n':
-          self.advanceQuestionMark()
+          self.advance()
+          self.lastCharCheckAdvance('?')
           if self.current_char in LETTERS:
             return Token(TokenType.ERROR_WORDS, 'even?' + str(self.check_words()))
           return Token(TokenType.EVEN_CHECK)
