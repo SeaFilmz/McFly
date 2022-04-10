@@ -285,10 +285,9 @@ class Lexer:
       return Token(TokenType.AND_BOOLEAN)
     elif self.current_char == 'v':
       self.advance()
-      if self.current_char == 'g':
-        self.advance()
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, 'avg' + str(self.check_words()))
+      self.lastCharCheckAdvance('g')
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, 'avg' + str(self.check_words()))
       return Token(TokenType.AVERAGE)
     else:
       return Token(TokenType.ERROR_WORDS, 'a' + str(self.check_words()))
