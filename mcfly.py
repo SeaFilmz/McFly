@@ -352,8 +352,7 @@ class Lexer:
       self.advance()
       if self.current_char == 'u':
         self.advance()
-        if self.current_char == 'e':
-          self.advance()
+        self.lastCharCheckAdvance('e')
         return Token(TokenType.TRUE)
     else:
       return Token(TokenType.ERROR_WORDS, 'T' + str(self.check_words()))
@@ -366,8 +365,7 @@ class Lexer:
         self.advance()
         if self.current_char == 's':
           self.advance()
-          if self.current_char == 'e':
-            self.advance()
+          self.lastCharCheckAdvance('e')
           return Token(TokenType.FALSE)
     else:
       return Token(TokenType.ERROR_WORDS, 'F' + str(self.check_words()))
