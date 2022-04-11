@@ -153,9 +153,9 @@ class Lexer:
       elif self.current_char == 'F':
         yield self.generate_false()
       elif self.current_char == 'f':
-        yield self.generate_fun()
+        yield self.generate_f_keywords()
       elif self.current_char == 'i':
-        yield self.generate_if()
+        yield self.generate_i_keywords()
       elif self.current_char == 's':
         yield self.generate_sum()
       elif self.current_char == 'e':
@@ -370,7 +370,7 @@ class Lexer:
     else:
       return Token(TokenType.ERROR_WORDS, 'F' + str(self.check_words()))
 
-  def generate_fun(self):
+  def generate_f_keywords(self):
     self.advance()
     if self.current_char == 'u':
       self.advance()
@@ -392,7 +392,7 @@ class Lexer:
     else:
       return Token(TokenType.ERROR_WORDS, 'f' + str(self.check_words()))
 
-  def generate_if(self):
+  def generate_i_keywords(self):
     self.advance()
     if self.current_char == 'f':
       self.advance()
