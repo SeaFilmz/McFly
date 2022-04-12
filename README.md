@@ -25,8 +25,9 @@
     <li>!== for comparing if 2 numbers do not have the same type and do not have the same numerical value</li>
   </ul>
   
-<h3>Boolean Operations</h3> 
+<h3>Boolean Operations</h3>   
   <ul>
+    <li>and is checking for if True and True are the same or if at least 1 of the True's is a False</li>
     <li>not is for reversing the output of the words True/False</li>
   </ul>
   
