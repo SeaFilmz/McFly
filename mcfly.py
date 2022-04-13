@@ -70,7 +70,8 @@ class TokenType(Enum):
   CONDITIONAL    = 35
   SUM            = 36
   AVERAGE        = 37
-  ERROR_WORDS    = 38
+  SQUARE_ROOT    = 38
+  ERROR_WORDS    = 39
 
 # Lexer #
 
@@ -157,7 +158,7 @@ class Lexer:
       elif self.current_char == 'i':
         yield self.generate_i_keywords()
       elif self.current_char == 's':
-        yield self.generate_sum()
+        yield self.generate_s_keywords()
       elif self.current_char == 'e':
         yield self.generate_even()
       elif self.current_char in LETTERS:
@@ -408,12 +409,18 @@ class Lexer:
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('i'))
 
-  def generate_sum(self):
+  def generate_s_keywords(self):
     self.advance()
     if self.current_char == 'u':
       self.advance()
       self.lastCharCheckAdvance('m')
       return Token(TokenType.SUM)
+    elif self.current_char == 'q':
+      self.advance()
+      if self.current_char == 'r':
+        self.advance()
+        self.lastCharCheckAdvance('t')
+        return Token(TokenType.SQUARE_ROOT)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
 
@@ -742,6 +749,13 @@ class AverageNode:
     return f"(({self.node_a}+{self.node_b})/2)"
 
 @dataclass
+class SquareRootNode:
+  node: any
+
+  def __repr__(self):
+    return f"sqrt {self.node}"
+
+@dataclass
 class ErrorWordsNode:
   value: str
   ErrorAnd = error_words['and']
@@ -1015,6 +1029,9 @@ class Parser:
     elif token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
+    elif token.type == TokenType.SQUARE_ROOT:
+      self.advance()
+      return SquareRootNode(self.factor())
     elif token.type == TokenType.ERROR_WORDS:
       self.advance()
       return ErrorWordsNode(token.value)
@@ -1086,6 +1103,16 @@ class Interpreter:
     elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
       total = check_num_a + check_num_b
       return FloatNode(total/2)
+
+  def visit_SquareRootNode(self, node):
+    check_num = self.visit(node.node).value
+
+    if isinstance(check_num, int):
+      answer = (check_num**(1/2))
+      if ((answer % 1) == 0):
+        return IntNode(int(answer))
+      else:
+        return FloatNode(answer)    
 
   def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
