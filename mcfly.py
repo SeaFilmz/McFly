@@ -1166,8 +1166,7 @@ class Interpreter:
       if (((check_num % 1) == 0) or (check_num < 0)):
         return IntNode(int(check_num))
       elif (check_num > 0):
-        return IntNode((int(check_num)+1))
-
+        return IntNode(int(check_num))
 
   def visit_FloorNode(self, node):
     check_num = self.visit(node.node).value
