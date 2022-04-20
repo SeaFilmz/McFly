@@ -72,7 +72,8 @@ class TokenType(Enum):
   AVERAGE        = 37
   SQUARE_ROOT    = 38
   CEIL           = 39
-  ERROR_WORDS    = 40
+  FLOOR          = 40
+  ERROR_WORDS    = 41
 
 # Lexer #
 
@@ -393,6 +394,12 @@ class Lexer:
             if self.current_char in LETTERS:
               return Token(TokenType.ERROR_WORDS, self.show_error_words('Float?'))
             return Token(TokenType.FLOAT_TYPE)
+        elif self.current_char == 'o':
+          self.advance()
+          self.lastCharCheckAdvance('r')
+          if self.current_char in LETTERS:
+            return Token(TokenType.ERROR_WORDS, self.show_error_words('floor'))
+          return Token(TokenType.FLOOR)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('f'))
 
@@ -779,6 +786,13 @@ class CeilNode:
     return f"(ceil{self.node})"
 
 @dataclass
+class FloorNode:
+  node: any
+
+  def __repr__(self):
+    return f"(floor{self.node})"
+
+@dataclass
 class ErrorWordsNode:
   value: str
   ErrorAnd = error_words['and']
@@ -1058,6 +1072,9 @@ class Parser:
     elif token.type == TokenType.CEIL:
       self.advance()
       return CeilNode(self.factor())
+    elif token.type == TokenType.FLOOR:
+      self.advance()
+      return FloorNode(self.factor())
     elif token.type == TokenType.ERROR_WORDS:
       self.advance()
       return ErrorWordsNode(token.value)
@@ -1150,6 +1167,19 @@ class Interpreter:
         return IntNode(int(check_num))
       elif (check_num > 0):
         return IntNode((int(check_num)+1))
+
+
+  def visit_FloorNode(self, node):
+    check_num = self.visit(node.node).value
+
+    if isinstance(check_num, int):
+     return IntNode(check_num)
+    elif isinstance(check_num, float):
+      if (((check_num % 1) == 0) or (check_num > 0)):
+        return IntNode(int(check_num))
+      elif (check_num < 0):
+        return IntNode((int(check_num)-1))
+      
 
   def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
