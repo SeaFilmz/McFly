@@ -224,11 +224,7 @@ class Lexer:
       str_sign_var += self.current_char
       self.advance()
 
-    if self.current_char == '$':
-      self.advance()
-      return Token(TokenType.STRING_TYPE)
-    else:
-      return Token(TokenType.STRING_VAR, str_sign_var)
+    return Token(TokenType.STRING_VAR, str_sign_var)
 
   def generate_array_var(self):
     array_sign_var = self.current_char
@@ -435,6 +431,12 @@ class Lexer:
         self.advance()
         self.lastCharCheckAdvance('t')
         return Token(TokenType.SQUARE_ROOT)
+    elif self.current_char == 't':
+      self.advance()
+      if self.current_char == 'r':
+        self.advance()
+        self.lastCharCheckAdvance('?')
+        return Token(TokenType.STRING_TYPE)    
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
 
@@ -674,7 +676,7 @@ class StringTypeNode:
   node: any
 
   def __repr__(self):
-    return f"($${self.node})"
+    return f"(str?{self.node})"
 
 @dataclass
 class AndBooleanNode:
