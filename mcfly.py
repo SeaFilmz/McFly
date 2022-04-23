@@ -214,11 +214,7 @@ class Lexer:
       num_sign_var += self.current_char
       self.advance()
 
-    if self.current_char == '#':
-      self.advance()
-      return Token(TokenType.NUMBER_TYPE)
-    else:
-      return Token(TokenType.NUMBER_VAR, num_sign_var)
+    return Token(TokenType.NUMBER_VAR, num_sign_var)
 
   def generate_str_var(self):
     str_sign_var = self.current_char
@@ -348,6 +344,14 @@ class Lexer:
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('nand'))
         return Token(TokenType.NAND_BOOLEAN)
+    elif self.current_char == 'u':
+      self.advance()
+      if self.current_char == 'm':
+        self.advance()
+        self.lastCharCheckAdvance('?')
+        if self.current_char in LETTERS:
+          return Token(TokenType.ERROR_WORDS, self.show_error_words('num?'))
+        return Token(TokenType.NUMBER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('n'))
 
@@ -635,7 +639,7 @@ class NumberTypeNode:
   node: any
 
   def __repr__(self):
-    return f"(##{self.node})"
+    return f"(num?{self.node})"
 
 @dataclass
 class IntegerTypeNode:
