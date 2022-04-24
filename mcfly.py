@@ -70,10 +70,11 @@ class TokenType(Enum):
   CONDITIONAL    = 35
   SUM            = 36
   AVERAGE        = 37
-  SQUARE_ROOT    = 38
-  CEIL           = 39
-  FLOOR          = 40
-  ERROR_WORDS    = 41
+  SQUARE         = 38
+  SQUARE_ROOT    = 39
+  CEIL           = 40
+  FLOOR          = 41
+  ERROR_WORDS    = 42
 
 # Lexer #
 
@@ -427,10 +428,11 @@ class Lexer:
       return Token(TokenType.SUM)
     elif self.current_char == 'q':
       self.advance()
-      if self.current_char == 'r':
+      if self.current_char == 'r':        
         self.advance()
         self.lastCharCheckAdvance('t')
         return Token(TokenType.SQUARE_ROOT)
+      return Token(TokenType.SQUARE)
     elif self.current_char == 't':
       self.advance()
       if self.current_char == 'r':
@@ -778,6 +780,13 @@ class AverageNode:
     return f"(({self.node_a}+{self.node_b})/2)"
 
 @dataclass
+class SquareNode:
+  node: any
+
+  def __repr__(self):
+    return f"sq {self.node}"
+
+@dataclass
 class SquareRootNode:
   node: any
 
@@ -1072,6 +1081,9 @@ class Parser:
     elif token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
+    elif token.type == TokenType.SQUARE:
+      self.advance()
+      return SquareNode(self.factor())    
     elif token.type == TokenType.SQUARE_ROOT:
       self.advance()
       return SquareRootNode(self.factor())
@@ -1152,6 +1164,14 @@ class Interpreter:
     elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
       total = check_num_a + check_num_b
       return FloatNode(total/2)
+
+  def visit_SquareNode(self, node):
+    check_num = self.visit(node.node).value
+
+    if isinstance(check_num, int):
+      return IntNode(check_num * check_num)
+    elif isinstance(check_num, float):
+      return FloatNode(check_num * check_num) 
 
   def visit_SquareRootNode(self, node):
     check_num = self.visit(node.node).value
