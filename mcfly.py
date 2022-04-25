@@ -1181,7 +1181,10 @@ class Interpreter:
       if ((answer % 1) == 0):
         return IntNode(int(answer))
       else:
-        return FloatNode(answer)    
+        return FloatNode(answer)
+    elif isinstance(check_num, float):
+      answer = (check_num**(1/2))
+      return FloatNode(answer)   
 
   def visit_CeilNode(self, node):
     check_num = self.visit(node.node).value
