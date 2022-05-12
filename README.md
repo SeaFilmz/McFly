@@ -43,7 +43,7 @@
   </ul>
   
 <h2>Examples:</h2>
-  <p>Input: 3+3-3*3/3 Outputs: 3.0
+  <p>Input: 3+3-3*3/3 Outputs: 3</p>
   <p>Input: #pi  Outputs: 3.14159265</p> 
   <p>Input: 3+#pi*2 Outputs: 9.2831853</p>
   <p>Input: 3.0==3 Outputs: True</p>
