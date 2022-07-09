@@ -1463,9 +1463,9 @@ class Interpreter:
 
   def visit_NotBooleanNode(self, node):
     if isinstance(node.node, TrueNode):
-      return 'False'
+      return FalseNode(node.node)
     elif isinstance(node.node, FalseNode):
-      return 'True'
+      return TrueNode(node.node)
 
   def visit_TrueNode(self, node):
     return TrueNode(node.node)
