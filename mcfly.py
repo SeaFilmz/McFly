@@ -1411,9 +1411,9 @@ class Interpreter:
     check_text = self.visit(node.node).value
     
     if ((check_text % 2) == 0):
-      return 'True'
+      return TrueNode(node.node)
     else:
-      return 'False'
+      return FalseNode(node.node)
   
   def visit_OddCheckNode(self, node):
     check_text = self.visit(node.node).value
