@@ -1403,9 +1403,9 @@ class Interpreter:
     check_text = self.visit(node.node).value
     
     if isinstance(check_text, float):
-      return 'True'
+      return TrueNode(node.node)
     else:
-      return 'False'
+      return FalseNode(node.node)
 
   def visit_EvenCheckNode(self, node):
     check_text = self.visit(node.node).value
