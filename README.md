@@ -29,6 +29,7 @@
   <ul>
     <li>and is checking for if 2 things are the True then outputs True else it outputs False</li>
     <li>or is checking for if at least 1 or 2 things is True if so then it will output True else it will output False</li>
+    <li>xor is checking for if 1 of 2 things is True if so then it will output True else it will output False</li>
     <li>not is for reversing the output of the words True/False</li>
   </ul>
   
