@@ -31,6 +31,7 @@
     <li>nand is the opposite of and. nand is checks for if 0 or 1 thing is True if so then it will output True else it will output False</li>
     <li>or is checking for if at least 1 or 2 things is True if so then it will output True else it will output False</li>
     <li>xor is checking for if 1 of 2 things is True if so then it will output True else it will output False</li>
+    <li>nor is the opposite of or. nor is checking for if 2 things are False if so then it will output True else it will output False</li>
     <li>not is for reversing the output of the words True/False</li>
   </ul>
   
