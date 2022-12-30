@@ -1,69 +1,77 @@
-<h1>McFly</h1>
+# McFly
 
-<h2>What is McFly?</h2>
-<p>McFly is a calculator/ new programming language being developing with python. It does math calculations based on order of operations. In addition, you can compare 1 number to another number using 1 of the many comparsion operations. Also, McFly can take in a quoted string of text and return that string of text back without the quotes.</p>
+## What is McFly?
 
-<h2>Things Included in McFly:</h2>
+![McFly running in Windows Powershell](.github/mcfly.gif)
 
-<h3>Math Operations</h3> 
-  <ul>
-    <li>+ for addition</li>
-    <li>- for subtraction</li>
-    <li>* for multiplication</li>
-    <li>/ for division</li>
-  </ul>
+McFly is a new programming language for mathematical operations that is being developed using Python. It is able to perform calculations based on the order of operations. Additionally, it can compare one number to another number using one of many comparison operations. McFly can also take in a quoted string of text and return that string without the quotes.
 
-<h3>Comparison Operations</h3> 
-  <ul>
-    <li>== for comparing if 2 numbers do have the same numerical value</li> 
-    <li>=== for comparing if 2 numbers have the same type and have the same numerical value</li>
-    <li>> for comparing if 1 number is greater than another number</li>
-    <li>< for comparing if 1 number is less than another number</li>
-    <li>>= for comparing if 1 number is greater than another number or has the same numerical value</li>
-    <li><= for comparing if 1 number is less than another number or has the same numerical value</li>
-    <li>!= for comparing if 2 numbers do not have the same numerical value</li>
-    <li>!== for comparing if 2 numbers do not have the same type and do not have the same numerical value</li>
-  </ul>
+## The components of McFly:
+
+### Math Operations 
   
-<h3>Boolean Operations</h3>
-  <ul>
-    <li>and is checking for if 2 things are the True if so then it will output True else it will output False</li>
-    <li>nand is the opposite of and. nand is checks for if 0 or 1 thing is True if so then it will output True else it will output False</li>
-    <li>or is checking for if at least 1 or 2 things is True if so then it will output True else it will output False</li>
-    <li>xor is checking for if 1 of 2 things is True if so then it will output True else it will output False</li>
-    <li>nor is the opposite of or. nor is checking for if 2 things are False if so then it will output True else it will output False</li>
-    <li>not is for reversing the output of the words True/False</li>
-  </ul>
+- `+` for addition.
+- `-` for subtraction.
+- `*` for multiplication.
+- `/` for division.
   
-<h3>String Command</h3>
-  <p><b>"</b> is used at the beginning and end of text to convert it to a string. In addition, the string is printed out without the beginning and ending ".</p>
 
-<h3>Special Commands</h3>
-  <ul>
-    <li>#pi is equal to 3.141592653589793</li>
-    <li>#tau is equal to 6.283185307179586</li>
-    <li>#e is equal to 2.718281828459045</li>
-  </ul>
+### Comparison Operations 
   
-<h2>Examples:</h2>
-  <p>Input: 3+3-3*3/3 Outputs: 3</p>
-  <p>Input: #pi  Outputs: 3.14159265</p> 
-  <p>Input: 3+#pi*2 Outputs: 9.2831853</p>
-  <p>Input: 3.0==3 Outputs: True</p>
-  <p>Input: 3.14==3.5 Outputs: False</p>
-  <p>Input: 3.0===3 Outputs: False</p>
-  <p>Input: Ture or True Outputs: True</p>
-  <p>Input: "Hello World!" Outputs: Hello World!</p>
+- `==` for comparing if 2 numbers have the same numerical value.
+- `===` for comparing if 2 numbers are of the same type and have the same numerical value.
+- `>` for comparing if 1 number is greater than another number.
+- `<` for comparing if 1 number is less than another number.
+- `>=` for comparing if 1 number is greater than another number or has the same numerical value.
+- `<=` for comparing if 1 number is less than another number or has the same numerical value.
+- `!=` for comparing if 2 numbers do not have the same numerical value.
+- `!==` for comparing if 2 numbers do not have the same type and do not have the same numerical value.
 
-<h2>Installation for Windows:</h2>
-<ol>
-  <li><a href="https://www.python.org/downloads/">Install a Python 3 version.</a> If you already have a version 3 of Python installed you can skip this step.</li>
-  <li><a href="https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py">Go to the raw mcfly.py file on GitHub.</a></li>
-  <li>Then right click on that page and click Save As..</li>
-  <li>Next save this file with the file name mcfly and save as type Python File.</li>
-  <li>After that go to where mcfly.py file is saved in File Explorer.</li>
-  <li>Then go to the Address bar and click in it to highlight the text.</li>
-  <li>Next delete the text and type powershell. After that hit enter.</li>
-  <li>In powershell type python mcfly.py. Hit Enter. It is working and ready to use if it returns Enter a math function:</li>
-  <li>If you close powershell to rerun McFly repeat instructions 5-8.
- </ol>
+
+### Boolean Operations
+  
+- `and` checks if both values are `True`. If so, then it will output `True`, else it will output `False`.
+- `nand` is the opposite of `and`. `nand` is checks if 0 or 1 values is `True`. If so, then it will output `True`, else it will output `False`.
+- `or` checks if at least 1 or 2 values is `True`. If so, then it will output `True`, else it will output `False`.
+- `xor` checks if 1 of 2 values is `True`. If so then it will output `True` else it will output `False`.
+- `nor` is the opposite of `or`. `nor` checks for if both values are `False` if so then it will output `True`, else it will output `False`.
+- `not` inverts the output of the boolean values `True` or `False`.
+  
+  
+### String Command
+- `"` is used at the beginning and end of text to convert it to a string. 
+>💡 The string output is printed without including the beginning and ending quotation marks. 
+
+### Constants
+  
+- `#pi` is equal to `3.141592653589793`
+- `#tau` is equal to `6.283185307179586`
+- `#e` is equal to `2.718281828459045`
+
+## Examples:
+- Input: `3+3-3*3/3` Outputs: `3`
+- Input: `#pi` Outputs: `3.14159265` 
+- Input: `3+#pi*2` Outputs: `9.2831853`
+- Input: `3.0==3` Outputs: `True`
+- Input: `3.14==3.5` Outputs: `False`
+- Input: `3.0===3` Outputs: `False`
+- Input: `True or True` Outputs: `True`
+- Input: `"Hello World!"` Outputs: `Hello World!`
+  
+## Optimizations:  
+
+## How to run McFly on Windows:
+
+1. [Install Python version 3 or higher.](https://www.python.org/downloads/) (If you already have version 3 or higher of Python installed you may omit this step.)
+1. [Navigate to the raw mcfly.py file on GitHub.]("https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py")
+1. Right click on the page and click `Save As...`
+1. Save the file on your computer with the same file name and extension.
+1. Use Windows Explorer to navigate to where the `mcfly.py` file is stored.
+1. Click into the Explorer Address Bar to highlight the text.
+1. Delete the text, type `powershell` in the Address Bar, press enter.
+1. Powershell will open in the same directory you have navigated to.
+1. While in Powershell, run the command `python mcfly.py`. 
+1. McFly is running and ready to use if your terminal displays `Enter a math function:`
+
+>💡 If you close powershell, you will need to repeat instructions 5-8 to rerun McFly.
+ 
