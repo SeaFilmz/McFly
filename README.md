@@ -50,8 +50,8 @@ McFly is a new programming language for mathematical operations that is being de
 
 ## Examples:
 - Input: `3+3-3*3/3` Outputs: `3`
-- Input: `#pi` Outputs: `3.14159265` 
-- Input: `3+#pi*2` Outputs: `9.2831853`
+- Input: `#pi` Outputs: `3.141592653589793` 
+- Input: `3+#pi*2` Outputs: `9.283185307179586`
 - Input: `3.0==3` Outputs: `True`
 - Input: `3.14==3.5` Outputs: `False`
 - Input: `3.0===3` Outputs: `False`
