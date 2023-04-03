@@ -74,7 +74,8 @@ class TokenType(Enum):
   SQUARE_ROOT    = 39
   CEIL           = 40
   FLOOR          = 41
-  ERROR_WORDS    = 42
+  ABSOLUTE_VALUE = 42
+  ERROR_WORDS    = 43
 
 # Lexer #
 
@@ -287,6 +288,12 @@ class Lexer:
       if self.current_char in LETTERS:
         return Token(TokenType.ERROR_WORDS, self.show_error_words('avg'))
       return Token(TokenType.AVERAGE)
+    elif self.current_char == 'b':
+      self.advance()
+      self.lastCharCheckAdvance('s')
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, self.show_error_words('abs'))
+      return Token(TokenType.ABSOLUTE_VALUE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('a'))
 
@@ -792,6 +799,13 @@ class SquareRootNode:
 
   def __repr__(self):
     return f"sqrt {self.node}"
+  
+@dataclass
+class AbsoluteValueNode:
+  node: any
+
+  def __repr__(self):
+    return f"abs {self.node}"
 
 @dataclass
 class CeilNode:
@@ -1087,6 +1101,9 @@ class Parser:
     elif token.type == TokenType.SQUARE_ROOT:
       self.advance()
       return SquareRootNode(self.factor())
+    elif token.type == TokenType.ABSOLUTE_VALUE:
+      self.advance()
+      return AbsoluteValueNode(self.factor())
     elif token.type == TokenType.CEIL:
       self.advance()
       return CeilNode(self.factor())
@@ -1186,6 +1203,20 @@ class Interpreter:
       answer = (check_num**(1/2))
       return FloatNode(answer)   
 
+  def visit_AbsoluteValueNode(self, node):
+    check_num = self.visit(node.node).value
+
+    if isinstance(check_num, int):
+      if (check_num < 0):
+        return IntNode(check_num*-1)
+      else:
+        return IntNode(check_num)
+    elif isinstance(check_num, float):
+      if (check_num < 0):
+        return FloatNode(check_num*-1)
+      else:
+        return FloatNode(check_num)
+
   def visit_CeilNode(self, node):
     check_num = self.visit(node.node).value
 
@@ -1207,7 +1238,7 @@ class Interpreter:
         return IntNode(int(check_num))
       elif (check_num < 0):
         return IntNode((int(check_num)-1))
-      
+
 
   def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
