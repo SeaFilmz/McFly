@@ -1,4 +1,5 @@
 # McFly
+It learns from the past but looks to the future, McFly.
 
 ## What is McFly?
 
