@@ -57,7 +57,7 @@ class TokenType(Enum):
   FLOAT_TYPE     = 22
   STRING_TYPE    = 23
   EVEN_CHECK     = 24
-  ODD_CHECK      = 25 
+  ODD_CHECK      = 25
   AND_BOOLEAN    = 26
   NAND_BOOLEAN   = 27
   OR_BOOLEAN     = 28
@@ -311,7 +311,7 @@ class Lexer:
         self.lastCharCheckAdvance('?')
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('odd?'))
-        return Token(TokenType.ODD_CHECK)    
+        return Token(TokenType.ODD_CHECK)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('o'))
 
@@ -336,10 +336,10 @@ class Lexer:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('not'))
         return Token(TokenType.NOT_BOOLEAN)
       elif self.current_char == 'r':
-        self.advance()  
+        self.advance()
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('nor'))
-        return Token(TokenType.NOR_BOOLEAN)    
+        return Token(TokenType.NOR_BOOLEAN)
     elif self.current_char == 'a':
       self.advance()
       if self.current_char == 'n':
@@ -435,7 +435,7 @@ class Lexer:
       return Token(TokenType.SUM)
     elif self.current_char == 'q':
       self.advance()
-      if self.current_char == 'r':        
+      if self.current_char == 'r':
         self.advance()
         self.lastCharCheckAdvance('t')
         return Token(TokenType.SQUARE_ROOT)
@@ -445,7 +445,7 @@ class Lexer:
       if self.current_char == 'r':
         self.advance()
         self.lastCharCheckAdvance('?')
-        return Token(TokenType.STRING_TYPE)    
+        return Token(TokenType.STRING_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
 
@@ -475,7 +475,7 @@ class Lexer:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('ceil'))
         return Token(TokenType.CEIL)
     else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('c'))  
+      return Token(TokenType.ERROR_WORDS, self.show_error_words('c'))
 
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
@@ -586,7 +586,7 @@ class TypeEqualNode:
   node_x: any
   node_y: any
 
-  def __repr__(self): 
+  def __repr__(self):
     return f"({self.node_x}==={self.node_y})"
 
 @dataclass
@@ -799,7 +799,7 @@ class SquareRootNode:
 
   def __repr__(self):
     return f"sqrt {self.node}"
-  
+
 @dataclass
 class AbsoluteValueNode:
   node: any
@@ -1001,7 +1001,7 @@ class Parser:
         self.advance()
         result = NandBooleanNode(result, self.norCheck())
 
-    return result  
+    return result
 
   def norCheck(self):
     result = self.avgCheck()
@@ -1021,7 +1021,7 @@ class Parser:
         self.advance()
         result = AverageNode(result, self.factor())
 
-    return result    
+    return result
 
   def factor(self):
     token = self.current_token
@@ -1032,7 +1032,7 @@ class Parser:
 
       if self.current_token.type != TokenType.RPAREN:
         self.raise_error()
-      
+
       self.advance()
       return result
     elif token.type == TokenType.INTEGER:
@@ -1097,7 +1097,7 @@ class Parser:
       return SumNode(token.value)
     elif token.type == TokenType.SQUARE:
       self.advance()
-      return SquareNode(self.factor())    
+      return SquareNode(self.factor())
     elif token.type == TokenType.SQUARE_ROOT:
       self.advance()
       return SquareRootNode(self.factor())
@@ -1150,7 +1150,7 @@ class Interpreter:
   def visit_StringNode(self, node):
     NV = node.value
     NVFLQ = NV[1:-1]
-    
+
     return StringNode(NVFLQ)
 
   def visit_FunctionNode(self, node):
@@ -1165,8 +1165,8 @@ class Interpreter:
   def visit_AverageNode(self, node):
     check_num_a = self.visit(node.node_a).value
     check_num_b = self.visit(node.node_b).value
-    
-    if isinstance(check_num_a, int) and isinstance(check_num_b, int): 
+
+    if isinstance(check_num_a, int) and isinstance(check_num_b, int):
       total = check_num_a + check_num_b
       if ((total % 2) == 0):
        return IntNode(int(total/2))
@@ -1188,7 +1188,7 @@ class Interpreter:
     if isinstance(check_num, int):
       return IntNode(check_num * check_num)
     elif isinstance(check_num, float):
-      return FloatNode(check_num * check_num) 
+      return FloatNode(check_num * check_num)
 
   def visit_SquareRootNode(self, node):
     check_num = self.visit(node.node).value
@@ -1201,7 +1201,7 @@ class Interpreter:
         return FloatNode(answer)
     elif isinstance(check_num, float):
       answer = (check_num**(1/2))
-      return FloatNode(answer)   
+      return FloatNode(answer)
 
   def visit_AbsoluteValueNode(self, node):
     check_num = self.visit(node.node).value
@@ -1402,10 +1402,10 @@ class Interpreter:
           return FloatNode(quotient)
     except:
       raise Exception("Runtime math error")
-  
+
   def visit_PlusNode(self, node):
     return self.visit(node.node)
-  
+
   def visit_MinusNode(self, node):
     check_num = self.visit(node.node).value
 
@@ -1413,10 +1413,10 @@ class Interpreter:
       return IntNode(-check_num)
     elif isinstance(check_num, float):
       return FloatNode(-check_num)
-  
+
   def visit_NumberTypeNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if isinstance(check_text, int) or isinstance(check_text, float):
       return TrueNode(node.node)
     elif isinstance(check_text, str):
@@ -1424,7 +1424,7 @@ class Interpreter:
 
   def visit_IntegerTypeNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if isinstance(check_text, int):
       return TrueNode(node.node)
     else:
@@ -1432,7 +1432,7 @@ class Interpreter:
 
   def visit_FloatTypeNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if isinstance(check_text, float):
       return TrueNode(node.node)
     else:
@@ -1440,15 +1440,15 @@ class Interpreter:
 
   def visit_EvenCheckNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if ((check_text % 2) == 0):
       return TrueNode(node.node)
     else:
       return FalseNode(node.node)
-  
+
   def visit_OddCheckNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if ((check_text % 2) == 0):
       return FalseNode(node.node)
     else:
@@ -1456,7 +1456,7 @@ class Interpreter:
 
   def visit_StringTypeNode(self, node):
     check_text = self.visit(node.node).value
-    
+
     if isinstance(check_text, str):
       return TrueNode(node.node)
     elif isinstance(check_text, int) or isinstance(check_text, float):
