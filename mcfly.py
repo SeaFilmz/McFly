@@ -1231,7 +1231,7 @@ class Interpreter:
     elif isinstance(check_num, float):
       if (((check_num % 1) == 0) or (check_num < 0)):
         return IntNode(int(check_num))
-      elif (check_num > 0):
+      elif check_num > 0:
         return IntNode(int(check_num)+1)
 
   def visit_FloorNode(self, node):
@@ -1242,7 +1242,7 @@ class Interpreter:
     elif isinstance(check_num, float):
       if (((check_num % 1) == 0) or (check_num > 0)):
         return IntNode(int(check_num))
-      elif (check_num < 0):
+      elif check_num < 0:
         return IntNode((int(check_num)-1))
 
 
@@ -1293,7 +1293,7 @@ class Interpreter:
     if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
       if (check_x > check_y) or (check_x == check_y):
         return 'False'
-      elif (check_x < check_y):
+      elif check_x < check_y:
         return 'True'
 
   def visit_GreaterThanEqualNode(self, node):
@@ -1303,7 +1303,7 @@ class Interpreter:
     if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
       if (check_x > check_y) or (check_x == check_y):
         return 'True'
-      elif (check_x < check_y):
+      elif check_x < check_y:
         return 'False'
 
   def visit_LessThanEqualNode(self, node):
