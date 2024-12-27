@@ -1130,11 +1130,11 @@ class Interpreter:
     return method(node)
 
   def visit_IntNode(self, node):
-    if (isinstance(node.value, int)):
+    if isinstance(node.value, int):
       return IntNode(node.value)
 
   def visit_FloatNode(self, node):
-    if (isinstance(node.value, float)):
+    if isinstance(node.value, float):
       return FloatNode(node.value)
 
   def visit_NumberSignNode(self, node):
@@ -1213,12 +1213,12 @@ class Interpreter:
     check_num = self.visit(node.node).value
 
     if isinstance(check_num, int):
-      if (check_num < 0):
+      if check_num < 0:
         return IntNode(check_num*-1)
       else:
         return IntNode(check_num)
     elif isinstance(check_num, float):
-      if (check_num < 0):
+      if check_num < 0:
         return FloatNode(check_num*-1)
       else:
         return FloatNode(check_num)
@@ -1281,7 +1281,7 @@ class Interpreter:
     check_y = self.visit(node.node_y).value
 
     if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
-      if (check_x > check_y):
+      if check_x > check_y:
         return 'True'
       elif (check_x < check_y) or (check_x == check_y):
         return 'False'
@@ -1311,7 +1311,7 @@ class Interpreter:
     check_y = self.visit(node.node_y).value
 
     if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
-      if (check_x > check_y):
+      if check_x > check_y:
         return 'False'
       elif (check_x < check_y) or (check_x == check_y):
         return 'True'
