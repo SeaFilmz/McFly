@@ -88,13 +88,15 @@ class TokenType(Enum):
 
 class Lexer:
   def __init__(self, text):
-    self.text = iter(text)
-    self.advance()
+    self.text = text
+    self.pos = 0
+    self.current_char = text[0] if text else None
 
   def advance(self):
-    try:
-      self.current_char = next(self.text)
-    except StopIteration:
+    self.pos += 1
+    if self.pos < len(self.text):
+      self.current_char = self.text[self.pos]
+    else:
       self.current_char = None
 
   def show_error_words(self, prefix=''):
