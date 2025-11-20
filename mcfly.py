@@ -121,6 +121,7 @@ class Lexer:
       elif self.current_char.isdigit() or self.current_char == '.':
         yield self.generate_number()
       elif self.current_char == '#':
+        self.advance()
         yield self.generate_num_var()
       elif self.current_char == '$':
         yield self.generate_str_var()
