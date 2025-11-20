@@ -118,7 +118,7 @@ class Lexer:
       if self.current_char.isspace():
         self.advance()
         continue
-      elif self.current_char in DIGITS:
+      elif self.current_char.isdigit() or self.current_char == '.':
         yield self.generate_number()
       elif self.current_char == '#':
         yield self.generate_num_var()
