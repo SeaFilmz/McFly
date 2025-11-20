@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 # Important Characters #
 
-WHITESPACE = ' \n\t'
 DIGITS  = '0123456789'
 LETTERS = string.ascii_letters
 LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
@@ -116,8 +115,9 @@ class Lexer:
 
   def generate_tokens(self):
     while self.current_char != None:
-      if self.current_char in WHITESPACE:
+      if self.current_char.isspace():
         self.advance()
+        continue
       elif self.current_char in DIGITS:
         yield self.generate_number()
       elif self.current_char == '#':
