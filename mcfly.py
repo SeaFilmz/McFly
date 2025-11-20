@@ -124,6 +124,7 @@ class Lexer:
         self.advance()
         yield self.generate_num_var()
       elif self.current_char == '$':
+        self.advance()
         yield self.generate_str_var()
       elif self.current_char == '@':
         yield self.generate_array_var()
