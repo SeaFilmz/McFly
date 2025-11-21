@@ -194,25 +194,31 @@ class Lexer:
 
   def generate_number(self):
     decimal_point_count = 0
-    number_str = self.current_char
-    self.advance()
+    number_str = ""
 
-    while self.current_char != None and (self.current_char in DIGITS + '.'):
-      if self.current_char == '.':
-        decimal_point_count += 1
-        if decimal_point_count > 1:
-          break
+    if self.current_char == '.':
+        decimal_point_count = 1
+        number_str = "0."
+        self.advance()
+    else:
+        number_str = self.current_char
+        self.advance()
 
-      number_str += self.current_char
-      self.advance()
+    while self.current_char is not None and (self.current_char.isdigit() or self.current_char == '.'):
+        if self.current_char == '.':
+            decimal_point_count += 1
+            if decimal_point_count > 1:
+                break
+        number_str += self.current_char
+        self.advance()
 
     if number_str.endswith('.'):
-      number_str += '0'
+        number_str += '0'
 
     if decimal_point_count == 0:
-      return Token(TokenType.INTEGER, int(number_str))
+        return Token(TokenType.INTEGER, int(number_str))
     else:
-      return Token(TokenType.FLOAT, float(number_str))
+        return Token(TokenType.FLOAT, float(number_str))
 
   def generate_string(self):
     string_str = self.current_char
