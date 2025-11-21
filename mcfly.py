@@ -178,6 +178,9 @@ class Lexer:
         yield self.generate_even()
       elif self.current_char == 'c':
         yield self.generate_ceil()
+      elif self.current_char.isalpha():
+        word = self.collect_word()
+        upper_word = word.upper()
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
