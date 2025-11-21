@@ -181,6 +181,10 @@ class Lexer:
       elif self.current_char.isalpha():
         word = self.collect_word()
         upper_word = word.upper()
+        if upper_word == "TRUE":
+          yield Token(TokenType.TRUE)
+        elif upper_word == "FALSE":
+          yield Token(TokenType.FALSE)
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
