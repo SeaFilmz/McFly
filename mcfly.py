@@ -491,6 +491,14 @@ class Lexer:
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
 
+  def collect_word(self):
+    """Collects a sequence of letters (for keywords and function names)."""
+    result = ''
+    while self.current_char is not None and self.current_char.isalpha():
+        result += self.current_char
+        self.advance()
+    return result
+
 # Nodes #
 
 @dataclass
