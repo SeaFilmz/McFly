@@ -154,6 +154,7 @@ class Lexer:
         self.advance()
         yield self.generate_greater_equal()
       elif self.current_char == '<':
+        self.advance()
         yield self.generate_less_equal()
       elif self.current_char == '!':
         yield self.generate_not_equal()
