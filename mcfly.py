@@ -235,14 +235,20 @@ class Lexer:
      raise Exception('Error: To print or use a string the input has to start with a " and end with a "')
 
   def generate_num_var(self):
-    num_sign_var = self.current_char
+    if not self.current_char.isalpha():
+        raise Exception("Number variable must start with a letter after '#'")
+
+    var_name = "#" + self.current_char
     self.advance()
 
-    while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
-      num_sign_var += self.current_char
-      self.advance()
+    while (
+        self.current_char is not None and
+        (self.current_char.isalnum() or self.current_char == "_")
+    ):
+        var_name += self.current_char
+        self.advance()
 
-    return Token(TokenType.NUMBER_VAR, num_sign_var)
+    return Token(TokenType.NUMBER_VAR, var_name)
 
   def generate_str_var(self):
     str_sign_var = self.current_char
