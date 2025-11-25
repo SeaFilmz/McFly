@@ -167,10 +167,6 @@ class Lexer:
         yield self.generate_xor_boolean()
       elif self.current_char == 'n':
         yield self.generate_n_boolean()
-      elif self.current_char == 'T':
-        yield self.generate_true()
-      elif self.current_char == 'F':
-        yield self.generate_false()
       elif self.current_char == 'f':
         yield self.generate_f_keywords()
       elif self.current_char == 'i':
@@ -397,30 +393,6 @@ class Lexer:
         return Token(TokenType.NUMBER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('n'))
-
-  def generate_true(self):
-    self.advance()
-    if self.current_char == 'r':
-      self.advance()
-      if self.current_char == 'u':
-        self.advance()
-        self.lastCharCheckAdvance('e')
-        return Token(TokenType.TRUE)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('T'))
-
-  def generate_false(self):
-    self.advance()
-    if self.current_char == 'a':
-      self.advance()
-      if self.current_char == 'l':
-        self.advance()
-        if self.current_char == 's':
-          self.advance()
-          self.lastCharCheckAdvance('e')
-          return Token(TokenType.FALSE)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('F'))
 
   def generate_f_keywords(self):
     self.advance()
