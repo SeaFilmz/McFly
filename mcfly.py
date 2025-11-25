@@ -264,14 +264,20 @@ class Lexer:
     return Token(TokenType.STRING_VAR, var_name)
 
   def generate_array_var(self):
-    array_sign_var = self.current_char
+    if not self.current_char.isalpha():
+        raise Exception("Array variable must start with a letter after '@'")
+
+    var_name = "@" + self.current_char
     self.advance()
 
-    while self.current_char != None and self.current_char in LETTERS_DIGITS_US:
-      array_sign_var += self.current_char
-      self.advance()
+    while (
+        self.current_char is not None and
+        (self.current_char.isalnum() or self.current_char == "_")
+    ):
+        var_name += self.current_char
+        self.advance()
 
-    return Token(TokenType.ARRAY_VAR, array_sign_var)
+    return Token(TokenType.ARRAY_VAR, var_name)
 
   def generate_equals(self):
     self.advance()
