@@ -190,32 +190,32 @@ class Lexer:
         raise Exception(f"llegal Character '{self.current_char}'")
 
   def generate_number(self):
-    decimal_point_count = 0
-    number_str = ""
+  decimal_point_count = 0
+  number_str = ""
 
+  if self.current_char == '.':
+    decimal_point_count = 1
+    number_str = "0."
+    self.advance()
+  else:
+    number_str = self.current_char
+    self.advance()
+
+  while self.current_char is not None and (self.current_char.isdigit() or self.current_char == '.'):
     if self.current_char == '.':
-        decimal_point_count = 1
-        number_str = "0."
-        self.advance()
-    else:
-        number_str = self.current_char
-        self.advance()
+      decimal_point_count += 1
+      if decimal_point_count > 1:
+        break
+    number_str += self.current_char
+    self.advance()
 
-    while self.current_char is not None and (self.current_char.isdigit() or self.current_char == '.'):
-        if self.current_char == '.':
-            decimal_point_count += 1
-            if decimal_point_count > 1:
-                break
-        number_str += self.current_char
-        self.advance()
+  if number_str.endswith('.'):
+    number_str += '0'
 
-    if number_str.endswith('.'):
-        number_str += '0'
-
-    if decimal_point_count == 0:
-        return Token(TokenType.INTEGER, int(number_str))
-    else:
-        return Token(TokenType.FLOAT, float(number_str))
+  if decimal_point_count == 0:
+    return Token(TokenType.INTEGER, int(number_str))
+  else:
+    return Token(TokenType.FLOAT, float(number_str))
 
   def generate_string(self):
     string_str = self.current_char
@@ -232,52 +232,53 @@ class Lexer:
      raise Exception('Error: To print or use a string the input has to start with a " and end with a "')
 
   def generate_num_var(self):
-    if not self.current_char.isalpha():
-        raise Exception("Number variable must start with a letter after '#'")
+  if not self.current_char.isalpha():
+    raise Exception("Number variable must start with a letter after '#'")
 
-    var_name = "#" + self.current_char
+  var_name = "#" + self.current_char
+  self.advance()
+
+  while (
+    self.current_char is not None and
+    (self.current_char.isalnum() or self.current_char == "_")
+  ):
+    var_name += self.current_char
     self.advance()
 
-    while (
-        self.current_char is not None and
-        (self.current_char.isalnum() or self.current_char == "_")
-    ):
-        var_name += self.current_char
-        self.advance()
+  return Token(TokenType.NUMBER_VAR, var_name)
 
-    return Token(TokenType.NUMBER_VAR, var_name)
 
-  def generate_str_var(self):
-    if not self.current_char.isalpha():
-        raise Exception("String variable must start with a letter after '$'")
+def generate_str_var(self):
+  if not self.current_char.isalpha():
+    raise Exception("String variable must start with a letter after '$'")
 
-    var_name = "$" + self.current_char
+  var_name = "$" + self.current_char
+  self.advance()
+
+  while (
+    self.current_char is not None and
+    (self.current_char.isalnum() or self.current_char == "_")
+  ):
+    var_name += self.current_char
     self.advance()
 
-    while (
-        self.current_char is not None and
-        (self.current_char.isalnum() or self.current_char == "_")
-    ):
-        var_name += self.current_char
-        self.advance()
-
-    return Token(TokenType.STRING_VAR, var_name)
+  return Token(TokenType.STRING_VAR, var_name)
 
   def generate_array_var(self):
-    if not self.current_char.isalpha():
-        raise Exception("Array variable must start with a letter after '@'")
+  if not self.current_char.isalpha():
+    raise Exception("Array variable must start with a letter after '@'")
 
-    var_name = "@" + self.current_char
+  var_name = "@" + self.current_char
+  self.advance()
+
+  while (
+    self.current_char is not None and
+    (self.current_char.isalnum() or self.current_char == "_")
+  ):
+    var_name += self.current_char
     self.advance()
 
-    while (
-        self.current_char is not None and
-        (self.current_char.isalnum() or self.current_char == "_")
-    ):
-        var_name += self.current_char
-        self.advance()
-
-    return Token(TokenType.ARRAY_VAR, var_name)
+  return Token(TokenType.ARRAY_VAR, var_name)
 
   def generate_equals(self):
     self.advance()
@@ -498,12 +499,12 @@ class Lexer:
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
 
   def collect_word(self):
-    """Collects a sequence of letters (for keywords and function names)."""
-    result = ''
-    while self.current_char is not None and self.current_char.isalpha():
-        result += self.current_char
-        self.advance()
-    return result
+  """Collects a sequence of letters (for keywords and function names)."""
+  result = ''
+  while self.current_char is not None and self.current_char.isalpha():
+    result += self.current_char
+    self.advance()
+  return result
 
 # Nodes #
 
