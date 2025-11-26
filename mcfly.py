@@ -1101,10 +1101,10 @@ class Parser:
       return NotBooleanNode(self.factor())
     elif token.type == TokenType.TRUE:
       self.advance()
-      return TrueNode(token.value)
+      return BooleanNode(token.value)
     elif token.type == TokenType.FALSE:
       self.advance()
-      return FalseNode(token.value)
+      return BooleanNode(token.value)
     elif token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
