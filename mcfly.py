@@ -1063,15 +1063,16 @@ class Parser:
       self.advance()
       return FloatNode(token.value)
 
+    if token.type == TokenType.STRING:
+      self.advance()
+      return StringNode(token.value)
+
     if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
     elif token.type == TokenType.MINUS:
       self.advance()
       return MinusNode(self.factor())
-    elif token.type == TokenType.STRING:
-      self.advance()
-      return StringNode(token.value)
     elif token.type == TokenType.NUMBER_VAR:
       self.advance()
       return NumberSignNode(token.value)
