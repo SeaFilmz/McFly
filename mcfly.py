@@ -1058,10 +1058,12 @@ class Parser:
     if token.type == TokenType.INTEGER:
       self.advance()
       return IntNode(token.value)
-    elif token.type == TokenType.FLOAT:
+
+    if token.type == TokenType.FLOAT:
       self.advance()
       return FloatNode(token.value)
-    elif token.type == TokenType.PLUS:
+
+    if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
     elif token.type == TokenType.MINUS:
