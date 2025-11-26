@@ -1054,7 +1054,8 @@ class Parser:
 
       self.advance()
       return result
-    elif token.type == TokenType.INTEGER:
+
+    if token.type == TokenType.INTEGER:
       self.advance()
       return IntNode(token.value)
     elif token.type == TokenType.FLOAT:
