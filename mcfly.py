@@ -761,18 +761,11 @@ class NotBooleanNode:
     return f"not {self.node}"
 
 @dataclass
-class TrueNode:
-  node: any
+class BooleanNode:
+  value: bool
 
   def __repr__(self):
-    return f"True"
-
-@dataclass
-class FalseNode:
-  node: any
-
-  def __repr__(self):
-    return f"False"
+    return "True" if self.value else "False"
 
 @dataclass
 class FunctionNode:
