@@ -1067,21 +1067,24 @@ class Parser:
       self.advance()
       return StringNode(token.value)
 
+    if token.type == TokenType.NUMBER_VAR:
+      self.advance()
+      return NumberSignNode(token.value)
+
+    if token.type == TokenType.STRING_VAR:
+      self.advance()
+      return StringSignNode(token.value)
+
+    if token.type == TokenType.ARRAY_VAR:
+      self.advance()
+      return ArraySignNode(token.value)
+
     if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
     elif token.type == TokenType.MINUS:
       self.advance()
       return MinusNode(self.factor())
-    elif token.type == TokenType.NUMBER_VAR:
-      self.advance()
-      return NumberSignNode(token.value)
-    elif token.type == TokenType.STRING_VAR:
-      self.advance()
-      return StringSignNode(token.value)
-    elif token.type == TokenType.ARRAY_VAR:
-      self.advance()
-      return ArraySignNode(token.value)
     elif token.type == TokenType.NUMBER_TYPE:
       self.advance()
       return NumberTypeNode(self.factor())
