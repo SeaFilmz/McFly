@@ -1079,6 +1079,14 @@ class Parser:
       self.advance()
       return ArraySignNode(token.value)
 
+    if token.type == TokenType.TRUE:
+      self.advance()
+      return BooleanNode(token.value)
+
+    if token.type == TokenType.FALSE:
+      self.advance()
+      return BooleanNode(token.value)
+
     if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
@@ -1106,12 +1114,6 @@ class Parser:
     elif token.type == TokenType.NOT_BOOLEAN:
       self.advance()
       return NotBooleanNode(self.factor())
-    elif token.type == TokenType.TRUE:
-      self.advance()
-      return BooleanNode(token.value)
-    elif token.type == TokenType.FALSE:
-      self.advance()
-      return BooleanNode(token.value)
     elif token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
