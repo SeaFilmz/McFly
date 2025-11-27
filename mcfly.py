@@ -1102,13 +1102,16 @@ class Parser:
     if token.type == TokenType.NUMBER_TYPE:
       self.advance()
       return NumberTypeNode(self.factor())
-    elif token.type == TokenType.INTEGER_TYPE:
+
+    if token.type == TokenType.INTEGER_TYPE:
       self.advance()
       return IntegerTypeNode(self.factor())
-    elif token.type == TokenType.FLOAT_TYPE:
+
+    if token.type == TokenType.FLOAT_TYPE:
       self.advance()
       return FloatTypeNode(self.factor())
-    elif token.type == TokenType.EVEN_CHECK:
+
+    if token.type == TokenType.EVEN_CHECK:
       self.advance()
       return EvenCheckNode(self.factor())
     elif token.type == TokenType.ODD_CHECK:
