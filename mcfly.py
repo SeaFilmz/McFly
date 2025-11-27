@@ -1095,6 +1095,10 @@ class Parser:
       self.advance()
       return MinusNode(self.factor())
 
+    if token.type == TokenType.NOT_BOOLEAN:
+      self.advance()
+      return NotBooleanNode(self.factor())
+
     if token.type == TokenType.NUMBER_TYPE:
       self.advance()
       return NumberTypeNode(self.factor())
@@ -1113,9 +1117,6 @@ class Parser:
     elif token.type == TokenType.STRING_TYPE:
       self.advance()
       return StringTypeNode(self.factor())
-    elif token.type == TokenType.NOT_BOOLEAN:
-      self.advance()
-      return NotBooleanNode(self.factor())
     elif token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
