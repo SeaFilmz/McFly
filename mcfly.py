@@ -248,21 +248,21 @@ class Lexer:
     return Token(TokenType.NUMBER_VAR, var_name)
 
 
-def generate_str_var(self):
-  if not self.current_char.isalpha():
-    raise Exception("String variable must start with a letter after '$'")
+  def generate_str_var(self):
+    if not self.current_char.isalpha():
+      raise Exception("String variable must start with a letter after '$'")
 
-  var_name = "$" + self.current_char
-  self.advance()
-
-  while (
-    self.current_char is not None and
-    (self.current_char.isalnum() or self.current_char == "_")
-  ):
-    var_name += self.current_char
+    var_name = "$" + self.current_char
     self.advance()
 
-  return Token(TokenType.STRING_VAR, var_name)
+    while (
+      self.current_char is not None and
+      (self.current_char.isalnum() or self.current_char == "_")
+    ):
+      var_name += self.current_char
+      self.advance()
+
+    return Token(TokenType.STRING_VAR, var_name)
 
   def generate_array_var(self):
     if not self.current_char.isalpha():
