@@ -181,9 +181,9 @@ class Lexer:
         word = self.collect_word()
         upper_word = word.upper()
         if upper_word == "TRUE":
-          yield Token(TokenType.TRUE)
+          yield Token(TokenType.TRUE, True)
         elif upper_word == "FALSE":
-          yield Token(TokenType.FALSE)
+          yield Token(TokenType.FALSE, False)
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
