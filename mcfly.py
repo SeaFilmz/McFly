@@ -166,7 +166,7 @@ class Lexer:
           yield Token(TokenType.TRUE, True)
         elif upper_word == "FALSE":
           yield Token(TokenType.FALSE, False)
-        elif upper == "NUM?":
+        elif upper_word == "NUM?":
           yield Token(TokenType.NUMBER_TYPE)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
