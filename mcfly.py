@@ -1532,11 +1532,8 @@ class Interpreter:
     elif isinstance(node.node, FalseNode):
       return TrueNode(node.node)
 
-  def visit_TrueNode(self, node):
-    return TrueNode(node.node)
-
-  def visit_FalseNode(self, node):
-    return FalseNode(node.node)
+  def visit_BooleanNode(self, node):
+    return node.value
 
 # Run #
 
