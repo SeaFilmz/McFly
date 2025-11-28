@@ -184,6 +184,8 @@ class Lexer:
           yield Token(TokenType.TRUE, True)
         elif upper_word == "FALSE":
           yield Token(TokenType.FALSE, False)
+        elif upper == "NUM?":
+          yield Token(TokenType.NUMBER_TYPE)
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
@@ -390,14 +392,6 @@ class Lexer:
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('nand'))
         return Token(TokenType.NAND_BOOLEAN)
-    elif self.current_char == 'u':
-      self.advance()
-      if self.current_char == 'm':
-        self.advance()
-        self.lastCharCheckAdvance('?')
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('num?'))
-        return Token(TokenType.NUMBER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('n'))
 
