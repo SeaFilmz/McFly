@@ -159,6 +159,15 @@ class Lexer:
         yield self.generate_less_equal()
       elif self.current_char == '!':
         yield self.generate_not_equal()
+      elif self.current_char.isalpha():
+        word = self.collect_word()
+        upper_word = word.upper()
+        if upper_word == "TRUE":
+          yield Token(TokenType.TRUE, True)
+        elif upper_word == "FALSE":
+          yield Token(TokenType.FALSE, False)
+        elif upper == "NUM?":
+          yield Token(TokenType.NUMBER_TYPE)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
@@ -177,15 +186,6 @@ class Lexer:
         yield self.generate_even()
       elif self.current_char == 'c':
         yield self.generate_ceil()
-      elif self.current_char.isalpha():
-        word = self.collect_word()
-        upper_word = word.upper()
-        if upper_word == "TRUE":
-          yield Token(TokenType.TRUE, True)
-        elif upper_word == "FALSE":
-          yield Token(TokenType.FALSE, False)
-        elif upper == "NUM?":
-          yield Token(TokenType.NUMBER_TYPE)
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
