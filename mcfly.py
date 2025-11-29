@@ -1447,10 +1447,10 @@ class Interpreter:
   def visit_NumberTypeNode(self, node):
     check_text = self.visit(node.node).value
 
-    if isinstance(check_text, int) or isinstance(check_text, float):
-      return TrueNode(node.node)
+    if isinstance(check_text, (int, float)):
+      return BooleanNode(True)
     elif isinstance(check_text, str):
-      return FalseNode(node.node)
+      return BooleanNode(False)
 
   def visit_IntegerTypeNode(self, node):
     check_text = self.visit(node.node).value
