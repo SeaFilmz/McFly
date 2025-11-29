@@ -1462,17 +1462,17 @@ class Interpreter:
     check_text = self.visit(node.node).value
 
     if isinstance(check_text, int):
-      return TrueNode(node.node)
+      return BooleanNode(True)
     else:
-      return FalseNode(node.node)
+      return BooleanNode(False)
 
   def visit_FloatTypeNode(self, node):
     check_text = self.visit(node.node).value
 
     if isinstance(check_text, float):
-      return TrueNode(node.node)
+      return BooleanNode(True)
     else:
-      return FalseNode(node.node)
+      return BooleanNode(False)
 
   def visit_EvenCheckNode(self, node):
     check_text = self.visit(node.node).value
