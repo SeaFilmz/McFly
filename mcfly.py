@@ -1495,9 +1495,9 @@ class Interpreter:
     check_text = self.visit(node.node).value
 
     if isinstance(check_text, str):
-      return TrueNode(node.node)
-    elif isinstance(check_text, int) or isinstance(check_text, float):
-      return FalseNode(node.node)
+      return BooleanNode(True)
+    elif isinstance(check_text, (int, float)):
+      return BooleanNode(False)
 
   def visit_AndBooleanNode(self, node):
     if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
