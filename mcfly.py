@@ -493,9 +493,11 @@ class Lexer:
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
 
   def collect_word(self):
-    """Collects a sequence of letters (for keywords and function names)."""
+    """Collects letters plus allowed keyword suffix characters."""
     result = ''
-    while self.current_char is not None and self.current_char.isalpha():
+    while (
+      self.current_char is not None and (self.current_char.isalpha() or self.current_char in ['?'])
+    ):
       result += self.current_char
       self.advance()
     return result
