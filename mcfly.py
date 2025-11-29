@@ -174,6 +174,8 @@ class Lexer:
           yield Token(TokenType.FLOAT_TYPE)
         elif upper_word == "STR?":
           yield Token(TokenType.STRING_TYPE)
+        elif upper_word == "CEIL":
+          yield Token(TokenType.CEIL)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
@@ -190,8 +192,6 @@ class Lexer:
         yield self.generate_s_keywords()
       elif self.current_char == 'e':
         yield self.generate_even()
-      elif self.current_char == 'c':
-        yield self.generate_ceil()
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
@@ -481,19 +481,6 @@ class Lexer:
           return Token(TokenType.EVEN_CHECK)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('e'))
-
-  def generate_ceil(self):
-    self.advance()
-    if self.current_char == 'e':
-      self.advance()
-      if self.current_char == 'i':
-        self.advance()
-        self.lastCharCheckAdvance('l')
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('ceil'))
-        return Token(TokenType.CEIL)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('c'))
 
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
