@@ -172,6 +172,8 @@ class Lexer:
           yield Token(TokenType.INTEGER_TYPE)
         elif upper_word == "FLOAT?":
           yield Token(TokenType.FLOAT_TYPE)
+        elif upper_word == "STR?":
+          yield Token(TokenType.STRING_TYPE)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
