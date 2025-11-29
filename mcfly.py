@@ -168,6 +168,10 @@ class Lexer:
           yield Token(TokenType.FALSE, False)
         elif upper_word == "NUM?":
           yield Token(TokenType.NUMBER_TYPE)
+        elif upper_word == "INT?":
+          yield Token(TokenType.INTEGER_TYPE)
+        elif upper_word == "FLOAT?":
+          yield Token(TokenType.FLOAT_TYPE)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
