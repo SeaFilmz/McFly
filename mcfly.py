@@ -1071,10 +1071,12 @@ class Parser:
     if token.type == TokenType.EVEN_CHECK:
       self.advance()
       return EvenCheckNode(self.factor())
-    elif token.type == TokenType.ODD_CHECK:
+
+    if token.type == TokenType.ODD_CHECK:
       self.advance()
       return OddCheckNode(self.factor())
-    elif token.type == TokenType.FUNCTION:
+
+    if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
     elif token.type == TokenType.CONDITIONAL:
