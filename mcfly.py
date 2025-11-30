@@ -176,6 +176,8 @@ class Lexer:
           yield Token(TokenType.STRING_TYPE)
         elif upper_word == "CEIL":
           yield Token(TokenType.CEIL)
+        elif upper_word == "FLOOR":
+          yield Token(TokenType.FLOOR)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
@@ -420,12 +422,6 @@ class Lexer:
             if self.current_char in LETTERS:
               return Token(TokenType.ERROR_WORDS, self.show_error_words('Float?'))
             return Token(TokenType.FLOAT_TYPE)
-        elif self.current_char == 'o':
-          self.advance()
-          self.lastCharCheckAdvance('r')
-          if self.current_char in LETTERS:
-            return Token(TokenType.ERROR_WORDS, self.show_error_words('floor'))
-          return Token(TokenType.FLOOR)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('f'))
 
