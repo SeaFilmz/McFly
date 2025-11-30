@@ -407,21 +407,10 @@ class Lexer:
     self.advance()
     if self.current_char == 'u':
       self.advance()
-      if self.current_char == 'n':
-        self.advance()
+      self.lastCharCheckAdvance('n')
+      if self.current_char in LETTERS:
+        return Token(TokenType.ERROR_WORDS, self.show_error_words('fun'))
       return Token(TokenType.FUNCTION)
-    elif self.current_char == 'l':
-      self.advance()
-      if self.current_char == 'o':
-        self.advance()
-        if self.current_char == 'a':
-          self.advance()
-          if self.current_char == 't':
-            self.advance()
-            self.lastCharCheckAdvance('?')
-            if self.current_char in LETTERS:
-              return Token(TokenType.ERROR_WORDS, self.show_error_words('Float?'))
-            return Token(TokenType.FLOAT_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('f'))
 
