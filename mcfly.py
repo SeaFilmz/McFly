@@ -174,6 +174,10 @@ class Lexer:
           yield Token(TokenType.FLOAT_TYPE)
         elif upper_word == "STR?":
           yield Token(TokenType.STRING_TYPE)
+        elif upper_word == "ODD?":
+          yield Token(TokenType.ODD_CHECK)
+        elif upper_word == "EVEN?":
+          yield Token(TokenType.EVEN_CHECK)
         elif upper_word == "CEIL":
           yield Token(TokenType.CEIL)
         elif upper_word == "FLOOR":
@@ -192,8 +196,6 @@ class Lexer:
         yield self.generate_i_keywords()
       elif self.current_char == 's':
         yield self.generate_s_keywords()
-      elif self.current_char == 'e':
-        yield self.generate_even()
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
@@ -356,14 +358,6 @@ class Lexer:
       if self.current_char in LETTERS:
         return Token(TokenType.ERROR_WORDS, self.show_error_words('or'))
       return Token(TokenType.OR_BOOLEAN)
-    elif self.current_char == 'd':
-      self.advance()
-      if self.current_char == 'd':
-        self.advance()
-        self.lastCharCheckAdvance('?')
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('odd?'))
-        return Token(TokenType.ODD_CHECK)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('o'))
 
@@ -451,21 +445,6 @@ class Lexer:
         return Token(TokenType.STRING_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
-
-  def generate_even(self):
-    self.advance()
-    if self.current_char == 'v':
-      self.advance()
-      if self.current_char == 'e':
-        self.advance()
-        if self.current_char == 'n':
-          self.advance()
-          self.lastCharCheckAdvance('?')
-          if self.current_char in LETTERS:
-            return Token(TokenType.ERROR_WORDS, self.show_error_words('even?'))
-          return Token(TokenType.EVEN_CHECK)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('e'))
 
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
