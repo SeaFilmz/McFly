@@ -1432,17 +1432,17 @@ class Interpreter:
     check_text = self.visit(node.node).value
 
     if ((check_text % 2) == 0):
-      return TrueNode(node.node)
+      return BooleanNode(True)
     else:
-      return FalseNode(node.node)
+      return BooleanNode(False)
 
   def visit_OddCheckNode(self, node):
     check_text = self.visit(node.node).value
 
     if ((check_text % 2) == 0):
-      return FalseNode(node.node)
+      return BooleanNode(False)
     else:
-      return TrueNode(node.node)
+      return BooleanNode(True)
 
   def visit_StringTypeNode(self, node):
     check_text = self.visit(node.node).value
