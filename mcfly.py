@@ -184,6 +184,8 @@ class Lexer:
           yield Token(TokenType.FLOOR)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
+        elif upper_word == "AND":
+          yield Token(TokenType.AND_BOOLEAN)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
@@ -332,13 +334,7 @@ class Lexer:
 
   def generate_a_keywords(self):
     self.advance()
-    if self.current_char == 'n':
-      self.advance()
-      self.lastCharCheckAdvance('d')
-      if self.current_char in LETTERS:
-        return Token(TokenType.ERROR_WORDS, self.show_error_words('and'))
-      return Token(TokenType.AND_BOOLEAN)
-    elif self.current_char == 'v':
+    if self.current_char == 'v':
       self.advance()
       self.lastCharCheckAdvance('g')
       if self.current_char in LETTERS:
