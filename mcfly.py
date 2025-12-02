@@ -182,6 +182,8 @@ class Lexer:
           yield Token(TokenType.CEIL)
         elif upper_word == "FLOOR":
           yield Token(TokenType.FLOOR)
+        elif upper_word == "ABS":
+          yield Token(TokenType.ABSOLUTE_VALUE)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
@@ -340,12 +342,6 @@ class Lexer:
       if self.current_char in LETTERS:
         return Token(TokenType.ERROR_WORDS, self.show_error_words('avg'))
       return Token(TokenType.AVERAGE)
-    elif self.current_char == 'b':
-      self.advance()
-      self.lastCharCheckAdvance('s')
-      if self.current_char in LETTERS:
-        return Token(TokenType.ERROR_WORDS, self.show_error_words('abs'))
-      return Token(TokenType.ABSOLUTE_VALUE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('a'))
 
