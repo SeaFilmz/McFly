@@ -381,14 +381,6 @@ class Lexer:
     if self.current_char == 'f':
       self.advance()
       return Token(TokenType.CONDITIONAL)
-    elif self.current_char == 'n':
-      self.advance()
-      if self.current_char == 't':
-        self.advance()
-        self.lastCharCheckAdvance('?')
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('int?'))
-        return Token(TokenType.INTEGER_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('i'))
 
