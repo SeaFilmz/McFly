@@ -186,10 +186,10 @@ class Lexer:
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
           yield Token(TokenType.AND_BOOLEAN)
+        elif upper_word == "OR":
+          yield Token(TokenType.OR_BOOLEAN)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
-      elif self.current_char == 'o':
-        yield self.generate_o_keywords()
       elif self.current_char == 'x':
         yield self.generate_xor_boolean()
       elif self.current_char == 'n':
@@ -348,16 +348,6 @@ class Lexer:
       return Token(TokenType.ABSOLUTE_VALUE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('a'))
-
-  def generate_o_keywords(self):
-    self.advance()
-    if self.current_char == 'r':
-      self.advance()
-      if self.current_char in LETTERS:
-        return Token(TokenType.ERROR_WORDS, self.show_error_words('or'))
-      return Token(TokenType.OR_BOOLEAN)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('o'))
 
   def generate_xor_boolean(self):
     self.advance()
