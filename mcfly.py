@@ -182,6 +182,8 @@ class Lexer:
           yield Token(TokenType.CEIL)
         elif upper_word == "FLOOR":
           yield Token(TokenType.FLOOR)
+        elif upper_word == "NOT":
+          yield Token(TokenType.NOT_BOOLEAN)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'o':
@@ -376,12 +378,7 @@ class Lexer:
     self.advance()
     if self.current_char == 'o':
       self.advance()
-      if self.current_char == 't':
-        self.advance()
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('not'))
-        return Token(TokenType.NOT_BOOLEAN)
-      elif self.current_char == 'r':
+      if self.current_char == 'r':
         self.advance()
         if self.current_char in LETTERS:
           return Token(TokenType.ERROR_WORDS, self.show_error_words('nor'))
