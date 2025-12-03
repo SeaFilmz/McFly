@@ -188,6 +188,8 @@ class Lexer:
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
           yield Token(TokenType.AND_BOOLEAN)
+        elif upper_word == "NAND":
+          yield Token(TokenType.NAND_BOOLEAN)
         elif upper_word == "OR":
           yield Token(TokenType.OR_BOOLEAN)
         elif upper_word == "XOR":
@@ -196,8 +198,6 @@ class Lexer:
           yield Token(TokenType.NOR_BOOLEAN)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
-      elif self.current_char == 'n':
-        yield self.generate_n_boolean()
       elif self.current_char == 'f':
         yield self.generate_f_keywords()
       elif self.current_char == 'i':
@@ -346,19 +346,6 @@ class Lexer:
       return Token(TokenType.AVERAGE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('a'))
-
-  def generate_n_boolean(self):
-    self.advance()
-    if self.current_char == 'a':
-      self.advance()
-      if self.current_char == 'n':
-        self.advance()
-        self.lastCharCheckAdvance('d')
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('nand'))
-        return Token(TokenType.NAND_BOOLEAN)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('n'))
 
   def generate_f_keywords(self):
     self.advance()
