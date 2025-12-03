@@ -366,12 +366,6 @@ class Lexer:
         self.lastCharCheckAdvance('t')
         return Token(TokenType.SQUARE_ROOT)
       return Token(TokenType.SQUARE)
-    elif self.current_char == 't':
-      self.advance()
-      if self.current_char == 'r':
-        self.advance()
-        self.lastCharCheckAdvance('?')
-        return Token(TokenType.STRING_TYPE)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
 
