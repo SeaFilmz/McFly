@@ -26,7 +26,7 @@ important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
   'if': 'Coming Soon: The word if is reserved for conditionals.',
   'sum': 'Coming Soon: The word sum is reserved for adding all the numbers in a set together.',
-  'avg': 'Coming Soon: The term avg is reserved for calculating the average of a set numbers.'
+  'mean': 'Coming Soon: The term mean is reserved for calculating the mean of a set numbers.'
 }
 
 error_words = {
@@ -75,7 +75,7 @@ class TokenType(Enum):
   FUNCTION       = 35
   CONDITIONAL    = 36
   SUM            = 37
-  AVERAGE        = 38
+  MEAN           = 38
   SQUARE         = 39
   SQUARE_ROOT    = 40
   CEIL           = 41
@@ -184,6 +184,8 @@ class Lexer:
           yield Token(TokenType.FLOOR)
         elif upper_word == "ABS":
           yield Token(TokenType.ABSOLUTE_VALUE)
+        elif upper_word == " MEAN":
+          yield Token(TokenType.MEAN)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
@@ -196,8 +198,6 @@ class Lexer:
           yield Token(TokenType.XOR_BOOLEAN)
         elif upper_word == "NOR":
           yield Token(TokenType.NOR_BOOLEAN)
-      elif self.current_char == 'a':
-        yield self.generate_a_keywords()
       elif self.current_char == 'f':
         yield self.generate_f_keywords()
       elif self.current_char == 'i':
@@ -335,17 +335,6 @@ class Lexer:
         return Token(TokenType.TNE)
       else:
         return Token(TokenType.NE)
-
-  def generate_a_keywords(self):
-    self.advance()
-    if self.current_char == 'v':
-      self.advance()
-      self.lastCharCheckAdvance('g')
-      if self.current_char in LETTERS:
-        return Token(TokenType.ERROR_WORDS, self.show_error_words('avg'))
-      return Token(TokenType.AVERAGE)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('a'))
 
   def generate_f_keywords(self):
     self.advance()
@@ -693,7 +682,7 @@ class SumNode:
     return 'sum'
 
 @dataclass
-class AverageNode:
+class MeanNode:
   node_a: any
   node_b: any
 
@@ -918,22 +907,22 @@ class Parser:
     return result
 
   def norCheck(self):
-    result = self.avgCheck()
+    result = self.meanCheck()
 
     while self.current_token != None and self.current_token.type in (TokenType.NOR_BOOLEAN, TokenType.NOR_BOOLEAN):
       if self.current_token.type == TokenType.NOR_BOOLEAN:
         self.advance()
-        result = NorBooleanNode(result, self.avgCheck())
+        result = NorBooleanNode(result, self.meanCheck())
 
     return result
 
-  def avgCheck(self):
+  def meanCheck(self):
     result = self.factor()
 
-    while self.current_token != None and self.current_token.type in (TokenType.AVERAGE, TokenType.AVERAGE):
-      if self.current_token.type == TokenType.AVERAGE:
+    while self.current_token != None and self.current_token.type in (TokenType.MEAN, TokenType.MEAN):
+      if self.current_token.type == TokenType.MEAN:
         self.advance()
-        result = AverageNode(result, self.factor())
+        result = MeanNode(result, self.factor())
 
     return result
 
@@ -1094,7 +1083,7 @@ class Interpreter:
   def visit_SumNode(self, node):
       return SumNode(node.WordSum)
 
-  def visit_AverageNode(self, node):
+  def visit_MeanNode(self, node):
     check_num_a = self.visit(node.node_a).value
     check_num_b = self.visit(node.node_b).value
 
