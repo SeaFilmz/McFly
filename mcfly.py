@@ -192,6 +192,8 @@ class Lexer:
           yield Token(TokenType.OR_BOOLEAN)
         elif upper_word == "XOR":
           yield Token(TokenType.XOR_BOOLEAN)
+        elif upper_word == "NOR":
+          yield Token(TokenType.NOR_BOOLEAN)
       elif self.current_char == 'a':
         yield self.generate_a_keywords()
       elif self.current_char == 'n':
@@ -347,14 +349,7 @@ class Lexer:
 
   def generate_n_boolean(self):
     self.advance()
-    if self.current_char == 'o':
-      self.advance()
-      if self.current_char == 'r':
-        self.advance()
-        if self.current_char in LETTERS:
-          return Token(TokenType.ERROR_WORDS, self.show_error_words('nor'))
-        return Token(TokenType.NOR_BOOLEAN)
-    elif self.current_char == 'a':
+    if self.current_char == 'a':
       self.advance()
       if self.current_char == 'n':
         self.advance()
