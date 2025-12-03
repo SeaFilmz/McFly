@@ -184,6 +184,8 @@ class Lexer:
           yield Token(TokenType.FLOOR)
         elif upper_word == "ABS":
           yield Token(TokenType.ABSOLUTE_VALUE)
+        elif upper_word == "SUM":
+          yield Token(TokenType.SUM)
         elif upper_word == " MEAN":
           yield Token(TokenType.MEAN)
         elif upper_word == "NOT":
@@ -357,11 +359,7 @@ class Lexer:
 
   def generate_s_keywords(self):
     self.advance()
-    if self.current_char == 'u':
-      self.advance()
-      self.lastCharCheckAdvance('m')
-      return Token(TokenType.SUM)
-    elif self.current_char == 'q':
+    if self.current_char == 'q':
       self.advance()
       if self.current_char == 'r':
         self.advance()
