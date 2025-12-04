@@ -184,6 +184,8 @@ class Lexer:
           yield Token(TokenType.FLOOR)
         elif upper_word == "ABS":
           yield Token(TokenType.ABSOLUTE_VALUE)
+        elif upper_word == "SQRT":
+          yield Token(TokenType.SQUARE_ROOT)
         elif upper_word == "SUM":
           yield Token(TokenType.SUM)
         elif upper_word == " MEAN":
@@ -204,8 +206,6 @@ class Lexer:
         yield self.generate_f_keywords()
       elif self.current_char == 'i':
         yield self.generate_i_keywords()
-      elif self.current_char == 's':
-        yield self.generate_s_keywords()
       elif self.current_char in LETTERS:
         yield self.generate_error_words()
       else:
@@ -356,18 +356,6 @@ class Lexer:
       return Token(TokenType.CONDITIONAL)
     else:
       return Token(TokenType.ERROR_WORDS, self.show_error_words('i'))
-
-  def generate_s_keywords(self):
-    self.advance()
-    if self.current_char == 'q':
-      self.advance()
-      if self.current_char == 'r':
-        self.advance()
-        self.lastCharCheckAdvance('t')
-        return Token(TokenType.SQUARE_ROOT)
-      return Token(TokenType.SQUARE)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('s'))
 
   def generate_error_words(self):
     return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
