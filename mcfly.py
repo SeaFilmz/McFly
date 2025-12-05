@@ -64,24 +64,26 @@ class TokenType(Enum):
   STRING_TYPE    = 24
   EVEN_CHECK     = 25
   ODD_CHECK      = 26
-  AND_BOOLEAN    = 27
-  NAND_BOOLEAN   = 28
-  OR_BOOLEAN     = 29
-  XOR_BOOLEAN    = 30
-  NOR_BOOLEAN    = 31
-  NOT_BOOLEAN    = 32
-  TRUE           = 33
-  FALSE          = 34
-  FUNCTION       = 35
-  CONDITIONAL    = 36
-  SUM            = 37
-  MEAN           = 38
-  SQUARE         = 39
-  SQUARE_ROOT    = 40
-  CEIL           = 41
-  FLOOR          = 42
-  ABSOLUTE_VALUE = 43
-  ERROR_WORDS    = 44
+  POSITIVE_CHECK = 27
+  NEGATIVE_CHECK = 28
+  AND_BOOLEAN    = 29
+  NAND_BOOLEAN   = 30
+  OR_BOOLEAN     = 31
+  XOR_BOOLEAN    = 32
+  NOR_BOOLEAN    = 33
+  NOT_BOOLEAN    = 34
+  TRUE           = 35
+  FALSE          = 36
+  FUNCTION       = 37
+  CONDITIONAL    = 38
+  SUM            = 39
+  MEAN           = 40
+  SQUARE         = 41
+  SQUARE_ROOT    = 42
+  CEIL           = 43
+  FLOOR          = 44
+  ABSOLUTE_VALUE = 45
+  ERROR_WORDS    = 46
 
 # Lexer #
 
