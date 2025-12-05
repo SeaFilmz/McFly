@@ -202,8 +202,8 @@ class Lexer:
           yield Token(TokenType.XOR_BOOLEAN)
         elif upper_word == "NOR":
           yield Token(TokenType.NOR_BOOLEAN)
-      elif self.current_char == 'f':
-        yield self.generate_f_keywords()
+        elif upper_word == "FUN":
+          yield Token(TokenType.FUNCTION)
       elif self.current_char == 'i':
         yield self.generate_i_keywords()
       elif self.current_char in LETTERS:
@@ -337,17 +337,6 @@ class Lexer:
         return Token(TokenType.TNE)
       else:
         return Token(TokenType.NE)
-
-  def generate_f_keywords(self):
-    self.advance()
-    if self.current_char == 'u':
-      self.advance()
-      self.lastCharCheckAdvance('n')
-      if self.current_char in LETTERS:
-        return Token(TokenType.ERROR_WORDS, self.show_error_words('fun'))
-      return Token(TokenType.FUNCTION)
-    else:
-      return Token(TokenType.ERROR_WORDS, self.show_error_words('f'))
 
   def generate_i_keywords(self):
     self.advance()
