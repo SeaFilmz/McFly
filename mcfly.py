@@ -78,12 +78,13 @@ class TokenType(Enum):
   CONDITIONAL    = 38
   SUM            = 39
   MEAN           = 40
-  SQUARE         = 41
-  SQUARE_ROOT    = 42
-  CEIL           = 43
-  FLOOR          = 44
-  ABSOLUTE_VALUE = 45
-  ERROR_WORDS    = 46
+  MEDIAN         = 41
+  SQUARE         = 42
+  SQUARE_ROOT    = 43
+  CEIL           = 44
+  FLOOR          = 45
+  ABSOLUTE_VALUE = 46
+  ERROR_WORDS    = 47
 
 # Lexer #
 
