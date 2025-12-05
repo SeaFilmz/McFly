@@ -79,17 +79,17 @@ class TokenType(Enum):
   FUNCTION       = 39
   CONDITIONAL    = 40
   SUM            = 41
-  MEAN           = 42
-  MEDIAN         = 43
-  MODE           = 44
-  MAX            = 45
-  MIN            = 46
-  SQUARE         = 47
-  SQUARE_ROOT    = 48
-  CEIL           = 49
-  FLOOR          = 50
-  ABSOLUTE_VALUE = 52
-  ERROR_WORDS    = 53
+  PRODUCT        = 42
+  MEAN           = 43
+  MEDIAN         = 44
+  MODE           = 45
+  MAX            = 46
+  MIN            = 47
+  SQUARE         = 48
+  SQUARE_ROOT    = 49
+  CEIL           = 50
+  ABSOLUTE_VALUE = 51
+  ERROR_WORDS    = 52
 
 # Lexer #
 
