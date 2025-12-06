@@ -206,6 +206,8 @@ class Lexer:
           yield Token(TokenType.SQUARE_ROOT)
         elif upper_word == "SUM":
           yield Token(TokenType.SUM)
+        elif upper_word == "PRODUCT":
+          yield Token(TokenType.PRODUCT)
         elif upper_word == " MEAN":
           yield Token(TokenType.MEAN)
         elif upper_word == "NOT":
