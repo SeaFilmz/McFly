@@ -89,9 +89,10 @@ class TokenType(Enum):
   MIN            = 49
   SQUARE         = 50
   SQUARE_ROOT    = 51
-  CEIL           = 52
-  ABSOLUTE_VALUE = 53
-  ERROR_WORDS    = 54
+  ROUND          = 52
+  CEIL           = 53
+  ABSOLUTE_VALUE = 54
+  ERROR_WORDS    = 55
 
 # Lexer #
 
