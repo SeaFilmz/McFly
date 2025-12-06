@@ -1008,6 +1008,14 @@ class Parser:
       self.advance()
       return OddCheckNode(self.factor())
 
+    if token.type == TokenType.POSITIVE_CHECK:
+      self.advance()
+      return PositiveCheckNode(self.factor())
+
+    if token.type == TokenType.NEGATIVE_CHECK:
+      self.advance()
+      return NegativeCheckNode(self.factor())
+
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
