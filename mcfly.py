@@ -220,6 +220,10 @@ class Lexer:
           yield Token(TokenType.NOR_BOOLEAN)
         elif upper_word == "IF":
           yield Token(TokenType.CONDITIONAL)
+        elif upper_word == "ELSE":
+          yield Token(TokenType.ELSE)
+        elif upper_word == "ELIF":
+          yield Token(TokenType.ELIF)
         elif upper_word == "FUN":
           yield Token(TokenType.FUNCTION)
       elif self.current_char in LETTERS:
