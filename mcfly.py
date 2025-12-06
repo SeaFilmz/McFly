@@ -190,6 +190,10 @@ class Lexer:
           yield Token(TokenType.ODD_CHECK)
         elif upper_word == "EVEN?":
           yield Token(TokenType.EVEN_CHECK)
+        elif upper_word == "POSITIVE?":
+          yield Token(TokenType.POSITIVE_CHECK)
+        elif upper_word == "NEGATIVE?":
+          yield Token(TokenType.NEGATIVE_CHECK)
         elif upper_word == "CEIL":
           yield Token(TokenType.CEIL)
         elif upper_word == "FLOOR":
