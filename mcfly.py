@@ -1016,6 +1016,14 @@ class Parser:
       self.advance()
       return NegativeCheckNode(self.factor())
 
+    if token.type == TokenType.CEIL:
+      self.advance()
+      return CeilNode(self.factor())
+
+    if token.type == TokenType.FLOOR:
+      self.advance()
+      return FloorNode(self.factor())
+
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
@@ -1034,12 +1042,6 @@ class Parser:
     elif token.type == TokenType.ABSOLUTE_VALUE:
       self.advance()
       return AbsoluteValueNode(self.factor())
-    elif token.type == TokenType.CEIL:
-      self.advance()
-      return CeilNode(self.factor())
-    elif token.type == TokenType.FLOOR:
-      self.advance()
-      return FloorNode(self.factor())
     elif token.type == TokenType.ERROR_WORDS:
       self.advance()
       return ErrorWordsNode(token.value)
