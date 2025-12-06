@@ -578,6 +578,20 @@ class OddCheckNode:
     return f"(odd?{self.node})"
 
 @dataclass
+class PositiveCheckNode:
+  node: any
+
+  def __repr__(self):
+    return f"(positive?{self.node})"
+
+@dataclass
+class NegativeCheckNode:
+  node: any
+
+  def __repr__(self):
+    return f"(negative?{self.node})"
+
+@dataclass
 class StringTypeNode:
   node: any
 
