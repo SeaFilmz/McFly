@@ -1024,6 +1024,14 @@ class Parser:
       self.advance()
       return FloorNode(self.factor())
 
+    if token.type == TokenType.SQUARE:
+      self.advance()
+      return SquareNode(self.factor())
+
+    if token.type == TokenType.SQUARE_ROOT:
+      self.advance()
+      return SquareRootNode(self.factor())
+
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
@@ -1033,12 +1041,6 @@ class Parser:
     elif token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
-    elif token.type == TokenType.SQUARE:
-      self.advance()
-      return SquareNode(self.factor())
-    elif token.type == TokenType.SQUARE_ROOT:
-      self.advance()
-      return SquareRootNode(self.factor())
     elif token.type == TokenType.ABSOLUTE_VALUE:
       self.advance()
       return AbsoluteValueNode(self.factor())
