@@ -78,18 +78,20 @@ class TokenType(Enum):
   FALSE          = 38
   FUNCTION       = 39
   CONDITIONAL    = 40
-  SUM            = 41
-  PRODUCT        = 42
-  MEAN           = 43
-  MEDIAN         = 44
-  MODE           = 45
-  MAX            = 46
-  MIN            = 47
-  SQUARE         = 48
-  SQUARE_ROOT    = 49
-  CEIL           = 50
-  ABSOLUTE_VALUE = 51
-  ERROR_WORDS    = 52
+  ELSE           = 41
+  ELIF           = 42
+  SUM            = 43
+  PRODUCT        = 44
+  MEAN           = 45
+  MEDIAN         = 46
+  MODE           = 47
+  MAX            = 48
+  MIN            = 49
+  SQUARE         = 50
+  SQUARE_ROOT    = 51
+  CEIL           = 52
+  ABSOLUTE_VALUE = 53
+  ERROR_WORDS    = 54
 
 # Lexer #
 
