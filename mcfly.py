@@ -91,8 +91,9 @@ class TokenType(Enum):
   SQUARE_ROOT    = 51
   ROUND          = 52
   CEIL           = 53
-  ABSOLUTE_VALUE = 54
-  ERROR_WORDS    = 55
+  FLOOR          = 54
+  ABSOLUTE_VALUE = 55
+  ERROR_WORDS    = 56
 
 # Lexer #
 
