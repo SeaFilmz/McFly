@@ -202,6 +202,8 @@ class Lexer:
           yield Token(TokenType.FLOOR)
         elif upper_word == "ABS":
           yield Token(TokenType.ABSOLUTE_VALUE)
+        elif upper_word == "SQUARE":
+          yield Token(TokenType.SQUARE)
         elif upper_word == "SQRT":
           yield Token(TokenType.SQUARE_ROOT)
         elif upper_word == "SUM":
