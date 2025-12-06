@@ -1389,6 +1389,22 @@ class Interpreter:
     else:
       return BooleanNode(True)
 
+  def visit_PositiveCheckNode(self, node):
+    check_text = self.visit(node.node).value
+
+    if isinstance(check_text, (int, float)) and check_text > 0:
+      return BooleanNode(True)
+    else:
+      return BooleanNode(False)
+
+  def visit_NegativeCheckNode(self, node):
+    check_text = self.visit(node.node).value
+
+    if isinstance(check_text, (int, float)) and check_text < 0:
+      return BooleanNode(True)
+    else:
+      return BooleanNode(False)
+
   def visit_StringTypeNode(self, node):
     check_text = self.visit(node.node).value
 
