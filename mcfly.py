@@ -928,38 +928,6 @@ class Parser:
       self.advance()
       return result
 
-    if token.type == TokenType.INTEGER:
-      self.advance()
-      return IntNode(token.value)
-
-    if token.type == TokenType.FLOAT:
-      self.advance()
-      return FloatNode(token.value)
-
-    if token.type == TokenType.STRING:
-      self.advance()
-      return StringNode(token.value)
-
-    if token.type == TokenType.NUMBER_VAR:
-      self.advance()
-      return NumberSignNode(token.value)
-
-    if token.type == TokenType.STRING_VAR:
-      self.advance()
-      return StringSignNode(token.value)
-
-    if token.type == TokenType.ARRAY_VAR:
-      self.advance()
-      return ArraySignNode(token.value)
-
-    if token.type == TokenType.TRUE:
-      self.advance()
-      return BooleanNode(token.value)
-
-    if token.type == TokenType.FALSE:
-      self.advance()
-      return BooleanNode(token.value)
-
     if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
@@ -971,38 +939,6 @@ class Parser:
     if token.type == TokenType.NOT_BOOLEAN:
       self.advance()
       return NotBooleanNode(self.factor())
-
-    if token.type == TokenType.NUMBER_TYPE:
-      self.advance()
-      return NumberTypeNode(self.factor())
-
-    if token.type == TokenType.INTEGER_TYPE:
-      self.advance()
-      return IntegerTypeNode(self.factor())
-
-    if token.type == TokenType.FLOAT_TYPE:
-      self.advance()
-      return FloatTypeNode(self.factor())
-
-    if token.type == TokenType.STRING_TYPE:
-      self.advance()
-      return StringTypeNode(self.factor())
-
-    if token.type == TokenType.EVEN_CHECK:
-      self.advance()
-      return EvenCheckNode(self.factor())
-
-    if token.type == TokenType.ODD_CHECK:
-      self.advance()
-      return OddCheckNode(self.factor())
-
-    if token.type == TokenType.POSITIVE_CHECK:
-      self.advance()
-      return PositiveCheckNode(self.factor())
-
-    if token.type == TokenType.NEGATIVE_CHECK:
-      self.advance()
-      return NegativeCheckNode(self.factor())
 
     if token.type == TokenType.CEIL:
       self.advance()
@@ -1039,6 +975,70 @@ class Parser:
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
+
+    if token.type == TokenType.NUMBER_TYPE:
+      self.advance()
+      return NumberTypeNode(self.factor())
+
+    if token.type == TokenType.INTEGER_TYPE:
+      self.advance()
+      return IntegerTypeNode(self.factor())
+
+    if token.type == TokenType.FLOAT_TYPE:
+      self.advance()
+      return FloatTypeNode(self.factor())
+
+    if token.type == TokenType.STRING_TYPE:
+      self.advance()
+      return StringTypeNode(self.factor())
+
+    if token.type == TokenType.EVEN_CHECK:
+      self.advance()
+      return EvenCheckNode(self.factor())
+
+    if token.type == TokenType.ODD_CHECK:
+      self.advance()
+      return OddCheckNode(self.factor())
+
+    if token.type == TokenType.POSITIVE_CHECK:
+      self.advance()
+      return PositiveCheckNode(self.factor())
+
+    if token.type == TokenType.NEGATIVE_CHECK:
+      self.advance()
+      return NegativeCheckNode(self.factor())
+
+    if token.type == TokenType.INTEGER:
+      self.advance()
+      return IntNode(token.value)
+
+    if token.type == TokenType.FLOAT:
+      self.advance()
+      return FloatNode(token.value)
+
+    if token.type == TokenType.STRING:
+      self.advance()
+      return StringNode(token.value)
+
+    if token.type == TokenType.NUMBER_VAR:
+      self.advance()
+      return NumberSignNode(token.value)
+
+    if token.type == TokenType.STRING_VAR:
+      self.advance()
+      return StringSignNode(token.value)
+
+    if token.type == TokenType.ARRAY_VAR:
+      self.advance()
+      return ArraySignNode(token.value)
+
+    if token.type == TokenType.TRUE:
+      self.advance()
+      return BooleanNode(token.value)
+
+    if token.type == TokenType.FALSE:
+      self.advance()
+      return BooleanNode(token.value)
 
     if token.type == TokenType.ERROR_WORDS:
       self.advance()
