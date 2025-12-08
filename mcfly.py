@@ -911,17 +911,7 @@ class Parser:
     while self.current_token != None and self.current_token.type in (TokenType.NOR_BOOLEAN, TokenType.NOR_BOOLEAN):
       if self.current_token.type == TokenType.NOR_BOOLEAN:
         self.advance()
-        result = NorBooleanNode(result, self.meanCheck())
-
-    return result
-
-  def meanCheck(self):
-    result = self.factor()
-
-    while self.current_token != None and self.current_token.type in (TokenType.MEAN, TokenType.MEAN):
-      if self.current_token.type == TokenType.MEAN:
-        self.advance()
-        result = MeanNode(result, self.factor())
+        result = NorBooleanNode(result, self.factor())
 
     return result
 
@@ -1037,6 +1027,10 @@ class Parser:
     if token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
+
+    if token.type == TokenType.MEAN:
+      self.advance()
+      return MeanNode(self.factor())
 
     if token.type == TokenType.CONDITIONAL:
       self.advance()
