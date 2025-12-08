@@ -1034,14 +1034,15 @@ class Parser:
       self.advance()
       return AbsoluteValueNode(self.factor())
 
+    if token.type == TokenType.CONDITIONAL:
+      self.advance()
+      return ConditionalNode(token.value)
+
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
 
-    if token.type == TokenType.CONDITIONAL:
-      self.advance()
-      return ConditionalNode(token.value)
-    elif token.type == TokenType.SUM:
+    if token.type == TokenType.SUM:
       self.advance()
       return SumNode(token.value)
     elif token.type == TokenType.ERROR_WORDS:
