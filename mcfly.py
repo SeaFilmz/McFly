@@ -1037,7 +1037,8 @@ class Parser:
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
-    elif token.type == TokenType.CONDITIONAL:
+
+    if token.type == TokenType.CONDITIONAL:
       self.advance()
       return ConditionalNode(token.value)
     elif token.type == TokenType.SUM:
