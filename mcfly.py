@@ -1026,7 +1026,7 @@ class Parser:
 
     if token.type == TokenType.SUM:
       self.advance()
-      return SumNode(token.value)
+      return SumNode(self.factor())
 
     if token.type == TokenType.MEAN:
       self.advance()
