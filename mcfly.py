@@ -1034,6 +1034,10 @@ class Parser:
       self.advance()
       return AbsoluteValueNode(self.factor())
 
+    if token.type == TokenType.SUM:
+      self.advance()
+      return SumNode(token.value)
+
     if token.type == TokenType.CONDITIONAL:
       self.advance()
       return ConditionalNode(token.value)
@@ -1042,10 +1046,7 @@ class Parser:
       self.advance()
       return FunctionNode(token.value)
 
-    if token.type == TokenType.SUM:
-      self.advance()
-      return SumNode(token.value)
-    elif token.type == TokenType.ERROR_WORDS:
+    if token.type == TokenType.ERROR_WORDS:
       self.advance()
       return ErrorWordsNode(token.value)
     self.raise_error()
