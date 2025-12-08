@@ -800,9 +800,9 @@ class Parser:
   def greaterCheck(self):
     result = self.lessCheck()
 
-     while self.current_token is not None and self.current_token.type == TokenType.GT:
-        self.advance()
-        result = GreaterThanNode(result, self.lessCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.GT:
+      self.advance()
+      result = GreaterThanNode(result, self.lessCheck())
 
     return result
 
@@ -810,8 +810,8 @@ class Parser:
     result = self.greaterEqualCheck()
 
     while self.current_token is not None and self.current_token.type == TokenType.LT:
-        self.advance()
-        result = LessThanNode(result, self.greaterEqualCheck())
+      self.advance()
+      result = LessThanNode(result, self.greaterEqualCheck())
 
     return result
 
