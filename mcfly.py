@@ -790,10 +790,9 @@ class Parser:
   def typeEqualCheck(self):
     result = self.greaterCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.TYPE_EQUAL, TokenType.TYPE_EQUAL):
-      if self.current_token.type == TokenType.TYPE_EQUAL:
-        self.advance()
-        result = TypeEqualNode(result, self.greaterCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.TYPE_EQUAL:
+      self.advance()
+      result = TypeEqualNode(result, self.greaterCheck())
 
     return result
 
