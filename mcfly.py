@@ -751,12 +751,12 @@ class Parser:
       self.current_token = None
 
   def parse(self):
-    if self.current_token == None:
+    if self.current_token is None:
       return None
 
     result = self.expr()
 
-    if self.current_token != None:
+    if self.current_token is not None:
       self.raise_error()
 
     return result
