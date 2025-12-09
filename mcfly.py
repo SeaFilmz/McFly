@@ -888,10 +888,9 @@ class Parser:
   def xorCheck(self):
     result = self.nandCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.XOR_BOOLEAN, TokenType.XOR_BOOLEAN):
-      if self.current_token.type == TokenType.XOR_BOOLEAN:
-        self.advance()
-        result = XorBooleanNode(result, self.nandCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.XOR_BOOLEAN:
+      self.advance()
+      result = XorBooleanNode(result, self.nandCheck())
 
     return result
 
