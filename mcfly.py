@@ -868,10 +868,9 @@ class Parser:
   def andCheck(self):
     result = self.orCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.AND_BOOLEAN, TokenType.AND_BOOLEAN):
-      if self.current_token.type == TokenType.AND_BOOLEAN:
-        self.advance()
-        result = AndBooleanNode(result, self.orCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.AND_BOOLEAN:
+      self.advance()
+      result = AndBooleanNode(result, self.orCheck())
 
     return result
 
