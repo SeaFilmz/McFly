@@ -764,7 +764,7 @@ class Parser:
   def expr(self):
     result = self.term()
 
-    while self.current_token != None and self.current_token.type in (TokenType.PLUS, TokenType.MINUS):
+    while self.current_token is not None and self.current_token.type in (TokenType.PLUS, TokenType.MINUS):
       if self.current_token.type == TokenType.PLUS:
         self.advance()
         result = AddNode(result, self.term())
@@ -777,7 +777,7 @@ class Parser:
   def term(self):
     result = self.typeEqualCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
+    while self.current_token is not None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
       if self.current_token.type == TokenType.MULTIPLY:
         self.advance()
         result = MultiplyNode(result, self.typeEqualCheck())
