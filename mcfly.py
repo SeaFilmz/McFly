@@ -858,10 +858,9 @@ class Parser:
   def mathEqualCheck(self):
     result = self.andCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.MATH_EQUALS, TokenType.MATH_EQUALS):
-      if self.current_token.type == TokenType.MATH_EQUALS:
-        self.advance()
-        result = MathEqualNode(result, self.andCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.MATH_EQUALS:
+      self.advance()
+      result = MathEqualNode(result, self.andCheck())
 
     return result
 
