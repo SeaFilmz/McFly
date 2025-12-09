@@ -898,10 +898,9 @@ class Parser:
   def nandCheck(self):
     result = self.norCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.NAND_BOOLEAN, TokenType.NAND_BOOLEAN):
-      if self.current_token.type == TokenType.NAND_BOOLEAN:
-        self.advance()
-        result = NandBooleanNode(result, self.norCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.NAND_BOOLEAN:
+      self.advance()
+      result = NandBooleanNode(result, self.norCheck())
 
     return result
 
