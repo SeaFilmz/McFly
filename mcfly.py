@@ -878,10 +878,9 @@ class Parser:
   def orCheck(self):
     result = self.xorCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.OR_BOOLEAN, TokenType.OR_BOOLEAN):
-      if self.current_token.type == TokenType.OR_BOOLEAN:
-        self.advance()
-        result = OrBooleanNode(result, self.xorCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.OR_BOOLEAN:
+      self.advance()
+      result = OrBooleanNode(result, self.xorCheck())
 
     return result
 
