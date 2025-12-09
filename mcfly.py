@@ -818,20 +818,18 @@ class Parser:
   def greaterEqualCheck(self):
     result = self.lessEqualCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.GTE, TokenType.GTE):
-      if self.current_token.type == TokenType.GTE:
-        self.advance()
-        result = GreaterThanEqualNode(result, self.lessEqualCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.GTE:
+      self.advance()
+      result = GreaterThanEqualNode(result, self.lessEqualCheck())
 
     return result
 
   def lessEqualCheck(self):
     result = self.notEqualCheck()
 
-    while self.current_token != None and self.current_token.type in (TokenType.LTE, TokenType.LTE):
-      if self.current_token.type == TokenType.LTE:
-        self.advance()
-        result = LessThanEqualNode(result, self.notEqualCheck())
+    while self.current_token is not None and self.current_token.type == TokenType.LTE:
+      self.advance()
+      result = LessThanEqualNode(result, self.notEqualCheck())
 
     return result
 
