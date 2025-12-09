@@ -906,10 +906,9 @@ class Parser:
     return result
 
   def norCheck(self):
-    result = self.meanCheck()
+    result = result = self.factor()
 
-    while self.current_token != None and self.current_token.type in (TokenType.NOR_BOOLEAN, TokenType.NOR_BOOLEAN):
-      if self.current_token.type == TokenType.NOR_BOOLEAN:
+    while self.current_token is not None and self.current_token.type == TokenType.NOR_BOOLEAN:
         self.advance()
         result = NorBooleanNode(result, self.factor())
 
