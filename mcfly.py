@@ -1434,7 +1434,10 @@ class Interpreter:
       return TrueNode(node.node)
 
   def visit_BooleanNode(self, node):
-    return node.value
+    value = node.value
+    if not isinstance(value, bool):
+      value = self.visit(value)
+    return BooleanNode(bool(value))
 
 # Run #
 
