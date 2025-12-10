@@ -1428,10 +1428,14 @@ class Interpreter:
       return 'False'
 
   def visit_NotBooleanNode(self, node):
-    if isinstance(node.node, TrueNode):
-      return FalseNode(node.node)
-    elif isinstance(node.node, FalseNode):
-      return TrueNode(node.node)
+    inner = self.visit(node.node)
+
+    if isinstance(inner, BooleanNode):
+      value = inner.value
+    else:
+      value = inner
+
+    return BooleanNode(not bool(value))
 
   def visit_BooleanNode(self, node):
     value = node.value
