@@ -1428,10 +1428,16 @@ class Interpreter:
     return BooleanNode(result)
 
   def visit_XorBooleanNode(self, node):
-    if ((isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode))) or ((isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode))):
-      return 'False'
-    elif ((isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, FalseNode))) or ((isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, TrueNode))):
-      return 'True'
+    left = self.visit(node.node_x)
+    right = self.visit(node.node_y)
+
+    if isinstance(left, BooleanNode):
+      left = left.value
+    if isinstance(right, BooleanNode):
+      right = right.value
+
+    result = bool(left) != bool(right)
+    return BooleanNode(result)
 
   def visit_NorBooleanNode(self, node):
     if (isinstance(node.node_x, FalseNode)) and (isinstance(node.node_y, FalseNode)):
