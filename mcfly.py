@@ -1409,11 +1409,17 @@ class Interpreter:
     result = bool(left) and bool(right)
     return BooleanNode(result)
 
-  def visit_NandBooleanNode(self, node):
-    if (isinstance(node.node_x, TrueNode)) and (isinstance(node.node_y, TrueNode)):
-      return 'False'
-    elif ((isinstance(node.node_x, TrueNode)) or (isinstance(node.node_x, FalseNode))) and ((isinstance(node.node_y, TrueNode)) or (isinstance(node.node_y, FalseNode))):
-      return 'True'
+  def visit_XorBooleanNode(self, node):
+    left = self.visit(node.node_x)
+    right = self.visit(node.node_y)
+
+    if isinstance(left, BooleanNode):
+        left = left.value
+    if isinstance(right, BooleanNode):
+        right = right.value
+
+    result = bool(left) != bool(right)
+    return BooleanNode(result)
 
   def visit_OrBooleanNode(self, node):
     left = self.visit(node.node_x)
