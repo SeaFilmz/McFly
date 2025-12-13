@@ -57,7 +57,7 @@ class TokenType(Enum):
   GTE            = 17
   LTE            = 18
   NE             = 19
-  MATH_EQUALS    = 20
+  EQUALS         = 20
   TNE            = 21
   STRING         = 22
   NUMBER_TYPE    = 23
@@ -336,7 +336,7 @@ class Lexer:
         self.advance()
         return Token(TokenType.TYPE_EQUAL)
       else:
-        return Token(TokenType.MATH_EQUALS)
+        return Token(TokenType.EQUALS)
 
   def generate_greater_equal(self):
     self.advance()
@@ -853,7 +853,7 @@ class Parser:
   def equalCheck(self):
     result = self.andCheck()
 
-    while self.current_token is not None and self.current_token.type == TokenType.MATH_EQUALS:
+    while self.current_token is not None and self.current_token.type == TokenType.EQUALS:
       self.advance()
       result = EqualNode(result, self.andCheck())
 
