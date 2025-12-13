@@ -487,7 +487,7 @@ class TypeEqualNode:
     return f"({self.node_x}==={self.node_y})"
 
 @dataclass
-class MathEqualNode:
+class EqualNode:
   node_x: any
   node_y: any
 
@@ -855,7 +855,7 @@ class Parser:
 
     while self.current_token is not None and self.current_token.type == TokenType.MATH_EQUALS:
       self.advance()
-      result = MathEqualNode(result, self.andCheck())
+      result = EqualNode(result, self.andCheck())
 
     return result
 
@@ -1179,7 +1179,7 @@ class Interpreter:
     elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
       return 'False'
 
-  def visit_MathEqualNode(self, node):
+  def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
