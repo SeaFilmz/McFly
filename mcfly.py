@@ -1183,11 +1183,13 @@ class Interpreter:
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
-    if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
-      if check_x == check_y:
-        return 'True'
-      elif check_x != check_y:
-        return 'False'
+    if type(check_x) is not type(check_y):
+      return BooleanNode(False)
+
+    if isinstance(check_x, (int, float)):
+      return BooleanNode(check_x == check_y)
+
+    return BooleanNode(False)
 
   def visit_GreaterThanNode(self, node):
     check_x = self.visit(node.node_x).value
