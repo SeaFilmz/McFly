@@ -1213,11 +1213,10 @@ class Interpreter:
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
 
-    if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
-      if (check_x > check_y) or (check_x == check_y):
-        return 'True'
-      elif check_x < check_y:
-        return 'False'
+    if not isinstance(check_x, (int, float)) or not isinstance(check_y, (int, float)):
+      raise Exception(">= comparison requires numeric values")
+
+    return BooleanNode(check_x >= check_y)
 
   def visit_LessThanEqualNode(self, node):
     check_x = self.visit(node.node_x).value
