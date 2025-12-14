@@ -1068,8 +1068,8 @@ class Interpreter:
 
   def visit_StringNode(self, node):
     NV = node.value
-    NVFLQ = NV[1:-1]
-
+    if NV.startswith('"') and NV.endswith('"'):
+        NVFLQ = NV[1:-1]
     return StringNode(NVFLQ)
 
   def visit_FunctionNode(self, node):
