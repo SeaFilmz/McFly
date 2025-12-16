@@ -674,13 +674,11 @@ class ConditionalNode:
 
 @dataclass
 class SumNode:
-  value: str
-  WordSum = important_words['sum']
+  values: list
 
   def __repr__(self):
-    if self.value:
-      return f"{self.value}"
-    return 'sum'
+    valuesList = ", ".join(map(str, self.values))
+    return f"sum({valuesList})"
 
 @dataclass
 class MeanNode:
