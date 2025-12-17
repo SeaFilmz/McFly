@@ -162,6 +162,9 @@ class Lexer:
       elif self.current_char == ')':
         self.advance()
         yield Token(TokenType.RPAREN)
+      elif self.current_char == ',':
+        self.advance()
+        yield Token(TokenType.COMMA)
       elif self.current_char == '=':
         yield self.generate_equals()
       elif self.current_char == '>':
