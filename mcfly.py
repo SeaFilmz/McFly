@@ -909,6 +909,9 @@ class Parser:
   def factor(self):
     token = self.current_token
 
+    if token.type == TokenType.SUM:
+      return self.sumExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -950,10 +953,6 @@ class Parser:
     if token.type == TokenType.ABSOLUTE_VALUE:
       self.advance()
       return AbsoluteValueNode(self.factor())
-
-    if token.type == TokenType.SUM:
-      self.advance()
-      return SumNode(self.factor())
 
     if token.type == TokenType.MEAN:
       self.advance()
@@ -1036,6 +1035,29 @@ class Parser:
       return ErrorWordsNode(token.value)
     self.raise_error()
 
+  def sumExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return SumNode(values)
+
 # Interpreter #
 
 class Interpreter:
@@ -1081,7 +1103,11 @@ class Interpreter:
       return ConditionalNode(node.WordIf)
 
   def visit_SumNode(self, node):
-      return SumNode(node.WordSum)
+    evaluated_values = [self.visit(value).value for value in node.values]
+
+    result = sum(evaluated_values)
+
+    return FloatNode(result) if any(isinstance(v, float) for v in evaluated_values) else IntNode(result)
 
   def visit_MeanNode(self, node):
     check_num_a = self.visit(node.node_a).value
