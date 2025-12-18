@@ -685,6 +685,14 @@ class SumNode:
     return f"sum({valuesList})"
 
 @dataclass
+class ProductNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"product({valuesList})"
+
+@dataclass
 class MeanNode:
   node_a: any
   node_b: any
