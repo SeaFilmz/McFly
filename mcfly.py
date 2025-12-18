@@ -920,6 +920,9 @@ class Parser:
     if token.type == TokenType.SUM:
       return self.sumExpr()
 
+    if token.type == TokenType.PRODUCT:
+      return self.productExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1066,6 +1069,29 @@ class Parser:
 
     return SumNode(values)
 
+  def productExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return ProductNode(values)
+
 # Interpreter #
 
 class Interpreter:
@@ -1114,6 +1140,15 @@ class Interpreter:
     evaluated_values = [self.visit(value).value for value in node.values]
 
     result = sum(evaluated_values)
+
+    return FloatNode(result) if any(isinstance(v, float) for v in evaluated_values) else IntNode(result)
+
+  def visit_ProductNode(self, node):
+    evaluated_values = [self.visit(value).value for value in node.values]
+
+    result = 1
+    for v in evaluated_values:
+      result *= v
 
     return FloatNode(result) if any(isinstance(v, float) for v in evaluated_values) else IntNode(result)
 
