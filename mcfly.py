@@ -744,6 +744,14 @@ class MinNode:
     return f"min({valuesList})"
 
 @dataclass
+class RangeNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"range({valuesList})"
+
+@dataclass
 class SquareNode:
   node: any
 
