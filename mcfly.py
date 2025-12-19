@@ -1016,10 +1016,6 @@ class Parser:
       self.advance()
       return AbsoluteValueNode(self.factor())
 
-    if token.type == TokenType.MEAN:
-      self.advance()
-      return MeanNode(self.factor())
-
     if token.type == TokenType.CONDITIONAL:
       self.advance()
       return ConditionalNode(token.value)
