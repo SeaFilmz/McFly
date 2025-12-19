@@ -88,13 +88,14 @@ class TokenType(Enum):
   MODE           = 48
   MAX            = 49
   MIN            = 50
-  SQUARE         = 51
-  SQUARE_ROOT    = 52
-  ROUND          = 53
-  CEIL           = 54
-  FLOOR          = 55
-  ABSOLUTE_VALUE = 56
-  ERROR_WORDS    = 57
+  RANGE          = 51
+  SQUARE         = 52
+  SQUARE_ROOT    = 53
+  ROUND          = 54
+  CEIL           = 55
+  FLOOR          = 56
+  ABSOLUTE_VALUE = 57
+  ERROR_WORDS    = 58
 
 # Lexer #
 
