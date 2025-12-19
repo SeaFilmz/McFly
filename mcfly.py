@@ -1224,7 +1224,12 @@ class Interpreter:
     for v in evaluated_values:
       result *= v
 
-    return FloatNode(result) if any(isinstance(v, float) for v in evaluated_values) else IntNode(result)
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    elif isinstance(result, int):
+      return IntNode(result)
+    else:
+      return FloatNode(result)
 
   def visit_MeanNode(self, node):
     values = [self.visit(value).value for value in node.values]
