@@ -720,6 +720,14 @@ class MedianNode:
     return f"median({valuesList})"
 
 @dataclass
+class ModeNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"mode({valuesList})"
+
+@dataclass
 class SquareNode:
   node: any
 
