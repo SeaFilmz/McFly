@@ -728,6 +728,22 @@ class ModeNode:
     return f"mode({valuesList})"
 
 @dataclass
+class MaxNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"max({valuesList})"
+
+@dataclass
+class MinNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"min({valuesList})"
+
+@dataclass
 class SquareNode:
   node: any
 
