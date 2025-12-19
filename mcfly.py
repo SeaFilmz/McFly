@@ -974,6 +974,9 @@ class Parser:
     if token.type == TokenType.PRODUCT:
       return self.productExpr()
 
+    if token.type == TokenType.MEAN:
+      return self.meanExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1138,6 +1141,30 @@ class Parser:
     self.advance()
 
     return ProductNode(values)
+
+  def meanExpr(self):
+    self.advance()
+
+    if self.current_token is None or self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      if self.current_token is None:
+        self.raise_error()
+      values.append(self.expr())
+
+    if self.current_token is None or self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return MeanNode(values)
 
 # Interpreter #
 
