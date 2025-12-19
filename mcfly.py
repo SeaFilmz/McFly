@@ -225,6 +225,8 @@ class Lexer:
           yield Token(TokenType.MAX)
         elif upper_word == "MIN":
           yield Token(TokenType.MIN)
+        elif upper_word == "RANGE":
+          yield Token(TokenType.RANGE)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
