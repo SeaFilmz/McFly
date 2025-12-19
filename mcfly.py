@@ -214,7 +214,7 @@ class Lexer:
           yield Token(TokenType.SUM)
         elif upper_word == "PRODUCT":
           yield Token(TokenType.PRODUCT)
-        elif upper_word == " MEAN":
+        elif upper_word == "MEAN":
           yield Token(TokenType.MEAN)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
