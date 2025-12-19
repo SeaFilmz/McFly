@@ -712,6 +712,14 @@ class MeanNode:
     return f"mean({valuesList})"
 
 @dataclass
+class MedianNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"median({valuesList})"
+
+@dataclass
 class SquareNode:
   node: any
 
