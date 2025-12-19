@@ -220,6 +220,10 @@ class Lexer:
           yield Token(TokenType.MEDIAN)
         elif upper_word == "MODE":
           yield Token(TokenType.MODE)
+        elif upper_word == "MAX":
+          yield Token(TokenType.MAX)
+        elif upper_word == "MIN":
+          yield Token(TokenType.MIN)
         elif upper_word == "NOT":
           yield Token(TokenType.NOT_BOOLEAN)
         elif upper_word == "AND":
