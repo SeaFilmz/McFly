@@ -977,6 +977,9 @@ class Parser:
     if token.type == TokenType.MEAN:
       return self.meanExpr()
 
+    if token.type == TokenType.MEDIAN:
+      return self.medianExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1166,6 +1169,29 @@ class Parser:
 
     return MeanNode(values)
 
+  def medianExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return MedianNode(values)
+
 # Interpreter #
 
 class Interpreter:
@@ -1247,6 +1273,29 @@ class Interpreter:
       return IntNode(int(result))
     else:
       return FloatNode(result)
+
+  def visit_MedianNode(self, node):
+    evaluated_values = [self.visit(v).value for v in node.values]
+
+    if not evaluated_values:
+      raise Exception("Median requires at least one value")
+
+    evaluated_values.sort()
+
+    count = len(evaluated_values)
+    mid = count // 2
+
+    if count % 2 == 1:
+      median = evaluated_values[mid]
+    else:
+      median = (evaluated_values[mid - 1] + evaluated_values[mid]) / 2
+
+    if isinstance(median, float) and median.is_integer():
+      return IntNode(int(median))
+    elif isinstance(median, int):
+      return IntNode(median)
+    else:
+      return FloatNode(median)
 
   def visit_SquareNode(self, node):
     check_num = self.visit(node.node).value
