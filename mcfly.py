@@ -980,6 +980,12 @@ class Parser:
     if token.type == TokenType.MEDIAN:
       return self.medianExpr()
 
+    if token.type == TokenType.MAX:
+      return self.maxExpr()
+
+    if token.type == TokenType.MIN:
+      return self.minExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1192,6 +1198,52 @@ class Parser:
 
     return MedianNode(values)
 
+  def maxExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return MaxNode(values)
+
+  def minExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return MinNode(values)
+
 # Interpreter #
 
 class Interpreter:
@@ -1296,6 +1348,36 @@ class Interpreter:
       return IntNode(median)
     else:
       return FloatNode(median)
+
+  def visit_MaxNode(self, node):
+    evaluated_values = [self.visit(v).value for v in node.values]
+
+    if not evaluated_values:
+      raise Exception("Max requires at least one value")
+
+    max_value = max(evaluated_values)
+
+    if isinstance(max_value, float) and max_value.is_integer():
+      return IntNode(int(max_value))
+    elif isinstance(max_value, int):
+      return IntNode(max_value)
+    else:
+      return FloatNode(max_value)
+
+  def visit_MinNode(self, node):
+    evaluated_values = [self.visit(v).value for v in node.values]
+
+    if not evaluated_values:
+      raise Exception("Min requires at least one value")
+
+    min_value = min(evaluated_values)
+
+    if isinstance(min_value, float) and min_value.is_integer():
+      return IntNode(int(min_value))
+    elif isinstance(min_value, int):
+      return IntNode(min_value)
+    else:
+      return FloatNode(min_value)
 
   def visit_SquareNode(self, node):
     check_num = self.visit(node.node).value
