@@ -986,6 +986,9 @@ class Parser:
     if token.type == TokenType.MIN:
       return self.minExpr()
 
+    if token.type == TokenType.RANGE:
+      return self.rangeExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1244,6 +1247,29 @@ class Parser:
 
     return MinNode(values)
 
+  def rangeExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return RangeNode(values)
+
 # Interpreter #
 
 class Interpreter:
@@ -1378,6 +1404,21 @@ class Interpreter:
       return IntNode(min_value)
     else:
       return FloatNode(min_value)
+
+  def visit_RangeNode(self, node):
+    evaluated_values = [self.visit(v).value for v in node.values]
+
+    if not evaluated_values:
+      raise Exception("Range requires at least one value")
+
+    range_value = max(evaluated_values) - min(evaluated_values)
+
+    if isinstance(range_value, float) and range_value.is_integer():
+      return IntNode(int(range_value))
+    elif isinstance(range_value, int):
+      return IntNode(range_value)
+    else:
+      return FloatNode(range_value)
 
   def visit_SquareNode(self, node):
     check_num = self.visit(node.node).value
