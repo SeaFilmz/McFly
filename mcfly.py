@@ -1421,25 +1421,25 @@ class Interpreter:
       return FloatNode(range_value)
 
   def visit_SquareNode(self, node):
-    check_num = self.visit(node.node).value
+    value = self.visit(node.node).value
+    result = value * value
 
-    if isinstance(check_num, int):
-      return IntNode(check_num * check_num)
-    elif isinstance(check_num, float):
-      return FloatNode(check_num * check_num)
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    elif isinstance(result, int):
+      return IntNode(result)
+    else:
+      return FloatNode(result)
 
   def visit_SquareRootNode(self, node):
-    check_num = self.visit(node.node).value
+    value = self.visit(node.node).value
 
-    if isinstance(check_num, int):
-      answer = (check_num**(1/2))
-      if ((answer % 1) == 0):
-        return IntNode(int(answer))
-      else:
-        return FloatNode(answer)
-    elif isinstance(check_num, float):
-      answer = (check_num**(1/2))
-      return FloatNode(answer)
+    result = value ** 0.5
+
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    else:
+      return FloatNode(result)
 
   def visit_AbsoluteValueNode(self, node):
     check_num = self.visit(node.node).value
