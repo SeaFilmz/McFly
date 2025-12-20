@@ -1215,7 +1215,12 @@ class Interpreter:
 
     result = sum(evaluated_values)
 
-    return FloatNode(result) if any(isinstance(v, float) for v in evaluated_values) else IntNode(result)
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    elif isinstance(result, int):
+      return IntNode(result)
+    else:
+      return FloatNode(result)
 
   def visit_ProductNode(self, node):
     evaluated_values = [self.visit(value).value for value in node.values]
