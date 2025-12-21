@@ -1442,18 +1442,16 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_AbsoluteValueNode(self, node):
-    check_num = self.visit(node.node).value
+    value = self.visit(node.node).value
 
-    if isinstance(check_num, int):
-      if check_num < 0:
-        return IntNode(check_num*-1)
-      else:
-        return IntNode(check_num)
-    elif isinstance(check_num, float):
-      if check_num < 0:
-        return FloatNode(check_num*-1)
-      else:
-        return FloatNode(check_num)
+    result = abs(value)
+
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    elif isinstance(result, int):
+      return IntNode(result)
+    else:
+      return FloatNode(result)
 
   def visit_CeilNode(self, node):
     check_num = self.visit(node.node).value
