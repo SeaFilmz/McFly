@@ -1315,7 +1315,15 @@ class Interpreter:
       return ConditionalNode(node.WordIf)
 
   def visit_SumNode(self, node):
-    evaluated_values = [self.visit(value).value for value in node.values]
+    evaluated_values = []
+
+    for value_node in node.values:
+      value = self.visit(value_node).value
+
+      if not isinstance(value, (int, float)):
+        raise Exception("sum() requires numeric values")
+
+      evaluated_values.append(value)
 
     result = sum(evaluated_values)
 
