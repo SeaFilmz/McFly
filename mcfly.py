@@ -1377,10 +1377,16 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_MedianNode(self, node):
-    evaluated_values = [self.visit(v).value for v in node.values]
+    evaluated_values = []
+
+    for value in node.values:
+      v = self.visit(value).value
+      if not isinstance(v, (int, float)):
+        raise Exception("median() requires numeric values")
+      evaluated_values.append(v)
 
     if not evaluated_values:
-      raise Exception("Median requires at least one value")
+      raise Exception("median() requires at least one value")
 
     evaluated_values.sort()
 
