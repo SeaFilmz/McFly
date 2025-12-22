@@ -1406,10 +1406,16 @@ class Interpreter:
       return FloatNode(median)
 
   def visit_MaxNode(self, node):
-    evaluated_values = [self.visit(v).value for v in node.values]
+    evaluated_values = []
+
+    for value in node.values:
+      v = self.visit(value).value
+      if not isinstance(v, (int, float)):
+        raise Exception("max() requires numeric values")
+      evaluated_values.append(v)
 
     if not evaluated_values:
-      raise Exception("Max requires at least one value")
+      raise Exception("max() requires at least one value")
 
     max_value = max(evaluated_values)
 
@@ -1420,11 +1426,18 @@ class Interpreter:
     else:
       return FloatNode(max_value)
 
+
   def visit_MinNode(self, node):
-    evaluated_values = [self.visit(v).value for v in node.values]
+    evaluated_values = []
+
+    for value in node.values:
+      v = self.visit(value).value
+      if not isinstance(v, (int, float)):
+        raise Exception("min() requires numeric values")
+      evaluated_values.append(v)
 
     if not evaluated_values:
-      raise Exception("Min requires at least one value")
+      raise Exception("min() requires at least one value")
 
     min_value = min(evaluated_values)
 
