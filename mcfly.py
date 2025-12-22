@@ -1335,12 +1335,19 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_ProductNode(self, node):
-    evaluated_values = [self.visit(value).value for value in node.values]
+    evaluated_values = []
+
+    for value in node.values:
+      v = self.visit(value).value
+      if not isinstance(v, (int, float)):
+        raise Exception("product() requires numeric values")
+      evaluated_values.append(v)
 
     result = 1
     for v in evaluated_values:
       result *= v
 
+    # Decide output type based on result value
     if isinstance(result, float) and result.is_integer():
       return IntNode(int(result))
     elif isinstance(result, int):
