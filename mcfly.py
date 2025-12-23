@@ -1487,6 +1487,12 @@ class Interpreter:
   def visit_SquareRootNode(self, node):
     value = self.visit(node.node).value
 
+    if not isinstance(value, (int, float)):
+      raise Exception("sqrt() requires numeric input")
+
+    if value < 0:
+      raise Exception("sqrt() requires non-negative input")
+
     result = value ** 0.5
 
     if isinstance(result, float) and result.is_integer():
