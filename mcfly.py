@@ -1503,6 +1503,9 @@ class Interpreter:
   def visit_AbsoluteValueNode(self, node):
     value = self.visit(node.node).value
 
+    if not isinstance(value, (int, float)):
+      raise Exception("abs() requires numeric input")
+
     result = abs(value)
 
     if isinstance(result, float) and result.is_integer():
