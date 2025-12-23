@@ -1449,10 +1449,16 @@ class Interpreter:
       return FloatNode(min_value)
 
   def visit_RangeNode(self, node):
-    evaluated_values = [self.visit(v).value for v in node.values]
+    evaluated_values = []
+
+    for value in node.values:
+      v = self.visit(value).value
+      if not isinstance(v, (int, float)):
+        raise Exception("range() requires numeric values")
+      evaluated_values.append(v)
 
     if not evaluated_values:
-      raise Exception("Range requires at least one value")
+      raise Exception("range() requires at least one value")
 
     range_value = max(evaluated_values) - min(evaluated_values)
 
