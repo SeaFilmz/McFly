@@ -1471,6 +1471,10 @@ class Interpreter:
 
   def visit_SquareNode(self, node):
     value = self.visit(node.node).value
+
+    if not isinstance(value, (int, float)):
+      raise Exception("square() requires numeric input")
+
     result = value * value
 
     if isinstance(result, float) and result.is_integer():
