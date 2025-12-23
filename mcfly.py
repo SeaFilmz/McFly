@@ -1534,16 +1534,22 @@ class Interpreter:
     return IntNode(result)
 
   def visit_FloorNode(self, node):
-    check_num = self.visit(node.node).value
+    value = self.visit(node.node).value
 
-    if isinstance(check_num, int):
-     return IntNode(check_num)
-    elif isinstance(check_num, float):
-      if (((check_num % 1) == 0) or (check_num > 0)):
-        return IntNode(int(check_num))
-      elif check_num < 0:
-        return IntNode((int(check_num)-1))
+    if not isinstance(value, (int, float)):
+      raise Exception("floor() requires numeric input")
 
+    if isinstance(value, int):
+      result = value
+    else:
+      if value.is_integer():
+        result = int(value)
+      elif value > 0:
+        result = int(value)
+      else:
+        result = int(value) - 1
+
+    return IntNode(result)
 
   def visit_ErrorWordsNode(self, node):
     if node.value == 'and':
