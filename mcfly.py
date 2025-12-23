@@ -1660,17 +1660,20 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_SubtractNode(self, node):
-    check_num_a = self.visit(node.node_a).value
-    check_num_b = self.visit(node.node_b).value
+    value_a = self.visit(node.node_a).value
+    value_b = self.visit(node.node_b).value
 
-    if isinstance(check_num_a, int) and isinstance(check_num_b, int):
-      return IntNode(check_num_a - check_num_b)
-    elif isinstance(check_num_a, float) and isinstance(check_num_b, float):
-      return FloatNode(check_num_a - check_num_b)
-    elif isinstance(check_num_a, int) and isinstance(check_num_b, float):
-      return FloatNode(check_num_a - check_num_b)
-    elif isinstance(check_num_a, float) and isinstance(check_num_b, int):
-      return FloatNode(check_num_a - check_num_b)
+    if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
+      raise Exception("Subtraction requires numeric inputs")
+
+    result = value_a - value_b
+
+    if isinstance(result, float) and result.is_integer():
+      return IntNode(int(result))
+    elif isinstance(result, int):
+      return IntNode(result)
+    else:
+      return FloatNode(result)
 
   def visit_MultiplyNode(self, node):
     check_num_a = self.visit(node.node_a).value
