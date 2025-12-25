@@ -25,8 +25,6 @@ custom_arrays = {}
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
   'if': 'Coming Soon: The word if is reserved for conditionals.',
-  'sum': 'Coming Soon: The word sum is reserved for adding all the numbers in a set together.',
-  'mean': 'Coming Soon: The term mean is reserved for calculating the mean of a set numbers.'
 }
 
 error_words = {
