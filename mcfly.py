@@ -667,13 +667,13 @@ class BooleanNode:
 
 @dataclass
 class FunctionNode:
-  value: str
-  WordFun = important_words['fun']
+  name: str
+  params: list[str]
+  body: "ASTNode"
 
   def __repr__(self):
-    if self.value:
-      return f"{self.value}"
-    return 'fun'
+    params = ", ".join(self.params)
+    return f"fun {self.name}({params}) = {self.body}"
 
 @dataclass
 class ConditionalNode:
