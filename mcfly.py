@@ -666,6 +666,10 @@ class BooleanNode:
     return "True" if self.value else "False"
 
 @dataclass
+class ASTNode:
+    pass
+
+@dataclass
 class FunctionNode:
   name: str
   params: list[str]
