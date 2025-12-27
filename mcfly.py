@@ -1275,6 +1275,9 @@ class Parser:
 # Interpreter #
 
 class Interpreter:
+  def __init__(self):
+    self.functions = {}
+
   def visit(self, node):
     method_name = f'visit_{type(node).__name__}'
     method = getattr(self, method_name)
@@ -1311,7 +1314,8 @@ class Interpreter:
     return StringNode(NVFLQ)
 
   def visit_FunctionNode(self, node):
-      return FunctionNode(node.WordFun)
+    self.functions[node.name] = node
+    return None
 
   def visit_ConditionalNode(self, node):
       return ConditionalNode(node.WordIf)
