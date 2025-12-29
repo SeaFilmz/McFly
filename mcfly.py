@@ -1887,6 +1887,8 @@ class Interpreter:
 
 # Run #
 
+interpreter = Interpreter()
+
 while True:
   text = input("Enter a math function: ")
   lexer = Lexer(text)
@@ -1894,7 +1896,6 @@ while True:
   parser = Parser(tokens)
   tree = parser.parse()
   if not tree: continue
-  interpreter = Interpreter()
   value = interpreter.visit(tree)
   print(tree)
   print(value)
