@@ -1895,7 +1895,7 @@ while True:
   tokens = lexer.generate_tokens()
   parser = Parser(tokens)
   tree = parser.parse()
-  if not tree: continue
+  if tree is None: continue
   value = interpreter.visit(tree)
   print(tree)
   print(value)
