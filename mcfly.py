@@ -161,6 +161,12 @@ class Lexer:
       elif self.current_char == ')':
         self.advance()
         yield Token(TokenType.RPAREN)
+      elif self.current_char == '[':
+        self.advance()
+        yield Token(TokenType.LBRACKET)
+      elif self.current_char == ']':
+        self.advance()
+        yield Token(TokenType.RBRACKET)
       elif self.current_char == ',':
         self.advance()
         yield Token(TokenType.COMMA)
@@ -813,16 +819,44 @@ class Parser:
     except StopIteration:
       self.current_token = None
 
+
   def parse(self):
     if self.current_token is None:
       return None
 
-    result = self.expr()
+    if self.current_token.type == TokenType.FUNCTION:
+      result = self.function_definition()
+    else:
+      result = self.expr()
 
     if self.current_token is not None:
       self.raise_error()
 
     return result
+
+  def function_definition(self):
+    self.expect(TokenType.FUNCTION)  # fun
+    name = self.expect(TokenType.IDENTIFIER).value
+
+    self.expect(TokenType.LPAREN)
+    params = []
+    self.expect(TokenType.RPAREN)
+
+    self.expect(TokenType.EQUAL)
+    body = self.expr()
+
+    return FunctionNode(name, params, body)
+
+  # def parse(self):
+  #   if self.current_token is None:
+  #     return None
+
+  #   result = self.expr()
+
+  #   if self.current_token is not None:
+  #     self.raise_error()
+
+  #   return result
 
   def expr(self):
     result = self.term()
