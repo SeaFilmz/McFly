@@ -16,8 +16,6 @@ important_numbers = {
   '#e': 2.718281828459045
 }
 
-custom_numbers = {}
-
 custom_strings = {}
 
 custom_arrays = {}
