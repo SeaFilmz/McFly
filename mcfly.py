@@ -1,11 +1,10 @@
 from enum import Enum, auto
-import string
 from dataclasses import dataclass
 
 # Important Characters #
 
 DIGITS  = '0123456789'
-LETTERS = string.ascii_letters
+LETTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
 
 # Dictionary #
