@@ -380,9 +380,6 @@ class Lexer:
       else:
         return Token(TokenType.NE)
 
-  def generate_error_words(self):
-    return Token(TokenType.ERROR_WORDS, self.show_error_words(''))
-
   def collect_word(self):
     """Collects letters plus allowed keyword suffix characters."""
     result = ''
@@ -392,6 +389,15 @@ class Lexer:
       result += self.current_char
       self.advance()
     return result
+
+  def generate_error_words(self):
+    word = ''
+
+    while self.current_char is not None and self.current_char in LETTERS_DIGITS_US:
+      word += self.current_char
+      self.advance()
+
+    return Token(TokenType.ERROR_WORDS, word)
 
 # Nodes #
 
