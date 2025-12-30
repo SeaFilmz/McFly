@@ -1888,6 +1888,9 @@ class Interpreter:
       value = self.visit(value)
     return BooleanNode(bool(value))
 
+  def visit_ErrorWordsNode(self, node):
+    raise Exception(f"Unknown identifier '{node.value}'")
+
 # Run #
 
 interpreter = Interpreter()
