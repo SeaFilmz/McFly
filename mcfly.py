@@ -101,17 +101,6 @@ class Lexer:
     else:
       self.current_char = None
 
-  def show_error_words(self, prefix=''):
-    error_words_str = self.current_char
-    self.advance()
-
-    while self.current_char != None:
-
-      error_words_str += self.current_char
-      self.advance()
-
-    return prefix + error_words_str
-
   def lastCharCheckAdvance(self, char):
     if self.current_char == char:
       self.advance()
