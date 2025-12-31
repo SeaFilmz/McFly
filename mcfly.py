@@ -248,10 +248,8 @@ class Lexer:
           yield Token(TokenType.ELIF)
         elif upper_word == "FUN":
           yield Token(TokenType.FUNCTION)
-      elif self.current_char in LETTERS:
-        yield self.generate_error_words()
-      else:
-        raise Exception(f"llegal Character '{self.current_char}'")
+        else:
+          yield Token(TokenType.ERROR_WORDS, word)
 
   def generate_number(self):
     decimal_point_count = 0
