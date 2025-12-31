@@ -1,12 +1,6 @@
 from enum import Enum, auto
 from dataclasses import dataclass
 
-# Important Characters #
-
-DIGITS  = '0123456789'
-LETTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-LETTERS_DIGITS_US = LETTERS + DIGITS + '_'
-
 # Dictionary #
 
 important_numbers = {
@@ -387,15 +381,6 @@ class Lexer:
       result += self.current_char
       self.advance()
     return result
-
-  def generate_error_words(self):
-    word = ''
-
-    while self.current_char is not None and self.current_char in LETTERS_DIGITS_US:
-      word += self.current_char
-      self.advance()
-
-    return Token(TokenType.ERROR_WORDS, word)
 
 # Nodes #
 
