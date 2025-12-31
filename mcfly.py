@@ -1594,14 +1594,6 @@ class Interpreter:
 
     return IntNode(result)
 
-  def visit_ErrorWordsNode(self, node):
-    if node.value == 'and':
-      return ErrorWordsNode(node.ErrorAnd)
-    elif node.value == 'or':
-      return ErrorWordsNode(node.ErrorOr)
-    else:
-      return 'Error: Not a Keyword'
-
   def visit_TypeEqualNode(self, node):
     check_x = self.visit(node.node_x).value
     check_y = self.visit(node.node_y).value
