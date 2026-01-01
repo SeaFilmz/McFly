@@ -17,6 +17,15 @@ McFly is a new programming language for mathematical operations that is being de
 - `/` for division.
   
 
+### Math Functions
+
+- `square` returns the square of a numeric value.
+- `sqrt` returns the square root of a numeric value.
+- `abs` returns the absolute (non-negative) value of a number.
+- `sum()` returns the sum of all numeric inputs.
+- `product()` returns the product (muliplication result) of all numeric inputs.
+
+
 ### Comparison Operations 
   
 - `==` for comparing if 2 numbers have the same numerical value.
