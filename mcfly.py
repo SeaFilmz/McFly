@@ -18,11 +18,6 @@ important_words = {
   'if': 'Coming Soon: The word if is reserved for conditionals.',
 }
 
-error_words = {
-  'and': 'Error: Code can not start with the word and.',
-  'or': 'Error: Code can not start with the word or.'
-}
-
 # Tokens #
 
 class TokenType(Enum):
@@ -768,8 +763,6 @@ class FloorNode:
 @dataclass
 class ErrorWordsNode:
   value: str
-  ErrorAnd = error_words['and']
-  ErrorOr = error_words['or']
 
   def __repr__(self):
     return f"{self.value}"
