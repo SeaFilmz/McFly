@@ -101,10 +101,6 @@ class Lexer:
     else:
       self.current_char = None
 
-  def lastCharCheckAdvance(self, char):
-    if self.current_char == char:
-      self.advance()
-
   def generate_tokens(self):
     while self.current_char != None:
       if self.current_char.isspace():
