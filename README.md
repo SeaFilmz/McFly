@@ -26,6 +26,14 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `product()` returns the product (muliplication result) of all numeric inputs.
 
 
+### Statistics Functions
+
+- `mean()` returns the average of the given numeric values.
+- `median()` returns the middle value of the given numeric values when they are sorted.
+- `max()` returns the largest numeric value from the given inputs.
+- `min()` returns the smallest numeric value from the given inputs.
+- `range()` returns the difference between the maximum and minimum values of the given inputs.
+
 ### Comparison Operations 
   
 - `==` for comparing if 2 numbers have the same numerical value.
