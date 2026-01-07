@@ -989,6 +989,9 @@ class Parser:
     if token.type == TokenType.RANGE:
       return self.rangeExpr()
 
+    if token.type == TokenType.MODE:
+      return self.modeExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1269,6 +1272,29 @@ class Parser:
     self.advance()
 
     return RangeNode(values)
+
+  def modeExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+        self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+        self.advance()
+        values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+        self.raise_error()
+
+    self.advance()
+
+    return ModeNode(values)
 
 # Interpreter #
 
