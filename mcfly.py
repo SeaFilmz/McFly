@@ -1499,6 +1499,42 @@ class Interpreter:
     else:
       return FloatNode(range_value)
 
+  def visit_ModeNode(self, node):
+    values = []
+
+    for expr in node.values:
+      value_node = self.visit(expr)
+
+      if isinstance(value_node, IntNode):
+        value = value_node.value
+      elif isinstance(value_node, FloatNode):
+        value = value_node.value
+      else:
+        raise Exception("Error: mode() expects only numeric values")
+
+      values.append(value)
+
+    if not values:
+      raise Exception("Error: mode() requires at least one value")
+
+    frequency = {}
+    for v in values:
+      frequency[v] = frequency.get(v, 0) + 1
+
+    max_count = max(frequency.values())
+
+    modes = [k for k, v in frequency.items() if v == max_count]
+
+    if len(modes) == len(frequency):
+      raise Exception("Error: mode() has no mode (all values occur equally)")
+
+    if len(modes) == 1:
+      result = modes[0]
+      if isinstance(result, int):
+        return IntNode(result)
+      else:
+        return FloatNode(result)
+
   def visit_SquareNode(self, node):
     value = self.visit(node.node).value
 
