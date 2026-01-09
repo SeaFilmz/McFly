@@ -1010,6 +1010,9 @@ class Parser:
       self.advance()
       return result
 
+    if token.type == TokenType.LBRACKET:
+      return self.arrayExpr()
+
     if token.type == TokenType.PLUS:
       self.advance()
       return PlusNode(self.factor())
@@ -1303,6 +1306,27 @@ class Parser:
     self.advance()
 
     return ModeNode(values)
+
+  def arrayExpr(self):
+    elements = []
+
+    self.advance()
+
+    if self.current_token.type == TokenType.RBRACKET:
+      self.advance()
+      return ArrayNode(elements)
+
+    elements.append(self.expr())
+
+    while self.current_token.type == TokenType.COMMA:
+      self.advance()
+      elements.append(self.expr())
+
+    if self.current_token.type != TokenType.RBRACKET:
+      self.raise_error("Expected ']'")
+
+    self.advance()
+    return ArrayNode(elements)
 
 # Interpreter #
 
