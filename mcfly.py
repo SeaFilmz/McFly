@@ -394,6 +394,14 @@ class StringNode:
     return f"{self.value}"
 
 @dataclass
+class ArrayNode:
+  elements: list
+
+  def __repr__(self):
+    elementsList = ", ".join(map(str, self.elements))
+    return f"[{elementsList}]"
+
+@dataclass
 class AddNode:
   node_a: any
   node_b: any
