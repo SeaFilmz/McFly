@@ -1540,9 +1540,7 @@ class Interpreter:
     for expr in node.values:
       value_node = self.visit(expr)
 
-      if isinstance(value_node, IntNode):
-        value = value_node.value
-      elif isinstance(value_node, FloatNode):
+      if isinstance(value_node, IntNode) or isinstance(value_node, FloatNode):
         value = value_node.value
       else:
         raise Exception("Error: mode() expects only numeric values")
@@ -1569,6 +1567,15 @@ class Interpreter:
         return IntNode(result)
       else:
         return FloatNode(result)
+    else:
+      result_nodes = []
+      for m in modes:
+        if isinstance(m, int):
+          result_nodes.append(IntNode(m))
+        else:
+          result_nodes.append(FloatNode(m))
+
+      return ArrayNode(result_nodes)
 
   def visit_SquareNode(self, node):
     value = self.visit(node.node).value
