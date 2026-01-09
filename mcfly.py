@@ -1369,6 +1369,9 @@ class Interpreter:
         NVFLQ = NV[1:-1]
     return StringNode(NVFLQ)
 
+  def visit_ArrayNode(self, node):
+    return [self.visit(el) for el in node.elements]
+
   def visit_FunctionNode(self, node):
     self.functions[node.name] = node
     return None
