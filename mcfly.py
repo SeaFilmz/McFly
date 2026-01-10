@@ -983,6 +983,9 @@ class Parser:
   def factor(self):
     token = self.current_token
 
+    if token.type == TokenType.ROUND:
+      return self.roundExpr()
+
     if token.type == TokenType.SUM:
       return self.sumExpr()
 
@@ -1128,6 +1131,29 @@ class Parser:
       self.advance()
       return ErrorWordsNode(token.value)
     self.raise_error()
+
+  def roundExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      raise Exception("Error: round() expects '('")
+
+    self.advance()
+
+    value_node = self.expr()
+
+    precision_node = None
+
+    if self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      precision_node = self.expr()
+
+    if self.current_token is None or self.current_token.type != TokenType.RPAREN:
+      raise Exception("Error: round() expects ')'")
+
+    self.advance()
+
+    return RoundNode(value_node, precision_node)
 
   def sumExpr(self):
     self.advance()
