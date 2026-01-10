@@ -769,6 +769,13 @@ class FloorNode:
     return f"(floor{self.node})"
 
 @dataclass
+class RoundNode:
+  node: any
+
+  def __repr__(self):
+    return f"(round{self.node})"
+
+@dataclass
 class ErrorWordsNode:
   value: str
 
