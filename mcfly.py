@@ -770,10 +770,13 @@ class FloorNode:
 
 @dataclass
 class RoundNode:
-  node: any
+  value: any
+  precision: any = None
 
   def __repr__(self):
-    return f"(round{self.node})"
+    if self.precision is None:
+      return f"(round {self.value})"
+    return f"(round {self.value}, {self.precision})"
 
 @dataclass
 class ErrorWordsNode:
