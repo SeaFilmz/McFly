@@ -9,7 +9,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 
 ## The components of McFly:
 
-### Math Operations 
+### Arithmetic Operators 
   
 - `+` for addition.
 - `-` for subtraction.
