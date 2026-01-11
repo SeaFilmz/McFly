@@ -450,9 +450,6 @@ class MinusNode:
 @dataclass
 class NumberSignNode:
   value: str
-  StartValuePi = important_numbers['#pi']
-  StartValueTau = important_numbers['#tau']
-  StartValueE = important_numbers['#e']
 
   def __repr__(self):
     return f"{self.value}"
@@ -1384,14 +1381,9 @@ class Interpreter:
       return FloatNode(node.value)
 
   def visit_NumberSignNode(self, node):
-    if node.value == '#pi':
-      return NumberSignNode(node.StartValuePi)
-    elif node.value == '#tau':
-      return NumberSignNode(node.StartValueTau)
-    elif node.value == '#e':
-      return NumberSignNode(node.StartValueE)
-    else:
-      return NumberSignNode(node.value)
+    if node.value in important_numbers:
+      return FloatNode(important_numbers[node.value])
+    raise Exception(f"Error: Unknown numeric constant '{node.value}'")
 
   def visit_StringSignNode(self, node):
     return StringSignNode(node.value)
