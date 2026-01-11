@@ -1415,6 +1415,46 @@ class Interpreter:
   def visit_ConditionalNode(self, node):
       return ConditionalNode(node.WordIf)
 
+  def visit_RoundNode(self, node):
+    value_node = self.visit(node.value)
+
+    if isinstance(value_node, (int, float)):
+      value_node = FloatNode(value_node) if isinstance(value_node, float) else IntNode(value_node)
+
+    if isinstance(value_node, IntNode):
+      value = value_node.value
+    elif isinstance(value_node, FloatNode):
+      value = value_node.value
+    else:
+      raise Exception("Error: round() expects a numeric value")
+
+    precision = 0
+    if node.precision is not None:
+      precision_node = self.visit(node.precision)
+      if isinstance(precision_node, int):
+        precision = precision_node
+      elif isinstance(precision_node, IntNode):
+        precision = precision_node.value
+      else:
+        raise Exception("Error: round() precision must be an integer")
+      if precision < 0:
+        raise Exception("Error: round() precision must be >= 0")
+
+    factor = 10 ** precision
+    shifted = value * factor
+
+    if shifted >= 0:
+      shifted_rounded = int(shifted + 0.5)
+    else:
+      shifted_rounded = int(shifted - 0.5)
+
+    result = shifted_rounded / factor
+
+    if precision == 0:
+      return IntNode(int(result))
+    else:
+      return FloatNode(float(result))
+
   def visit_SumNode(self, node):
     evaluated_values = []
 
