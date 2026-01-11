@@ -23,7 +23,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `sqrt` returns the square root of a numeric value.
 - `abs` returns the absolute (non-negative) value of a number.
 - `sum()` returns the sum of all numeric inputs.
-- `product()` returns the product (muliplication result) of all numeric inputs.
+- `product()` returns the product (multiplication result) of all numeric inputs.
 
 
 ### Statistics Functions
