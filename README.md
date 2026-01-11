@@ -30,6 +30,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 
 - `mean()` returns the average of the given numeric values.
 - `median()` returns the middle value of the given numeric values when they are sorted.
+- `mode()` returns the value or values that appear most frequently in the given numeric values.
 - `max()` returns the largest numeric value from the given inputs.
 - `min()` returns the smallest numeric value from the given inputs.
 - `range()` returns the difference between the maximum and minimum values of the given inputs.
