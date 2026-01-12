@@ -22,6 +22,8 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `square` returns the square of a numeric value.
 - `sqrt` returns the square root of a numeric value.
 - `abs` returns the absolute (non-negative) value of a number.
+- `ceil` rounds a numeric value up to the nearest integer.
+- `floor` rounds a numeric value down to the nearest integer.
 - `sum()` returns the sum of all numeric inputs.
 - `product()` returns the product (multiplication result) of all numeric inputs.
 
