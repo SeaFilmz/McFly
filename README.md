@@ -24,6 +24,9 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `abs` returns the absolute (non-negative) value of a number.
 - `ceil` rounds a numeric value up to the nearest integer.
 - `floor` rounds a numeric value down to the nearest integer.
+- `round()` rounds a numeric value to the specified number of decimal places (default is 0) using standard rounding rules: 
+  - next digit 0–4 rounds down
+  - next digit 5–9 rounds up
 - `sum()` returns the sum of all numeric inputs.
 - `product()` returns the product (multiplication result) of all numeric inputs.
 
