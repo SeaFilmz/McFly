@@ -1386,7 +1386,11 @@ class Interpreter:
   def visit_NumberSignNode(self, node):
     if node.value in important_numbers:
       return FloatNode(important_numbers[node.value])
-    raise Exception(f"Error: Unknown numeric constant '{node.value}'")
+
+    if node.value in self.variables:
+      return self.variables[node.value]
+
+    raise Exception(f"Error: Unknown numeric constant or variable '{node.value}'")
 
   def visit_StringSignNode(self, node):
     return StringSignNode(node.value)
