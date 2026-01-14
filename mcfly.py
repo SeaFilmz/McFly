@@ -1399,7 +1399,10 @@ class Interpreter:
     raise Exception(f"Error: Unknown string variable '{node.value}'")
 
   def visit_ArraySignNode(self, node):
-    return ArraySignNode(node.value)
+    if node.value in self.variables:
+        return self.variables[node.value]
+
+    raise Exception(f"Error: Unknown array variable '{node.value}'")
 
   def visit_StringNode(self, node):
     NV = node.value
