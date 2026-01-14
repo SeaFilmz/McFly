@@ -1393,7 +1393,10 @@ class Interpreter:
     raise Exception(f"Error: Unknown numeric constant or variable '{node.value}'")
 
   def visit_StringSignNode(self, node):
-    return StringSignNode(node.value)
+    if node.value in self.variables:
+      return self.variables[node.value]
+
+    raise Exception(f"Error: Unknown string variable '{node.value}'")
 
   def visit_ArraySignNode(self, node):
     return ArraySignNode(node.value)
