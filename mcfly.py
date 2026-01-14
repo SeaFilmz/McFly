@@ -318,13 +318,17 @@ class Lexer:
 
   def generate_equals(self):
     self.advance()
+
     if self.current_char == '=':
       self.advance()
+
       if self.current_char == '=':
         self.advance()
         return Token(TokenType.TYPE_EQUAL)
-      else:
-        return Token(TokenType.EQUALS)
+
+      return Token(TokenType.EQUALS)
+
+    return Token(TokenType.ASSIGN)
 
   def generate_greater_equal(self):
     self.advance()
