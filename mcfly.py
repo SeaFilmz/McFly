@@ -850,6 +850,36 @@ class Parser:
 
   #   return result
 
+  def statement(self):
+    if (
+      self.current_token.type in (
+        TokenType.NUMBER_VAR,
+        TokenType.STRING_VAR,
+        TokenType.ARRAY_VAR,
+      )
+      and self.peek() is not None
+      and self.peek().type == TokenType.ASSIGN
+    ):
+      return self.assignment()
+
+    return self.expr()
+
+  def peek(self):
+    if self.token_index + 1 < len(self.tokens):
+      return self.tokens[self.token_index + 1]
+    return None
+
+  def assignment(self):
+    var_token = self.current_token
+    name = var_token.value
+    self.advance()
+
+    self.expect(TokenType.ASSIGN)
+
+    value = self.expr()
+
+    return AssignNode(var_token.type, name, value)
+
   def expr(self):
     result = self.term()
 
