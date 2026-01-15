@@ -453,6 +453,7 @@ class MinusNode:
 
 @dataclass
 class AssignNode:
+  var_type: TokenType
   name: str
   value: any
 
