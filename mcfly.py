@@ -819,7 +819,7 @@ class Parser:
     if self.current_token.type == TokenType.FUNCTION:
       result = self.function_definition()
     else:
-      result = self.expr()
+      result = self.statement()
 
     if self.current_token is not None:
       self.raise_error()
@@ -835,7 +835,7 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     self.expect(TokenType.EQUAL)
-    body = self.expr()
+    body = self.statement()
 
     return FunctionNode(name, params, body)
 
