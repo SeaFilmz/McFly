@@ -817,10 +817,11 @@ class Parser:
     if self.current_token is None:
       return None
 
-    if self.current_token.type == TokenType.FUNCTION:
-      result = self.function_definition()
-    else:
-      result = self.statement()
+    # Function definitions disabled until fully implemented
+    # if self.current_token.type == TokenType.FUNCTION:
+    #     result = self.function_definition()
+    # else:
+    result = self.statement()
 
     if self.current_token is not None:
       self.raise_error()
@@ -839,17 +840,6 @@ class Parser:
     body = self.statement()
 
     return FunctionNode(name, params, body)
-
-  # def parse(self):
-  #   if self.current_token is None:
-  #     return None
-
-  #   result = self.expr()
-
-  #   if self.current_token is not None:
-  #     self.raise_error()
-
-  #   return result
 
   def statement(self):
     if (
