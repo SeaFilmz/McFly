@@ -799,18 +799,19 @@ class ErrorWordsNode:
 
 class Parser:
   def __init__(self, tokens):
-    self.tokens = iter(tokens)
-    self.advance()
+    self.tokens = list(tokens)
+    self.token_index = 0
+    self.current_token = self.tokens[0] if self.tokens else None
 
   def raise_error(self):
     raise Exception("Invalid Syntax")
 
   def advance(self):
-    try:
-      self.current_token = next(self.tokens)
-    except StopIteration:
+    self.token_index += 1
+    if self.token_index < len(self.tokens):
+      self.current_token = self.tokens[self.token_index]
+    else:
       self.current_token = None
-
 
   def parse(self):
     if self.current_token is None:
