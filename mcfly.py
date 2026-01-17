@@ -1409,8 +1409,6 @@ class Parser:
 class Interpreter:
   def __init__(self):
     self.variables = {}
-
-  def __init__(self):
     self.functions = {}
 
   def visit(self, node):
