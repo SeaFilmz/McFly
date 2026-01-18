@@ -813,6 +813,15 @@ class Parser:
     else:
       self.current_token = None
 
+  def expect(self, token_type):
+    if self.current_token is None:
+      self.raise_error()
+
+    if self.current_token.type != token_type:
+      self.raise_error()
+
+    self.advance()
+
   def parse(self):
     if self.current_token is None:
       return None
