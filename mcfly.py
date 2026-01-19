@@ -792,6 +792,13 @@ class RoundNode:
     return f"(round {self.value}, {self.precision})"
 
 @dataclass
+class PrintNode:
+  value: any
+
+  def __repr__(self):
+    return f"(print {self.value})"
+
+@dataclass
 class ErrorWordsNode:
   value: str
 
