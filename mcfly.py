@@ -79,6 +79,7 @@ class TokenType(Enum):
   CEIL           = auto()
   FLOOR          = auto()
   ABSOLUTE_VALUE = auto()
+  PRINT          = auto()
   ERROR_WORDS    = auto()
 
 # Lexer #
