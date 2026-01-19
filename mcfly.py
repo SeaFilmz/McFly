@@ -1417,12 +1417,10 @@ class Interpreter:
     return method(node)
 
   def visit_IntNode(self, node):
-    if isinstance(node.value, int):
-      return IntNode(node.value)
+    return node.value
 
   def visit_FloatNode(self, node):
-    if isinstance(node.value, float):
-      return FloatNode(node.value)
+    return node.value
 
   def visit_AssignNode(self, node):
     # 1. Evaluate right-hand side
