@@ -223,6 +223,8 @@ class Lexer:
           yield Token(TokenType.ELIF)
         elif upper_word == "FUN":
           yield Token(TokenType.FUNCTION)
+        elif upper_word == "PRINT":
+          yield Token(TokenType.PRINT)
         else:
           yield Token(TokenType.ERROR_WORDS, word)
 
