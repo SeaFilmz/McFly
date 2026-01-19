@@ -1424,6 +1424,34 @@ class Interpreter:
     if isinstance(node.value, float):
       return FloatNode(node.value)
 
+  def visit_AssignNode(self, node):
+    # 1. Evaluate right-hand side
+    value = self.visit(node.value)
+
+    # 2. Enforce type
+    if node.var_type == TokenType.NUMBER_VAR:
+      if not isinstance(value, (int, float)):
+        raise Exception(f"Type Error: value assigned to {node.name} must be a number")
+
+    elif node.var_type == TokenType.STRING_VAR:
+      if not isinstance(value, str):
+        raise Exception(f"Type Error: value assigned to {node.name} must be a string")
+
+    elif node.var_type == TokenType.ARRAY_VAR:
+      if not isinstance(value, list):
+        raise Exception(f"Type Error: value assigned to {node.name} must be a list")
+
+    else:
+      raise Exception("Invalid assignment target")
+
+    # 3. Enforce immutability
+    if node.name in self.variables:
+      raise Exception(f"Type Error: variable '{node.name}' is immutable and cannot be reassigned")
+
+    # 4. Store value
+    self.variables[node.name] = value
+    return value
+
   def visit_NumberSignNode(self, node):
     if node.value in important_numbers:
       return FloatNode(important_numbers[node.value])
