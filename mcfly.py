@@ -861,18 +861,33 @@ class Parser:
     return FunctionNode(name, params, body)
 
   def statement(self):
-    if (
-      self.current_token.type in (
-        TokenType.NUMBER_VAR,
-        TokenType.STRING_VAR,
-        TokenType.ARRAY_VAR,
-      )
-      and self.peek() is not None
-      and self.peek().type == TokenType.ASSIGN
-    ):
+    if self.current_token.type == TokenType.PRINT:
+      return self.print_statement()
+
+    if (self.current_token.type in (
+      TokenType.NUMBER_VAR,
+      TokenType.STRING_VAR,
+      TokenType.ARRAY_VAR,
+    ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
     return self.expr()
+
+  def print_statement(self):
+    self.expect(TokenType.PRINT)
+
+    token = self.current_token
+
+    if token.type not in (
+      TokenType.NUMBER_VAR,
+      TokenType.STRING_VAR,
+      TokenType.ARRAY_VAR,
+    ):
+      raise Exception("Syntax Error: print expects a variable")
+
+    self.advance()
+
+    return PrintNode(token)
 
   def peek(self):
     if self.token_index + 1 < len(self.tokens):
