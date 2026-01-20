@@ -1917,8 +1917,8 @@ class Interpreter:
         return 'True'
 
   def visit_AddNode(self, node):
-    value_a = self.visit(node.node_a).value
-    value_b = self.visit(node.node_b).value
+    value_a = self.visit(node.node_a)
+    value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
       raise Exception("Addition requires numeric inputs")
@@ -1926,11 +1926,11 @@ class Interpreter:
     result = value_a + value_b
 
     if isinstance(result, float) and result.is_integer():
-      return IntNode(int(result))
+      return int(result)
     elif isinstance(result, int):
-      return IntNode(result)
-    else:
-      return FloatNode(result)
+      return result
+    elif isinstance(result, float):
+      return result
 
   def visit_SubtractNode(self, node):
     value_a = self.visit(node.node_a).value
