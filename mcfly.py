@@ -1965,8 +1965,8 @@ class Interpreter:
       return result
 
   def visit_DivideNode(self, node):
-    value_a = self.visit(node.node_a).value
-    value_b = self.visit(node.node_b).value
+    value_a = self.visit(node.node_a)
+    value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
       raise Exception("Division requires numeric inputs")
@@ -1977,9 +1977,11 @@ class Interpreter:
     quotient = value_a / value_b
 
     if isinstance(quotient, float) and quotient.is_integer():
-      return IntNode(int(quotient))
-    else:
-      return FloatNode(quotient)
+      return int(quotient)
+    elif isinstance(quotient, int):
+      return quotient
+    elif isinstance(quotient, float):
+      return quotient
 
   def visit_PlusNode(self, node):
     return self.visit(node.node)
