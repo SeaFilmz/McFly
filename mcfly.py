@@ -2148,5 +2148,7 @@ while True:
   if tree is None: continue
   print(tree)
   value = interpreter.visit(tree)
+  if isinstance(tree, (NumberSignNode, StringSignNode, ArraySignNode)):
+    continue
   if value is not None:
     print(value)
