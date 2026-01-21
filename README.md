@@ -40,6 +40,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `min()` returns the smallest numeric value from the given inputs.
 - `range()` returns the difference between the maximum and minimum values of the given inputs.
 
+
 ### Comparison Operations 
   
 - `==` for comparing if 2 numbers have the same numerical value.
@@ -60,6 +61,18 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `xor` checks if 1 of 2 values is `True`. If so then it will output `True` else it will output `False`.
 - `nor` is the opposite of `or`. `nor` checks for if both values are `False` if so then it will output `True`, else it will output `False`.
 - `not` inverts the output of the boolean values `True` or `False`.
+
+
+### Type / Checker Operators
+
+- `num?` checks if a value is a number (integer or float).
+- `int?` checks if a value is an integer.
+- `float?` checks if a value is a float.
+- `even?` checks if a number is even.
+- `odd?` checks if a number is odd.
+- `positive?` checks if a number is positive (>0).
+- `negative?` checks if a number is negative (<0).
+- `str?` checks if a value is a string.
   
   
 ### String Command
