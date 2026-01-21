@@ -1473,7 +1473,7 @@ class Interpreter:
 
     # 4. Store value
     self.variables[node.name] = value
-    return value
+    return None
 
   def visit_NumberSignNode(self, node):
     if node.value in important_numbers:
@@ -2146,6 +2146,7 @@ while True:
   parser = Parser(tokens)
   tree = parser.parse()
   if tree is None: continue
-  value = interpreter.visit(tree)
   print(tree)
-  print(value)
+  value = interpreter.visit(tree)
+  if value is not None:
+    print(value)
