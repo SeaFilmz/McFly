@@ -1751,7 +1751,7 @@ class Interpreter:
       return ArrayNode(result_nodes)
 
   def visit_SquareNode(self, node):
-    value = self.visit(node.node).value
+    value = self.visit(node.node)
 
     if not isinstance(value, (int, float)):
       raise Exception("square() requires numeric input")
@@ -1766,7 +1766,7 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_SquareRootNode(self, node):
-    value = self.visit(node.node).value
+    value = self.visit(node.node)
 
     if not isinstance(value, (int, float)):
       raise Exception("sqrt() requires numeric input")
