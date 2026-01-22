@@ -1647,7 +1647,7 @@ class Interpreter:
     evaluated_values = []
 
     for value in node.values:
-      v = self.visit(value).value
+      v = self.visit(value)
       if not isinstance(v, (int, float)):
         raise Exception("max() requires numeric values")
       evaluated_values.append(v)
@@ -1664,12 +1664,11 @@ class Interpreter:
     else:
       return FloatNode(max_value)
 
-
   def visit_MinNode(self, node):
     evaluated_values = []
 
     for value in node.values:
-      v = self.visit(value).value
+      v = self.visit(value)
       if not isinstance(v, (int, float)):
         raise Exception("min() requires numeric values")
       evaluated_values.append(v)
