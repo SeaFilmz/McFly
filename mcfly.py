@@ -1987,12 +1987,12 @@ class Interpreter:
     return self.visit(node.node)
 
   def visit_MinusNode(self, node):
-    check_num = self.visit(node.node).value
+    check_num = self.visit(node.node)
 
-    if isinstance(check_num, int):
-      return IntNode(-check_num)
-    elif isinstance(check_num, float):
-      return FloatNode(-check_num)
+    if not isinstance(check_num, (int, float)):
+      raise Exception("Minus requires a numeric value")
+
+    return -check_num
 
   def visit_NumberTypeNode(self, node):
     check_text = self.visit(node.node).value
