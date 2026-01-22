@@ -1556,7 +1556,7 @@ class Interpreter:
     evaluated_values = []
 
     for value_node in node.values:
-      value = self.visit(value_node).value
+      value = self.visit(value_node)
 
       if not isinstance(value, (int, float)):
         raise Exception("sum() requires numeric values")
