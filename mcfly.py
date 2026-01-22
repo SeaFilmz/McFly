@@ -1782,7 +1782,7 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_AbsoluteValueNode(self, node):
-    value = self.visit(node.node).value
+    value = self.visit(node.node)
 
     if not isinstance(value, (int, float)):
       raise Exception("abs() requires numeric input")
