@@ -1597,7 +1597,7 @@ class Interpreter:
     evaluated_values = []
 
     for value in node.values:
-      v = self.visit(value).value
+      v = self.visit(value)
       if not isinstance(v, (int, float)):
         raise Exception("mean() requires numeric values")
       evaluated_values.append(v)
