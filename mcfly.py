@@ -1797,7 +1797,7 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_CeilNode(self, node):
-    value = self.visit(node.node).value
+    value = self.visit(node.node)
 
     if not isinstance(value, (int, float)):
       raise Exception("ceil() requires numeric input")
@@ -1815,7 +1815,7 @@ class Interpreter:
     return IntNode(result)
 
   def visit_FloorNode(self, node):
-    value = self.visit(node.node).value
+    value = self.visit(node.node)
 
     if not isinstance(value, (int, float)):
       raise Exception("floor() requires numeric input")
