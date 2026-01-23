@@ -257,18 +257,16 @@ class Lexer:
       return Token(TokenType.FLOAT, float(number_str))
 
   def generate_string(self):
-    string_str = self.current_char
     self.advance()
+    string = ""
 
-    while self.current_char != None:
-
-      string_str += self.current_char
+    while self.current_char is not None and self.current_char != '"':
+      string += self.current_char
       self.advance()
 
-    if string_str.endswith('"'):
-      return Token(TokenType.STRING, str(string_str))
-    else:
-     raise Exception('Error: To print or use a string the input has to start with a " and end with a "')
+    self.advance()
+
+    return Token(TokenType.STRING, string)
 
   def generate_num_var(self):
     if not self.current_char.isalpha():
@@ -1497,10 +1495,7 @@ class Interpreter:
     raise Exception(f"Error: Unknown array variable '{node.value}'")
 
   def visit_StringNode(self, node):
-    NV = node.value
-    if NV.startswith('"') and NV.endswith('"'):
-        NVFLQ = NV[1:-1]
-    return StringNode(NVFLQ)
+    return node.value
 
   def visit_ArrayNode(self, node):
     return [self.visit(el) for el in node.elements]
