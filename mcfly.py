@@ -885,7 +885,7 @@ class Parser:
 
     self.advance()
 
-    return PrintNode(token)
+    return PrintNode(token.value)
 
   def peek(self):
     if self.token_index + 1 < len(self.tokens):
