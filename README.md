@@ -77,7 +77,15 @@ McFly is a new math-focused coding language being developed in Python. It perfor
   
 ### String Command
 - `"` is used at the beginning and end of text to convert it to a string. 
->💡 The string output is printed without including the beginning and ending quotation marks. 
+>💡 The string output is printed without including the beginning and ending quotation marks.
+
+
+### Immutable Variables
+
+Variables in this language are immutable, meaning they can only be assigned once and cannot be reassigned.
+- Number variable names start with `#` and can store integers or floating-point values
+- String variable names start with `$` and can store text values
+
 
 ### Constants
   
