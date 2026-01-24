@@ -1500,6 +1500,15 @@ class Interpreter:
   def visit_ArrayNode(self, node):
     return [self.visit(el) for el in node.elements]
 
+  def visit_PrintNode(self, node):
+    var_name = node.var_name
+
+    if var_name not in self.variables:
+      raise Exception(f"Error: Undefined variable '{var_name}'")
+
+    print(self.variables[var_name])
+    return None
+
   def visit_FunctionNode(self, node):
     self.functions[node.name] = node
     return None
