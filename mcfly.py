@@ -1557,17 +1557,27 @@ class Interpreter:
       return FloatNode(float(result))
 
   def visit_SumNode(self, node):
-    evaluated_values = []
+    values = []
 
-    for value_node in node.values:
-      value = self.visit(value_node)
+    for expr in node.values:
+      value = self.visit(expr)
 
-      if not isinstance(value, (int, float)):
+      if isinstance(value, list):
+        for item in value:
+          if not isinstance(item, (int, float)):
+            raise Exception("sum() requires numeric values")
+          values.append(item)
+
+      elif isinstance(value, (int, float)):
+        values.append(value)
+
+      else:
         raise Exception("sum() requires numeric values")
 
-      evaluated_values.append(value)
+    if not values:
+      raise Exception("sum() requires at least one value")
 
-    result = sum(evaluated_values)
+    result = sum(values)
 
     if isinstance(result, float) and result.is_integer():
       return IntNode(int(result))
