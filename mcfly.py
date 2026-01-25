@@ -1619,20 +1619,27 @@ class Interpreter:
       return FloatNode(result)
 
   def visit_MeanNode(self, node):
-    evaluated_values = []
+    values = []
 
-    for value in node.values:
-      v = self.visit(value)
-      if not isinstance(v, (int, float)):
+    for expr in node.values:
+      value = self.visit(expr)
+
+      if isinstance(value, list):
+        for item in value:
+          if not isinstance(item, (int, float)):
+            raise Exception("mean() requires numeric values")
+          values.append(item)
+
+      elif isinstance(value, (int, float)):
+        values.append(value)
+
+      else:
         raise Exception("mean() requires numeric values")
-      evaluated_values.append(v)
 
-    if not evaluated_values:
+    if not values:
       raise Exception("mean() requires at least one value")
 
-    total = sum(evaluated_values)
-    count = len(evaluated_values)
-    result = total / count
+    result = sum(values) / len(values)
 
     if isinstance(result, float) and result.is_integer():
       return IntNode(int(result))
