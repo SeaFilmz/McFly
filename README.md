@@ -83,8 +83,9 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 ### Immutable Variables
 
 Variables in this language are immutable, meaning they can only be assigned once and cannot be reassigned.
-- Number variable names start with `#` and can store integers or floating-point values
-- String variable names start with `$` and can store text values
+- Number variable names start with `#` and can store integers or floating-point values.
+- String variable names start with `$` and can store text values.
+- List variable names start with `@` and can store ordered collections of values.
 
 
 ### Constants
