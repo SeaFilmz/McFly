@@ -154,6 +154,9 @@ class Lexer:
         yield self.generate_less_equal()
       elif self.current_char == '!':
         yield self.generate_not_equal()
+      elif self.current_char == ':':
+        self.advance()
+        yield Token(TokenType.COLON)
       elif self.current_char.isalpha():
         word = self.collect_word()
         upper_word = word.upper()
