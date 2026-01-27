@@ -679,13 +679,12 @@ class FunctionNode:
 
 @dataclass
 class ConditionalNode:
-  value: str
-  WordIf = important_words['if']
+  cases: list[tuple[object, object]]
+  else_case: object | None = None
 
-  def __repr__(self):
-    if self.value:
-      return f"{self.value}"
-    return 'if'
+  def __post_init__(self):
+    if not self.cases:
+      raise ValueError("ConditionalNode requires at least one IF case")
 
 @dataclass
 class SumNode:
