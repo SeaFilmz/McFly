@@ -65,6 +65,7 @@ class TokenType(Enum):
   CONDITIONAL    = auto()
   ELSE           = auto()
   ELIF           = auto()
+  COLON          = auto()
   END            = auto()
   SUM            = auto()
   PRODUCT        = auto()
