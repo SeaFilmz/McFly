@@ -675,7 +675,7 @@ class FunctionNode:
 
   def __repr__(self):
     params = ", ".join(self.params)
-    return f"fun {self.name}({params}) = {self.body}"
+    return f"fun {self.name}({params}): {self.body} end"
 
 @dataclass
 class ConditionalNode:
