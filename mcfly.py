@@ -844,6 +844,15 @@ class Parser:
     else:
       self.current_token = None
 
+  def eat(self, token_type):
+    if self.current_token is not None and self.current_token.type == token_type:
+      self.advance()
+    else:
+      raise Exception(
+        f"Expected token {token_type}, got "
+        f"{self.current_token.type if self.current_token else 'None'}"
+      )
+
   def expect(self, token_type):
     if self.current_token is None:
       self.raise_error()
@@ -1072,6 +1081,9 @@ class Parser:
   def factor(self):
     token = self.current_token
 
+    if token.type == TokenType.CONDITIONAL:
+      return self.conditionalExpr()
+
     if token.type == TokenType.ROUND:
       return self.roundExpr()
 
@@ -1220,6 +1232,36 @@ class Parser:
       self.advance()
       return ErrorWordsNode(token.value)
     self.raise_error()
+
+  def conditionalExpr(self):
+    cases = []
+    else_case = None
+
+    # --- IF ---
+    self.eat(TokenType.CONDITIONAL)   # eat IF
+    condition = self.expr()
+    self.eat(TokenType.COLON)
+    expr_value = self.expr()
+    cases.append((condition, expr_value))
+
+    # --- ELIF(s) ---
+    while self.current_token is not None and self.current_token.type == TokenType.ELIF:
+      self.eat(TokenType.ELIF)
+      condition = self.expr()
+      self.eat(TokenType.COLON)
+      expr_value = self.expr()
+      cases.append((condition, expr_value))
+
+    # --- ELSE (optional) ---
+    if self.current_token is not None and self.current_token.type == TokenType.ELSE:
+      self.eat(TokenType.ELSE)
+      self.eat(TokenType.COLON)
+      else_case = self.expr()
+
+    # --- END (required) ---
+    self.eat(TokenType.END)
+
+    return ConditionalNode(cases, else_case)
 
   def roundExpr(self):
     self.advance()
