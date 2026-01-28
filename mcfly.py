@@ -686,6 +686,23 @@ class ConditionalNode:
     if not self.cases:
       raise ValueError("ConditionalNode requires at least one IF case")
 
+  def __repr__(self):
+    parts = []
+
+    # IF or ELIF cases
+    for i, (condition, expr) in enumerate(self.cases):
+      if i == 0:
+        parts.append(f"if {condition}: {expr}")
+      else:
+        parts.append(f"elif {condition}: {expr}")
+
+    # ELSE case
+    if self.else_case is not None:
+      parts.append(f"else: {self.else_case}")
+
+    parts.append("end")
+    return " ".join(parts)
+
 @dataclass
 class SumNode:
   values: list
