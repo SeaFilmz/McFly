@@ -1993,13 +1993,13 @@ class Interpreter:
     return check_x < check_y
 
   def visit_GreaterThanEqualNode(self, node):
-    check_x = self.visit(node.node_x).value
-    check_y = self.visit(node.node_y).value
+    check_x = self.visit(node.node_x)
+    check_y = self.visit(node.node_y)
 
     if not isinstance(check_x, (int, float)) or not isinstance(check_y, (int, float)):
-      raise Exception(">= comparison requires numeric values")
+      raise Exception("GreaterThanEqualNode requires numeric values")
 
-    return BooleanNode(check_x >= check_y)
+    return check_x >= check_y
 
   def visit_LessThanEqualNode(self, node):
     check_x = self.visit(node.node_x).value
