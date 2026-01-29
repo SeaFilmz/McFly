@@ -15,7 +15,6 @@ custom_arrays = {}
 
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
-  'if': 'Coming Soon: The word if is reserved for conditionals.',
 }
 
 # Tokens #
