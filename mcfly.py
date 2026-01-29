@@ -2265,7 +2265,7 @@ interpreter = Interpreter()
 while True:
   text = input("Enter a math function: ")
   lexer = Lexer(text)
-  tokens = lexer.generate_tokens()
+  tokens = list(lexer.generate_tokens())
   parser = Parser(tokens)
   tree = parser.parse()
   if tree is None: continue
