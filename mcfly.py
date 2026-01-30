@@ -1961,25 +1961,23 @@ class Interpreter:
       return 'False'
 
   def visit_EqualNode(self, node):
-    check_x = self.visit(node.node_x).value
-    check_y = self.visit(node.node_y).value
-
-    if type(check_x) is not type(check_y):
-      return BooleanNode(False)
-
-    if isinstance(check_x, (int, float)):
-      return BooleanNode(check_x == check_y)
-
-    return BooleanNode(False)
-
-  def visit_GreaterThanNode(self, node):
     check_x = self.visit(node.node_x)
     check_y = self.visit(node.node_y)
 
-    if not isinstance(check_x, (int, float)) or not isinstance(check_y, (int, float)):
-      raise Exception("GreaterThanNode requires numeric values")
+    # Allow number == number
+    if isinstance(check_x, (int, float)) and isinstance(check_y, (int, float)):
+      return check_x == check_y
 
-    return check_x > check_y
+    # Allow string == string
+    if isinstance(check_x, str) and isinstance(check_y, str):
+      return check_x == check_y
+
+    # Allow boolean == boolean (optional but nice)
+    if isinstance(check_x, bool) and isinstance(check_y, bool):
+      return check_x == check_y
+
+    # Different types are never equal
+    return False
 
   def visit_LessThanNode(self, node):
     check_x = self.visit(node.node_x)
