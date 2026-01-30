@@ -2011,14 +2011,23 @@ class Interpreter:
     return check_x <= check_y
 
   def visit_NotEqualNode(self, node):
-    check_x = self.visit(node.node_x).value
-    check_y = self.visit(node.node_y).value
+    left = self.visit(node.node_x)
+    right = self.visit(node.node_y)
 
-    if (isinstance(check_x, int) or isinstance(check_x, float)) and (isinstance(check_y, int) or isinstance(check_y, float)):
-      if check_x != check_y:
-        return 'True'
-      elif check_x == check_y:
-        return 'False'
+    # number != number
+    if isinstance(left, (int, float)) and isinstance(right, (int, float)):
+      return left != right
+
+    # string != string
+    if isinstance(left, str) and isinstance(right, str):
+      return left != right
+
+    # boolean != boolean (optional but consistent)
+    if isinstance(left, bool) and isinstance(right, bool):
+      return left != right
+
+    # different types are always not equal
+    return True
 
   def visit_TypeNotEqualNode(self, node):
     check_x = self.visit(node.node_x).value
