@@ -2120,12 +2120,9 @@ class Interpreter:
     return -check_num
 
   def visit_NumberTypeNode(self, node):
-    check_text = self.visit(node.node).value
+    value = self.visit(node.node)
 
-    if isinstance(check_text, (int, float)):
-      return BooleanNode(True)
-    elif isinstance(check_text, str):
-      return BooleanNode(False)
+    return isinstance(value, (int, float))
 
   def visit_IntegerTypeNode(self, node):
     check_text = self.visit(node.node).value
