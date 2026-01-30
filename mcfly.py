@@ -1572,17 +1572,12 @@ class Interpreter:
     return None
 
   def visit_ConditionalNode(self, node):
-    print("DEBUG: Visiting ConditionalNode")
     for condition_node, expr_node in node.cases:
-        if self.visit(condition_node) == True:
-            value = self.visit(expr_node)
-            print(f"DEBUG: Conditional RETURNING: {value}")
-            return value
+      if self.visit(condition_node) == True:
+            return self.visit(expr_node)
 
     if node.else_case is not None:
-        value = self.visit(node.else_case)
-        print(f"DEBUG: Conditional ELSE RETURNING: {value}")
-        return value
+      return self.visit(node.else_case)
 
     return None
 
