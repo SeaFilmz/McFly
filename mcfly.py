@@ -2166,12 +2166,23 @@ class Interpreter:
   #     return BooleanNode(False)
 
   def visit_OddCheckNode(self, node):
-    check_text = self.visit(node.node).value
+    value = self.visit(node.node)
 
-    if ((check_text % 2) == 0):
-      return BooleanNode(False)
-    else:
-      return BooleanNode(True)
+    if isinstance(value, float) and value.is_integer():
+      value = int(value)
+
+    if isinstance(value, int):
+      return value % 2 != 0
+
+    return False
+
+  # def visit_OddCheckNode(self, node):
+  #   check_text = self.visit(node.node).value
+
+  #   if ((check_text % 2) == 0):
+  #     return BooleanNode(False)
+  #   else:
+  #     return BooleanNode(True)
 
   def visit_PositiveCheckNode(self, node):
     check_text = self.visit(node.node).value
