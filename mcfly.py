@@ -2179,12 +2179,9 @@ class Interpreter:
       return BooleanNode(False)
 
   def visit_StringTypeNode(self, node):
-    check_text = self.visit(node.node).value
+    value = self.visit(node.node)
 
-    if isinstance(check_text, str):
-      return BooleanNode(True)
-    elif isinstance(check_text, (int, float)):
-      return BooleanNode(False)
+    return isinstance(value, str)
 
   def visit_AndBooleanNode(self, node):
     left = self.visit(node.node_x)
