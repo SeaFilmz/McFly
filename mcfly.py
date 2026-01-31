@@ -2125,12 +2125,15 @@ class Interpreter:
     return isinstance(value, (int, float))
 
   def visit_IntegerTypeNode(self, node):
-    check_text = self.visit(node.node).value
+    value = self.visit(node.node)
 
-    if isinstance(check_text, int):
-      return BooleanNode(True)
-    else:
-      return BooleanNode(False)
+    if isinstance(value, int):
+      return True
+
+    if isinstance(value, float) and value.is_integer():
+      return True
+
+    return False
 
   def visit_FloatTypeNode(self, node):
     check_text = self.visit(node.node).value
