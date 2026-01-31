@@ -2177,12 +2177,12 @@ class Interpreter:
     return value > 0
 
   def visit_NegativeCheckNode(self, node):
-    check_text = self.visit(node.node).value
+    value = self.visit(node.node)
 
-    if isinstance(check_text, (int, float)) and check_text < 0:
-      return BooleanNode(True)
-    else:
-      return BooleanNode(False)
+    if not isinstance(value, (int, float)):
+        return False
+
+    return value < 0
 
   def visit_StringTypeNode(self, node):
     value = self.visit(node.node)
