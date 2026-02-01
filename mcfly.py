@@ -178,6 +178,8 @@ class Lexer:
           yield Token(TokenType.POSITIVE_CHECK)
         elif upper_word == "NEGATIVE?":
           yield Token(TokenType.NEGATIVE_CHECK)
+        elif upper_word == "ZERO?":
+          yield Token(TokenType.ZERO_CHECK)
         elif upper_word == "ROUND":
           yield Token(TokenType.ROUND)
         elif upper_word == "CEIL":
