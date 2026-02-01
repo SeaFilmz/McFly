@@ -52,6 +52,7 @@ class TokenType(Enum):
   ODD_CHECK      = auto()
   POSITIVE_CHECK = auto()
   NEGATIVE_CHECK = auto()
+  ZERO_CHECK     = auto()
   AND_BOOLEAN    = auto()
   NAND_BOOLEAN   = auto()
   OR_BOOLEAN     = auto()
