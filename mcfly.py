@@ -603,6 +603,13 @@ class NegativeCheckNode:
     return f"(negative?{self.node})"
 
 @dataclass
+class ZeroCheckNode:
+  node: any
+
+  def __repr__(self):
+    return f"(zero?{self.node})"
+
+@dataclass
 class StringTypeNode:
   node: any
 
