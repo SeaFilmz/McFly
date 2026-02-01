@@ -1203,6 +1203,10 @@ class Parser:
       self.advance()
       return NegativeCheckNode(self.factor())
 
+    if token.type == TokenType.ZERO_CHECK:
+      self.advance()
+      return ZeroCheckNode(self.factor())
+
     if token.type == TokenType.INTEGER:
       self.advance()
       return IntNode(token.value)
