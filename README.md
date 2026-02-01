@@ -73,6 +73,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `positive?` checks if a number is positive (>0).
 - `negative?` checks if a number is negative (<0).
 - `str?` checks if a value is a string.
+- `zero?` checks if a number is equal to 0 using math rules.
   
   
 ### String Command
