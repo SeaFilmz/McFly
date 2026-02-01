@@ -67,7 +67,7 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 
 - `num?` checks if a value is a number (integer or float).
 - `int?` checks if a number is an integer based on math rules (whole numbers, including values like 3.0).
-- `float?` checks if a value is a float.
+- `float?` checks if a number is not a whole number (math definition of a non-integer).
 - `even?` checks if a number is even.
 - `odd?` checks if a number is odd.
 - `positive?` checks if a number is positive (>0).
