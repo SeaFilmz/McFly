@@ -2198,6 +2198,14 @@ class Interpreter:
 
     return value < 0
 
+  def visit_ZeroCheckNode(self, node):
+    value = self.visit(node.node)
+
+    if not isinstance(value, (int, float)):
+      return False
+
+    return value == 0
+
   def visit_StringTypeNode(self, node):
     value = self.visit(node.node)
 
