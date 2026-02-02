@@ -2152,10 +2152,7 @@ class Interpreter:
   def visit_FloatTypeNode(self, node):
     value = self.visit(node.node)
 
-    if not isinstance(value, (int, float)):
-        return False
-
-    if isinstance(value, float) and not value.is_integer():
+    if isinstance(value, float):
         return True
 
     return False
