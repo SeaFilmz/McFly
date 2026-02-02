@@ -45,6 +45,7 @@ class TokenType(Enum):
   TNE            = auto()
   STRING         = auto()
   NUMBER_TYPE    = auto()
+  INTEGER_NUMBER = auto()
   INTEGER_TYPE   = auto()
   FLOAT_TYPE     = auto()
   STRING_TYPE    = auto()
@@ -164,8 +165,8 @@ class Lexer:
           yield Token(TokenType.FALSE, False)
         elif upper_word == "NUM?":
           yield Token(TokenType.NUMBER_TYPE)
-        elif upper_word == "INT?":
-          yield Token(TokenType.INTEGER_TYPE)
+        elif upper_word == "INTNUM?":
+          yield Token(TokenType.INTEGER_NUMBER)
         elif upper_word == "FLOAT?":
           yield Token(TokenType.FLOAT_TYPE)
         elif upper_word == "STR?":
@@ -561,11 +562,11 @@ class NumberTypeNode:
     return f"(num?{self.node})"
 
 @dataclass
-class IntegerTypeNode:
+class IntegerCheckNode:
   node: any
 
   def __repr__(self):
-    return f"(int?{self.node})"
+    return f"(intNum?{self.node})"
 
 @dataclass
 class FloatTypeNode:
@@ -1175,9 +1176,9 @@ class Parser:
       self.advance()
       return NumberTypeNode(self.factor())
 
-    if token.type == TokenType.INTEGER_TYPE:
+    if token.type == TokenType.INTEGER_NUMBER:
       self.advance()
-      return IntegerTypeNode(self.factor())
+      return IntegerCheckNode(self.factor())
 
     if token.type == TokenType.FLOAT_TYPE:
       self.advance()
@@ -2138,7 +2139,7 @@ class Interpreter:
 
     return isinstance(value, (int, float))
 
-  def visit_IntegerTypeNode(self, node):
+  def visit_IntegerCheckNode(self, node):
     value = self.visit(node.node)
 
     if isinstance(value, int):
