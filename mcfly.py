@@ -1185,6 +1185,10 @@ class Parser:
       self.advance()
       return NumberTypeNode(self.factor())
 
+    if token.type == TokenType.INTEGER_TYPE:
+      self.advance()
+      return IntegerTypeNode(self.factor())
+
     if token.type == TokenType.INTEGER_NUMBER:
       self.advance()
       return IntegerCheckNode(self.factor())
