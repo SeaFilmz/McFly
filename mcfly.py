@@ -2152,6 +2152,14 @@ class Interpreter:
 
     return isinstance(value, (int, float))
 
+  def visit_IntegerTypeNode(self, node):
+    value = self.visit(node.node)
+
+    if isinstance(value, int):
+      return True
+
+    return False
+
   def visit_IntegerCheckNode(self, node):
     value = self.visit(node.node)
 
