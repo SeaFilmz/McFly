@@ -564,6 +564,13 @@ class NumberTypeNode:
     return f"(num?{self.node})"
 
 @dataclass
+class IntegerTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"(intType?{self.node})"
+
+@dataclass
 class IntegerCheckNode:
   node: any
 
