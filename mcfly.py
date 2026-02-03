@@ -167,6 +167,8 @@ class Lexer:
           yield Token(TokenType.NUMBER_TYPE)
         elif upper_word == "INTNUM?":
           yield Token(TokenType.INTEGER_NUMBER)
+        elif upper_word == "INTTYPE?":
+          yield Token(TokenType.INTEGER_TYPE)
         elif upper_word == "FLOAT?":
           yield Token(TokenType.FLOAT_TYPE)
         elif upper_word == "STR?":
