@@ -918,7 +918,7 @@ class Parser:
     ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
-    return self.expr()
+    return self.equalCheck()
 
   def print_statement(self):
     self.expect(TokenType.PRINT)
@@ -948,9 +948,18 @@ class Parser:
 
     self.expect(TokenType.ASSIGN)
 
-    value = self.expr()
+    value = self.equalCheck()
 
     return AssignNode(var_token.type, name, value)
+
+  def equalCheck(self):
+    result = self.expr()
+
+    while self.current_token is not None and self.current_token.type == TokenType.EQUALS:
+      self.advance()
+      result = EqualNode(result, self.expr())
+
+    return result
 
   def expr(self):
     result = self.term()
@@ -1033,22 +1042,22 @@ class Parser:
     return result
 
   def typeNotEqualCheck(self):
-    result = self.equalCheck()
+    result = self.andCheck()
 
     while self.current_token is not None and self.current_token.type == TokenType.TNE:
       self.advance()
-      result = TypeNotEqualNode(result, self.equalCheck())
+      result = TypeNotEqualNode(result, self.andCheck())
 
     return result
 
-  def equalCheck(self):
-    result = self.andCheck()
+  # def equalCheck(self):
+  #   result = self.andCheck()
 
-    while self.current_token is not None and self.current_token.type == TokenType.EQUALS:
-      self.advance()
-      result = EqualNode(result, self.andCheck())
+  #   while self.current_token is not None and self.current_token.type == TokenType.EQUALS:
+  #     self.advance()
+  #     result = EqualNode(result, self.andCheck())
 
-    return result
+  #   return result
 
   def andCheck(self):
     result = self.orCheck()
