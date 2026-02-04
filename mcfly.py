@@ -1087,7 +1087,7 @@ class Parser:
     return result
 
   def norCheck(self):
-    result = result = self.factor()
+    result = self.factor()
 
     while self.current_token is not None and self.current_token.type == TokenType.NOR_BOOLEAN:
         self.advance()
