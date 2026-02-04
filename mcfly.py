@@ -918,7 +918,7 @@ class Parser:
     ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
-    return self.equalityCheck()
+    return self.greaterCheck()
 
   def print_statement(self):
     self.expect(TokenType.PRINT)
@@ -948,9 +948,18 @@ class Parser:
 
     self.expect(TokenType.ASSIGN)
 
-    value = self.equalityCheck()
+    value = self.greaterCheck()
 
     return AssignNode(var_token.type, name, value)
+
+  def greaterCheck(self):
+    result = self.equalityCheck()
+
+    while self.current_token is not None and self.current_token.type == TokenType.GT:
+      self.advance()
+      result = GreaterThanNode(result, self.equalityCheck())
+
+    return result
 
   def equalityCheck(self):
     node = self.expr()
@@ -998,20 +1007,11 @@ class Parser:
     return result
 
   def typeEqualCheck(self):
-    result = self.greaterCheck()
+    result = self.lessCheck()
 
     while self.current_token is not None and self.current_token.type == TokenType.TYPE_EQUAL:
       self.advance()
-      result = TypeEqualNode(result, self.greaterCheck())
-
-    return result
-
-  def greaterCheck(self):
-    result = self.lessCheck()
-
-    while self.current_token is not None and self.current_token.type == TokenType.GT:
-      self.advance()
-      result = GreaterThanNode(result, self.lessCheck())
+      result = TypeEqualNode(result, self.lessCheck())
 
     return result
 
