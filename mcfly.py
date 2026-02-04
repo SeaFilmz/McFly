@@ -1041,15 +1041,6 @@ class Parser:
 
     return result
 
-  # def notEqualCheck(self):
-  #   result = self.typeNotEqualCheck()
-
-  #   while self.current_token is not None and self.current_token.type == TokenType.NE:
-  #     self.advance()
-  #     result = NotEqualNode(result, self.typeNotEqualCheck())
-
-  #   return result
-
   def typeNotEqualCheck(self):
     result = self.andCheck()
 
@@ -1058,15 +1049,6 @@ class Parser:
       result = TypeNotEqualNode(result, self.andCheck())
 
     return result
-
-  # def equalCheck(self):
-  #   result = self.andCheck()
-
-  #   while self.current_token is not None and self.current_token.type == TokenType.EQUALS:
-  #     self.advance()
-  #     result = EqualNode(result, self.andCheck())
-
-  #   return result
 
   def andCheck(self):
     result = self.orCheck()
