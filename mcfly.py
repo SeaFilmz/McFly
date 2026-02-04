@@ -971,10 +971,7 @@ class Parser:
   def equalityCheck(self):
     node = self.expr()
 
-    while self.current_token is not None and self.current_token.type in (
-      TokenType.EQUALS,
-      TokenType.NE,
-    ):
+    while self.current_token is not None and self.current_token.type in (TokenType.EQUALS, TokenType.NE):
       token = self.current_token
       self.advance()
 
