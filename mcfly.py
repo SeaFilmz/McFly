@@ -1725,7 +1725,8 @@ class Interpreter:
 
       elif isinstance(value, (int, float)):
         values.append(value)
-
+      elif isinstance(value, (IntNode, FloatNode)):
+        values.append(value.value)
       else:
         raise Exception("mean() requires numeric values")
 
