@@ -2071,7 +2071,15 @@ class Interpreter:
     value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
-      raise Exception("Addition requires numeric inputs")
+      if isinstance(value_a, (IntNode, FloatNode)):
+        value_a = value_a.value
+      elif not isinstance(value_a, (int, float)):
+       raise Exception("Addition requires numeric inputs")
+      
+      if isinstance(value_b, (IntNode, FloatNode)):
+        value_b = value_b.value
+      elif not isinstance(value_b, (int, float)):
+       raise Exception("Addition requires numeric inputs")
 
     result = value_a + value_b
 
@@ -2087,7 +2095,15 @@ class Interpreter:
     value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
-      raise Exception("Subtraction requires numeric inputs")
+      if isinstance(value_a, (IntNode, FloatNode)):
+        value_a = value_a.value
+      elif not isinstance(value_a, (int, float)):
+        raise Exception("Subtraction requires numeric inputs")
+      
+      if isinstance(value_b, (IntNode, FloatNode)):
+        value_b = value_b.value
+      elif not isinstance(value_b, (int, float)):
+        raise Exception("Subtraction requires numeric inputs")
 
     result = value_a - value_b
 
@@ -2103,7 +2119,15 @@ class Interpreter:
     value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
-      raise Exception("Multiplication requires numeric inputs")
+      if isinstance(value_a, (IntNode, FloatNode)):
+        value_a = value_a.value
+      elif not isinstance(value_a, (int, float)):
+        raise Exception("Multiplication requires numeric inputs")
+
+      if isinstance(value_b, (IntNode, FloatNode)):
+        value_b = value_b.value
+      elif not isinstance(value_b, (int, float)):
+        raise Exception("Multiplication requires numeric inputs")
 
     result = value_a * value_b
 
@@ -2119,7 +2143,15 @@ class Interpreter:
     value_b = self.visit(node.node_b)
 
     if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
-      raise Exception("Division requires numeric inputs")
+      if isinstance(value_a, (IntNode, FloatNode)):
+        value_a = value_a.value
+      elif not isinstance(value_a, (int, float)):
+        raise Exception("Division requires numeric inputs") 
+
+      if isinstance(value_b, (IntNode, FloatNode)):
+        value_b = value_b.value
+      elif not isinstance(value_b, (int, float)):
+        raise Exception("Division requires numeric inputs")
 
     if value_b == 0:
       raise Exception("Division by zero")
@@ -2134,13 +2166,20 @@ class Interpreter:
       return quotient
 
   def visit_PlusNode(self, node):
-    return self.visit(node.node)
+      value = self.visit(node.node)
+      if isinstance(value, (IntNode, FloatNode)):
+        return value.value
+      else:
+        return value
 
   def visit_MinusNode(self, node):
     check_num = self.visit(node.node)
 
     if not isinstance(check_num, (int, float)):
-      raise Exception("Minus requires a numeric value")
+      if isinstance(check_num, (IntNode, FloatNode)):
+         check_num = check_num.value
+      else:
+        raise Exception("Minus requires a numeric value")
 
     return -check_num
 
