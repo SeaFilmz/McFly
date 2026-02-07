@@ -918,7 +918,7 @@ class Parser:
     ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
-    return self.andCheck()
+    return self.xorCheck()
 
   def print_statement(self):
     self.expect(TokenType.PRINT)
@@ -948,9 +948,18 @@ class Parser:
 
     self.expect(TokenType.ASSIGN)
 
-    value = self.andCheck()
+    value = self.xorCheck()
 
     return AssignNode(var_token.type, name, value)
+
+  def xorCheck(self):
+    result = self.andCheck()
+
+    while self.current_token is not None and self.current_token.type == TokenType.XOR_BOOLEAN:
+      self.advance()
+      result = XorBooleanNode(result, self.andCheck())
+
+    return result
 
   def andCheck(self):
     result = self.comparisonCheck()
@@ -1047,20 +1056,11 @@ class Parser:
     return result
 
   def orCheck(self):
-    result = self.xorCheck()
+    result = self.nandCheck()
 
     while self.current_token is not None and self.current_token.type == TokenType.OR_BOOLEAN:
       self.advance()
-      result = OrBooleanNode(result, self.xorCheck())
-
-    return result
-
-  def xorCheck(self):
-    result = self.nandCheck()
-
-    while self.current_token is not None and self.current_token.type == TokenType.XOR_BOOLEAN:
-      self.advance()
-      result = XorBooleanNode(result, self.nandCheck())
+      result = OrBooleanNode(result, self.nandCheck())
 
     return result
 
