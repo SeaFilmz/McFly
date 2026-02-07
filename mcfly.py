@@ -1900,9 +1900,9 @@ class Interpreter:
     result = value ** 0.5
 
     if isinstance(result, float) and result.is_integer():
-      return IntNode(int(result))
+      return int(result)
     else:
-      return FloatNode(result)
+      return result
 
   def visit_AbsoluteValueNode(self, node):
     value = self.visit(node.node)
