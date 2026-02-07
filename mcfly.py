@@ -978,13 +978,13 @@ class Parser:
     return result
 
   def andCheck(self):
-    result = self.comparisonCheck()
+    result = self.notCheck()
 
     while self.current_token is not None and self.current_token.type in (TokenType.AND_BOOLEAN, TokenType.NAND_BOOLEAN):
       token = self.current_token
       self.advance()
 
-      right = self.comparisonCheck()
+      right = self.notCheck()
 
       if token.type == TokenType.AND_BOOLEAN:
         result = AndBooleanNode(result, right)
@@ -992,6 +992,13 @@ class Parser:
         result = NandBooleanNode(result, right)
 
     return result
+
+  def notCheck(self):
+    if self.current_token is not None and self.current_token.type == TokenType.NOT_BOOLEAN:
+        self.advance()
+        return NotBooleanNode(self.notCheck())  # recursive for multiple nots
+
+    return self.comparisonCheck()
 
   def comparisonCheck(self):
     result = self.equalityCheck()
@@ -1131,10 +1138,6 @@ class Parser:
     if token.type == TokenType.MINUS:
       self.advance()
       return MinusNode(self.factor())
-
-    if token.type == TokenType.NOT_BOOLEAN:
-      self.advance()
-      return NotBooleanNode(self.factor())
 
     if token.type == TokenType.CEIL:
       self.advance()
