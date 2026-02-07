@@ -918,7 +918,7 @@ class Parser:
     ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
-    return self.lessCheck()
+    return self.comparisonCheck()
 
   def print_statement(self):
     self.expect(TokenType.PRINT)
@@ -948,40 +948,32 @@ class Parser:
 
     self.expect(TokenType.ASSIGN)
 
-    value = self.lessCheck()
+    value = self.comparisonCheck()
 
     return AssignNode(var_token.type, name, value)
 
-  def lessCheck(self):
-    result = self.greaterCheck()
-
-    while self.current_token is not None and self.current_token.type in (TokenType.LT, TokenType.LTE):
-      token = self.current_token
-      self.advance()
-
-      right = self.greaterCheck()
-
-      if token.type == TokenType.LT:
-        result = LessThanNode(result, right)
-      elif token.type == TokenType.LTE:
-        result = LessThanEqualNode(result, right)
-
-    return result
-
-
-  def greaterCheck(self):
+  def comparisonCheck(self):
     result = self.equalityCheck()
 
-    while self.current_token is not None and self.current_token.type in (TokenType.GT, TokenType.GTE):
-      token = self.current_token
-      self.advance()
+    while self.current_token is not None and self.current_token.type in (
+        TokenType.LT,
+        TokenType.LTE,
+        TokenType.GT,
+        TokenType.GTE,
+    ):
+        token = self.current_token
+        self.advance()
 
-      right = self.equalityCheck()
+        right = self.equalityCheck()
 
-      if token.type == TokenType.GT:
-        result = GreaterThanNode(result, right)
-      elif token.type == TokenType.GTE:
-        result = GreaterThanEqualNode(result, right)
+        if token.type == TokenType.LT:
+            result = LessThanNode(result, right)
+        elif token.type == TokenType.LTE:
+            result = LessThanEqualNode(result, right)
+        elif token.type == TokenType.GT:
+            result = GreaterThanNode(result, right)
+        elif token.type == TokenType.GTE:
+            result = GreaterThanEqualNode(result, right)
 
     return result
 
