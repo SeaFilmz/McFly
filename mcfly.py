@@ -1884,11 +1884,9 @@ class Interpreter:
     result = value * value
 
     if isinstance(result, float) and result.is_integer():
-      return IntNode(int(result))
-    elif isinstance(result, int):
-      return IntNode(result)
+      return int(result)
     else:
-      return FloatNode(result)
+      return result
 
   def visit_SquareRootNode(self, node):
     value = self.visit(node.node)
