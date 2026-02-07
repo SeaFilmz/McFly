@@ -955,9 +955,16 @@ class Parser:
   def orCheck(self):
     result = self.xorCheck()
 
-    while self.current_token is not None and self.current_token.type == TokenType.OR_BOOLEAN:
-      self.advance()
-      result = OrBooleanNode(result, self.xorCheck())
+    while self.current_token is not None and self.current_token.type in (TokenType.OR_BOOLEAN, TokenType.NOR_BOOLEAN):
+        token = self.current_token
+        self.advance()
+
+        right = self.xorCheck()
+
+        if token.type == TokenType.OR_BOOLEAN:
+            result = OrBooleanNode(result, right)
+        else:
+            result = NorBooleanNode(result, right)
 
     return result
 
@@ -1065,20 +1072,11 @@ class Parser:
     return result
 
   def nandCheck(self):
-    result = self.norCheck()
+    result = self.factorCheck()
 
     while self.current_token is not None and self.current_token.type == TokenType.NAND_BOOLEAN:
       self.advance()
-      result = NandBooleanNode(result, self.norCheck())
-
-    return result
-
-  def norCheck(self):
-    result = self.factor()
-
-    while self.current_token is not None and self.current_token.type == TokenType.NOR_BOOLEAN:
-        self.advance()
-        result = NorBooleanNode(result, self.factor())
+      result = NandBooleanNode(result, self.factorCheck())
 
     return result
 
