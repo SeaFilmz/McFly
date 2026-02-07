@@ -980,9 +980,16 @@ class Parser:
   def andCheck(self):
     result = self.comparisonCheck()
 
-    while self.current_token is not None and self.current_token.type == TokenType.AND_BOOLEAN:
+    while self.current_token is not None and self.current_token.type in (TokenType.AND_BOOLEAN, TokenType.NAND_BOOLEAN):
+      token = self.current_token
       self.advance()
-      result = AndBooleanNode(result, self.comparisonCheck())
+
+      right = self.comparisonCheck()
+
+      if token.type == TokenType.AND_BOOLEAN:
+        result = AndBooleanNode(result, right)
+      else:
+        result = NandBooleanNode(result, right)
 
     return result
 
@@ -1063,20 +1070,11 @@ class Parser:
     return result
 
   def typeNotEqualCheck(self):
-    result = self.nandCheck()
+    result = self.factor()
 
     while self.current_token is not None and self.current_token.type == TokenType.TNE:
       self.advance()
-      result = TypeNotEqualNode(result, self.nandCheck())
-
-    return result
-
-  def nandCheck(self):
-    result = self.factorCheck()
-
-    while self.current_token is not None and self.current_token.type == TokenType.NAND_BOOLEAN:
-      self.advance()
-      result = NandBooleanNode(result, self.factorCheck())
+      result = TypeNotEqualNode(result, self.factor())
 
     return result
 
