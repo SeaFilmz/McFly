@@ -1663,11 +1663,11 @@ class Interpreter:
     result = sum(values)
 
     if isinstance(result, float) and result.is_integer():
-      return IntNode(int(result))
+      return int(result)
     elif isinstance(result, int):
-      return IntNode(result)
-    else:
-      return FloatNode(result)
+      return result
+    elif isinstance(result, float):
+      return result
 
   def visit_ProductNode(self, node):
     values = []
