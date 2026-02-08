@@ -1812,11 +1812,11 @@ class Interpreter:
     min_value = min(values)
 
     if isinstance(min_value, float) and min_value.is_integer():
-      return IntNode(int(min_value))
+      return int(min_value)
     elif isinstance(min_value, int):
-      return IntNode(min_value)
-    else:
-      return FloatNode(min_value)
+      return min_value
+    elif isinstance(min_value, float):
+      return min_value
 
   def visit_RangeNode(self, node):
     values = []
