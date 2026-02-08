@@ -998,10 +998,26 @@ class Parser:
         self.advance()
         return NotBooleanNode(self.notCheck())  # recursive for multiple nots
 
-    return self.comparisonCheck()
+    return self.equalityCheck()
+
+  def equalityCheck(self):
+    node = self.comparisonCheck()
+
+    while self.current_token is not None and self.current_token.type in (TokenType.EQUALS, TokenType.NE):
+      token = self.current_token
+      self.advance()
+
+      right = self.comparisonCheck()
+
+      if token.type == TokenType.EQUALS:
+        node = EqualNode(node, right)
+      elif token.type == TokenType.NE:
+        node = NotEqualNode(node, right)
+
+    return node
 
   def comparisonCheck(self):
-    result = self.equalityCheck()
+    result = self.expr()
 
     while self.current_token is not None and self.current_token.type in (
         TokenType.LT,
@@ -1012,7 +1028,7 @@ class Parser:
         token = self.current_token
         self.advance()
 
-        right = self.equalityCheck()
+        right = self.expr()
 
         if token.type == TokenType.LT:
             result = LessThanNode(result, right)
@@ -1024,22 +1040,6 @@ class Parser:
             result = GreaterThanEqualNode(result, right)
 
     return result
-
-  def equalityCheck(self):
-    node = self.expr()
-
-    while self.current_token is not None and self.current_token.type in (TokenType.EQUALS, TokenType.NE):
-      token = self.current_token
-      self.advance()
-
-      right = self.expr()
-
-      if token.type == TokenType.EQUALS:
-        node = EqualNode(node, right)
-      elif token.type == TokenType.NE:
-        node = NotEqualNode(node, right)
-
-    return node
 
   def expr(self):
     result = self.term()
