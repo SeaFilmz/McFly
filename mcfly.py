@@ -1762,11 +1762,11 @@ class Interpreter:
       median = (values[mid - 1] + values[mid]) / 2
 
     if isinstance(median, float) and median.is_integer():
-      return IntNode(int(median))
+      return int(median)
     elif isinstance(median, int):
-      return IntNode(median)
-    else:
-      return FloatNode(median)
+      return median
+    elif isinstance(median, float):
+      return median
 
   def visit_MaxNode(self, node):
     values = []
