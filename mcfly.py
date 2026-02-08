@@ -1725,9 +1725,11 @@ class Interpreter:
     result = sum(values) / len(values)
 
     if isinstance(result, float) and result.is_integer():
-      return IntNode(int(result))
-    else:
-      return FloatNode(result)
+      return int(result)
+    elif isinstance(result, int):
+      return result
+    elif isinstance(result, float):
+      return result
 
   def visit_MedianNode(self, node):
     values = []
