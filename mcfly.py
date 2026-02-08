@@ -1837,11 +1837,11 @@ class Interpreter:
     range_value = max(values) - min(values)
 
     if isinstance(range_value, float) and range_value.is_integer():
-      return IntNode(int(range_value))
+      return int(range_value)
     elif isinstance(range_value, int):
-      return IntNode(range_value)
-    else:
-      return FloatNode(range_value)
+      return range_value
+    elif isinstance(range_value, float):
+      return range_value
 
   def visit_ModeNode(self, node):
     values = []
