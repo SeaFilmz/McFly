@@ -1933,7 +1933,7 @@ class Interpreter:
       else:
         result = int(value)
 
-    return IntNode(result)
+    return result
 
   def visit_FloorNode(self, node):
     value = self.visit(node.node)
