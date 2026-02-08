@@ -1787,11 +1787,11 @@ class Interpreter:
     max_value = max(values)
 
     if isinstance(max_value, float) and max_value.is_integer():
-      return IntNode(int(max_value))
+      return int(max_value)
     elif isinstance(max_value, int):
-      return IntNode(max_value)
-    else:
-      return FloatNode(max_value)
+      return max_value
+    elif isinstance(max_value, float):
+      return max_value
 
   def visit_MinNode(self, node):
     values = []
