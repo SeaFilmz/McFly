@@ -1951,7 +1951,7 @@ class Interpreter:
       else:
         result = int(value) - 1
 
-    return IntNode(result)
+    return result
 
   def visit_TypeEqualNode(self, node):
     check_x = self.visit(node.node_x).value
