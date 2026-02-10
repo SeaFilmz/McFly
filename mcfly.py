@@ -42,7 +42,6 @@ class TokenType(Enum):
   LTE            = auto()
   NE             = auto()
   EQUALS         = auto()
-  TNE            = auto()
   STRING         = auto()
   NUMBER_TYPE    = auto()
   INTEGER_NUMBER = auto()
@@ -361,11 +360,7 @@ class Lexer:
     self.advance()
     if self.current_char == '=':
       self.advance()
-      if self.current_char == '=':
-        self.advance()
-        return Token(TokenType.TNE)
-      else:
-        return Token(TokenType.NE)
+      return Token(TokenType.NE)
 
   def collect_word(self):
     """Collects letters plus allowed keyword suffix characters."""
@@ -547,14 +542,6 @@ class NotEqualNode:
 
   def __repr__(self):
     return f"({self.node_x}!={self.node_y})"
-
-@dataclass
-class TypeNotEqualNode:
-  node_x: any
-  node_y: any
-
-  def __repr__(self):
-    return f"({self.node_x}!=={self.node_y})"
 
 @dataclass
 class NumberTypeNode:
@@ -1068,20 +1055,11 @@ class Parser:
     return result
 
   def typeEqualCheck(self):
-    result = self.typeNotEqualCheck()
+    result = self.factor()
 
     while self.current_token is not None and self.current_token.type == TokenType.TYPE_EQUAL:
       self.advance()
-      result = TypeEqualNode(result, self.typeNotEqualCheck())
-
-    return result
-
-  def typeNotEqualCheck(self):
-    result = self.factor()
-
-    while self.current_token is not None and self.current_token.type == TokenType.TNE:
-      self.advance()
-      result = TypeNotEqualNode(result, self.factor())
+      result = TypeEqualNode(result, self.factor())
 
     return result
 
@@ -2040,18 +2018,6 @@ class Interpreter:
 
     # different types are always not equal
     return True
-
-  def visit_TypeNotEqualNode(self, node):
-    check_x = self.visit(node.node_x).value
-    check_y = self.visit(node.node_y).value
-
-    if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
-      if check_x == check_y:
-        return 'False'
-      else:
-        return 'True'
-    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
-        return 'True'
 
   def visit_AddNode(self, node):
     value_a = self.visit(node.node_a)
