@@ -35,7 +35,6 @@ class TokenType(Enum):
   NUMBER_VAR     = auto()
   STRING_VAR     = auto()
   ARRAY_VAR      = auto()
-  TYPE_EQUAL     = auto()
   GT             = auto()
   LT             = auto()
   GTE            = auto()
@@ -331,11 +330,6 @@ class Lexer:
 
     if self.current_char == '=':
       self.advance()
-
-      if self.current_char == '=':
-        self.advance()
-        return Token(TokenType.TYPE_EQUAL)
-
       return Token(TokenType.EQUALS)
 
     return Token(TokenType.ASSIGN)
@@ -486,14 +480,6 @@ class ArraySignNode:
 
   def __repr__(self):
     return f"{self.value}"
-
-@dataclass
-class TypeEqualNode:
-  node_x: any
-  node_y: any
-
-  def __repr__(self):
-    return f"({self.node_x}==={self.node_y})"
 
 @dataclass
 class EqualNode:
@@ -1042,24 +1028,15 @@ class Parser:
     return result
 
   def term(self):
-    result = self.typeEqualCheck()
+    result = self.factor()
 
     while self.current_token is not None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
       if self.current_token.type == TokenType.MULTIPLY:
         self.advance()
-        result = MultiplyNode(result, self.typeEqualCheck())
+        result = MultiplyNode(result, self.factor())
       elif self.current_token.type == TokenType.DIVIDE:
         self.advance()
-        result = DivideNode(result, self.typeEqualCheck())
-
-    return result
-
-  def typeEqualCheck(self):
-    result = self.factor()
-
-    while self.current_token is not None and self.current_token.type == TokenType.TYPE_EQUAL:
-      self.advance()
-      result = TypeEqualNode(result, self.factor())
+        result = DivideNode(result, self.factor())
 
     return result
 
@@ -1932,18 +1909,6 @@ class Interpreter:
         result = int(value) - 1
 
     return result
-
-  def visit_TypeEqualNode(self, node):
-    check_x = self.visit(node.node_x).value
-    check_y = self.visit(node.node_y).value
-
-    if (isinstance(check_x, int) and isinstance(check_y, int)) or (isinstance(check_x, float) and isinstance(check_y, float)):
-      if check_x == check_y:
-        return 'True'
-      else:
-        return 'False'
-    elif (isinstance(check_x, int) and isinstance(check_y, float)) or (isinstance(check_x, float) and isinstance(check_y, int)):
-      return 'False'
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x)
