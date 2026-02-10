@@ -50,7 +50,6 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 - `>=` for comparing if 1 number is greater than another number or has the same numerical value.
 - `<=` for comparing if 1 number is less than another number or has the same numerical value.
 - `!=` for comparing if 2 numbers do not have the same numerical value.
-- `!==` for comparing if 2 numbers do not have the same type and do not have the same numerical value.
 
 
 ### Boolean Operations
