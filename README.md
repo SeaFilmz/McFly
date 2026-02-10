@@ -44,7 +44,6 @@ McFly is a new math-focused coding language being developed in Python. It perfor
 ### Comparison Operations 
   
 - `==` for comparing if 2 values are equal. Works with numbers, strings and boolean values.
-- `===` for comparing if 2 numbers are of the same type and have the same numerical value.
 - `>` for comparing if 1 number is greater than another number.
 - `<` for comparing if 1 number is less than another number.
 - `>=` for comparing if 1 number is greater than another number or has the same numerical value.
