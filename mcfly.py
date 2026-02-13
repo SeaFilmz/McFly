@@ -530,6 +530,17 @@ class NotEqualNode:
     return f"({self.node_x}!={self.node_y})"
 
 @dataclass
+class ChainCompareNode:
+  values: list
+  operators: list[str]
+
+  def __repr__(self):
+    result = str(self.values[0])
+    for i, op in enumerate(self.operators):
+      result += f" {op} {self.values[i+1]}"
+    return result
+
+@dataclass
 class NumberTypeNode:
   node: any
 
