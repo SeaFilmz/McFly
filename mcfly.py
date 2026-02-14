@@ -1977,6 +1977,34 @@ class Interpreter:
     # different types are always not equal
     return True
 
+  def visit_ChainCompareNode(self, node):
+    left = self.visit(node.values[0])
+
+    for i, op in enumerate(node.operators):
+      right = self.visit(node.values[i + 1])
+
+      if op == TokenType.LT:
+        result = left < right
+      elif op == TokenType.LTE:
+        result = left <= right
+      elif op == TokenType.GT:
+        result = left > right
+      elif op == TokenType.GTE:
+        result = left >= right
+      elif op == TokenType.EQUALS:
+        result = left == right
+      elif op == TokenType.NE:
+        result = left != right
+      else:
+        raise Exception(f"Unknown operator {op}")
+
+      if not result:
+        return False
+
+      left = right
+
+    return True
+
   def visit_AddNode(self, node):
     value_a = self.visit(node.node_a)
     value_b = self.visit(node.node_b)
