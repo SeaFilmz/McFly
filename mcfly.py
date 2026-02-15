@@ -1548,29 +1548,23 @@ class Interpreter:
     return None
 
   def visit_RoundNode(self, node):
-    value_node = self.visit(node.value)
+    value = self.visit(node.value)
 
-    if isinstance(value_node, (int, float)):
-      value_node = FloatNode(value_node) if isinstance(value_node, float) else IntNode(value_node)
-
-    if isinstance(value_node, IntNode):
-      value = value_node.value
-    elif isinstance(value_node, FloatNode):
-      value = value_node.value
-    else:
-      raise Exception("Error: round() expects a numeric value")
+    if not isinstance(value, (int, float)):
+        raise Exception("Error: round() expects a numeric value")
 
     precision = 0
+
     if node.precision is not None:
-      precision_node = self.visit(node.precision)
-      if isinstance(precision_node, int):
-        precision = precision_node
-      elif isinstance(precision_node, IntNode):
-        precision = precision_node.value
-      else:
+      precision_value = self.visit(node.precision)
+
+      if not isinstance(precision_value, int):
         raise Exception("Error: round() precision must be an integer")
-      if precision < 0:
+
+      if precision_value < 0:
         raise Exception("Error: round() precision must be >= 0")
+
+      precision = precision_value
 
     factor = 10 ** precision
     shifted = value * factor
@@ -1583,9 +1577,9 @@ class Interpreter:
     result = shifted_rounded / factor
 
     if precision == 0:
-      return IntNode(int(result))
+      return int(result)
     else:
-      return FloatNode(float(result))
+      return float(result)
 
   def visit_SumNode(self, node):
     values = []
