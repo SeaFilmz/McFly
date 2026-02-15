@@ -871,7 +871,7 @@ class Parser:
     # if self.current_token.type == TokenType.FUNCTION:
     #     result = self.function_definition()
     # else:
-    result = self.conditional()
+    result = self.statement()
 
     if self.current_token is not None:
       self.raise_error()
