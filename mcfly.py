@@ -922,6 +922,9 @@ class Parser:
     return ConditionalNode(cases, else_case)
 
   def statement(self):
+    if self.current_token.type == TokenType.CONDITIONAL:
+      return self.conditional()
+
     if self.current_token.type == TokenType.PRINT:
       return self.print_statement()
 
@@ -1134,9 +1137,9 @@ class Parser:
       self.advance()
       return AbsoluteValueNode(self.factor())
 
-    if token.type == TokenType.CONDITIONAL:
-      self.advance()
-      return ConditionalNode(token.value)
+    # if token.type == TokenType.CONDITIONAL:
+    #   self.advance()
+    #   return ConditionalNode(token.value)
 
     if token.type == TokenType.FUNCTION:
       self.advance()
@@ -2161,13 +2164,7 @@ class Interpreter:
     left = self.visit(node.node_x)
     right = self.visit(node.node_y)
 
-    if isinstance(left, BooleanNode):
-      left = left.value
-    if isinstance(right, BooleanNode):
-      right = right.value
-
-    result = bool(left) and bool(right)
-    return BooleanNode(result)
+    return bool(left) and bool(right)
 
   def visit_NandBooleanNode(self, node):
     left = self.visit(node.node_x)
