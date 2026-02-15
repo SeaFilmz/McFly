@@ -2191,14 +2191,10 @@ class Interpreter:
     return bool(left) != bool(right)
 
   def visit_NorBooleanNode(self, node):
-    left_node = self.visit(node.node_x)
-    right_node = self.visit(node.node_y)
+    left = self.visit(node.node_x)
+    right = self.visit(node.node_y)
 
-    left_val = left_node.value
-    right_val = right_node.value
-
-    result = not (left_val or right_val)
-    return BooleanNode(result)
+    return not (bool(left) or bool(right))
 
   def visit_NotBooleanNode(self, node):
     value = self.visit(node.node)
