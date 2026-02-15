@@ -2182,13 +2182,7 @@ class Interpreter:
     left = self.visit(node.node_x)
     right = self.visit(node.node_y)
 
-    if isinstance(left, BooleanNode):
-      left = left.value
-    if isinstance(right, BooleanNode):
-      right = right.value
-
-    result = bool(left) or bool(right)
-    return BooleanNode(result)
+    return bool(left) or bool(right)
 
   def visit_XorBooleanNode(self, node):
     left = self.visit(node.node_x)
