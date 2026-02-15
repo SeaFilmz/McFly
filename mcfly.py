@@ -2170,13 +2170,7 @@ class Interpreter:
     left = self.visit(node.node_x)
     right = self.visit(node.node_y)
 
-    if isinstance(left, BooleanNode):
-        left = left.value
-    if isinstance(right, BooleanNode):
-        right = right.value
-
-    result = not (bool(left) and bool(right))
-    return BooleanNode(result)
+    return not (bool(left) and bool(right))
 
   def visit_OrBooleanNode(self, node):
     left = self.visit(node.node_x)
