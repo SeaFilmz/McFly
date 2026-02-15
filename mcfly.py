@@ -2201,14 +2201,9 @@ class Interpreter:
     return BooleanNode(result)
 
   def visit_NotBooleanNode(self, node):
-    inner = self.visit(node.node)
+    value = self.visit(node.node)
 
-    if isinstance(inner, BooleanNode):
-      value = inner.value
-    else:
-      value = inner
-
-    return BooleanNode(not bool(value))
+    return not bool(value)
 
   def visit_BooleanNode(self, node):
     value = node.value
