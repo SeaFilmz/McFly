@@ -871,7 +871,7 @@ class Parser:
     # if self.current_token.type == TokenType.FUNCTION:
     #     result = self.function_definition()
     # else:
-    result = self.statement()
+    result = self.conditional()
 
     if self.current_token is not None:
       self.raise_error()
@@ -887,9 +887,39 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     self.expect(TokenType.EQUAL)
-    body = self.statement()
+    body = self.conditional()
 
     return FunctionNode(name, params, body)
+
+  def conditional(self):
+    cases = []
+    else_case = None
+
+    # --- IF ---
+    self.eat(TokenType.CONDITIONAL)   # eat IF
+    condition = self.orCheck()
+    self.eat(TokenType.COLON)
+    expr_value = self.statement()
+    cases.append((condition, expr_value))
+
+    # --- ELIF(s) ---
+    while self.current_token is not None and self.current_token.type == TokenType.ELIF:
+      self.eat(TokenType.ELIF)
+      condition = self.orCheck()
+      self.eat(TokenType.COLON)
+      expr_value = self.statement()
+      cases.append((condition, expr_value))
+
+    # --- ELSE (optional) ---
+    if self.current_token is not None and self.current_token.type == TokenType.ELSE:
+      self.eat(TokenType.ELSE)
+      self.eat(TokenType.COLON)
+      else_case = self.statement()
+
+    # --- END (required) ---
+    self.eat(TokenType.END)
+
+    return ConditionalNode(cases, else_case)
 
   def statement(self):
     if self.current_token.type == TokenType.PRINT:
@@ -1035,9 +1065,6 @@ class Parser:
 
   def factor(self):
     token = self.current_token
-
-    if token.type == TokenType.CONDITIONAL:
-      return self.conditionalExpr()
 
     if token.type == TokenType.ROUND:
       return self.roundExpr()
@@ -1191,36 +1218,6 @@ class Parser:
       self.advance()
       return ErrorWordsNode(token.value)
     self.raise_error()
-
-  def conditionalExpr(self):
-    cases = []
-    else_case = None
-
-    # --- IF ---
-    self.eat(TokenType.CONDITIONAL)   # eat IF
-    condition = self.expr()
-    self.eat(TokenType.COLON)
-    expr_value = self.expr()
-    cases.append((condition, expr_value))
-
-    # --- ELIF(s) ---
-    while self.current_token is not None and self.current_token.type == TokenType.ELIF:
-      self.eat(TokenType.ELIF)
-      condition = self.expr()
-      self.eat(TokenType.COLON)
-      expr_value = self.expr()
-      cases.append((condition, expr_value))
-
-    # --- ELSE (optional) ---
-    if self.current_token is not None and self.current_token.type == TokenType.ELSE:
-      self.eat(TokenType.ELSE)
-      self.eat(TokenType.COLON)
-      else_case = self.expr()
-
-    # --- END (required) ---
-    self.eat(TokenType.END)
-
-    return ConditionalNode(cases, else_case)
 
   def roundExpr(self):
     self.advance()
