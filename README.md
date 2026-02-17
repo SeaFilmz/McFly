@@ -94,6 +94,15 @@ Variables in this language are immutable, meaning they can only be assigned once
 - `#tau` is equal to `6.283185307179586`
 - `#e` is equal to `2.718281828459045`
 
+
+### Conditionals
+
+Conditionals evaluate logic and return a value from the first true branch.
+- `if` checks the first condition.
+- `elif` checks another condition if previous ones were false.
+- `else` fallback value if no conditions are true.
+
+
 ## Examples:
 - Input: `3+3-3*3/3` Outputs: `3`
 - Input: `#pi` Outputs: `3.141592653589793` 
