@@ -5,7 +5,8 @@ It learns from the past but looks to the future, McFly.
 
 ![McFly running in Windows Powershell](.github/mcfly.gif)
 
-McFly is a new math-focused coding language being developed in Python. It performs calculations following the correct order of operations, supports number comparisons, and can return the contents of quoted strings. The language is designed to feel like a calculator while also allowing general-purpose coding.
+McFly coding language is a math- and statistics-focused programmable calculator being developed in Python.
+
 
 ## The components of McFly:
 
