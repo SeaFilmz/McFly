@@ -113,6 +113,12 @@ Conditionals evaluate logic and return a value from the first true branch.
 - Input: `3.0===3` Outputs: `False`
 - Input: `True or True` Outputs: `True`
 - Input: `"Hello World!"` Outputs: `Hello World!`
+
+
+## Upcoming Features:
+
+- User-Defined Functions 
+
   
 ## Optimizations:  
 
