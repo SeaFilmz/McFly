@@ -235,7 +235,9 @@ class Lexer:
         elif upper_word == "PRINT":
           yield Token(TokenType.PRINT)
         else:
-          yield Token(TokenType.ERROR_WORDS, word)
+          yield Token(TokenType.IDENTIFIER, word)
+      else:
+        yield Token(TokenType.ERROR_WORDS, word)
 
   def generate_number(self):
     decimal_point_count = 0
