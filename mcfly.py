@@ -2177,6 +2177,11 @@ class Interpreter:
 
     return isinstance(value, str)
 
+  def visit_ListTypeNode(self, node):
+    value = self.visit(node.node)
+
+    return isinstance(value, list)
+
   def visit_AndBooleanNode(self, node):
     left = self.visit(node.node_x)
     right = self.visit(node.node_y)
