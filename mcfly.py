@@ -1178,6 +1178,10 @@ class Parser:
       self.advance()
       return StringTypeNode(self.factor())
 
+    if token.type == TokenType.LIST_TYPE:
+      self.advance()
+      return ListTypeNode(self.factor())
+
     if token.type == TokenType.EVEN_CHECK:
       self.advance()
       return EvenCheckNode(self.factor())
