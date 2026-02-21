@@ -11,7 +11,7 @@ important_numbers = {
 
 custom_strings = {}
 
-custom_arrays = {}
+custom_lists = {}
 
 important_words = {
   'fun': 'Coming Soon: The word fun is reserved for creating custom functions.',
@@ -34,7 +34,7 @@ class TokenType(Enum):
   ASSIGN         = auto()
   NUMBER_VAR     = auto()
   STRING_VAR     = auto()
-  ARRAY_VAR      = auto()
+  LIST_VAR      = auto()
   GT             = auto()
   LT             = auto()
   GTE            = auto()
@@ -114,7 +114,7 @@ class Lexer:
         yield self.generate_str_var()
       elif self.current_char == '@':
         self.advance()
-        yield self.generate_array_var()
+        yield self.generate_list_var()
       elif self.current_char == '"':
         yield self.generate_string()
       elif self.current_char == '+':
@@ -312,9 +312,9 @@ class Lexer:
 
     return Token(TokenType.STRING_VAR, var_name)
 
-  def generate_array_var(self):
+  def generate_list_var(self):
     if not self.current_char.isalpha():
-      raise Exception("Array variable must start with a letter after '@'")
+      raise Exception("List variable must start with a letter after '@'")
 
     var_name = "@" + self.current_char
     self.advance()
@@ -326,7 +326,7 @@ class Lexer:
       var_name += self.current_char
       self.advance()
 
-    return Token(TokenType.ARRAY_VAR, var_name)
+    return Token(TokenType.LIST_VAR, var_name)
 
   def generate_equals(self):
     self.advance()
@@ -401,7 +401,7 @@ class StringNode:
     return f"{self.value}"
 
 @dataclass
-class ArrayNode:
+class ListNode:
   elements: list
 
   def __repr__(self):
@@ -478,7 +478,7 @@ class StringSignNode:
     return f"{self.value}"
 
 @dataclass
-class ArraySignNode:
+class ListSignNode:
   value: str
 
   def __repr__(self):
@@ -934,7 +934,7 @@ class Parser:
     if (self.current_token.type in (
       TokenType.NUMBER_VAR,
       TokenType.STRING_VAR,
-      TokenType.ARRAY_VAR,
+      TokenType.LIST_VAR,
     ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
       return self.assignment()
 
@@ -948,7 +948,7 @@ class Parser:
     if token.type not in (
       TokenType.NUMBER_VAR,
       TokenType.STRING_VAR,
-      TokenType.ARRAY_VAR,
+      TokenType.LIST_VAR,
     ):
       raise Exception("Syntax Error: print expects a variable")
 
@@ -1110,7 +1110,7 @@ class Parser:
       return result
 
     if token.type == TokenType.LBRACKET:
-      return self.arrayExpr()
+      return self.listExpr()
 
     if token.type == TokenType.PLUS:
       self.advance()
@@ -1208,9 +1208,9 @@ class Parser:
       self.advance()
       return StringSignNode(token.value)
 
-    if token.type == TokenType.ARRAY_VAR:
+    if token.type == TokenType.LIST_VAR:
       self.advance()
-      return ArraySignNode(token.value)
+      return ListSignNode(token.value)
 
     if token.type == TokenType.TRUE:
       self.advance()
@@ -1433,14 +1433,14 @@ class Parser:
 
     return ModeNode(values)
 
-  def arrayExpr(self):
+  def listExpr(self):
     elements = []
 
     self.advance()
 
     if self.current_token.type == TokenType.RBRACKET:
       self.advance()
-      return ArrayNode(elements)
+      return ListNode(elements)
 
     elements.append(self.expr())
 
@@ -1452,7 +1452,7 @@ class Parser:
       self.raise_error("Expected ']'")
 
     self.advance()
-    return ArrayNode(elements)
+    return ListNode(elements)
 
 # Interpreter #
 
@@ -1485,7 +1485,7 @@ class Interpreter:
       if not isinstance(value, str):
         raise Exception(f"Type Error: value assigned to {node.name} must be a string")
 
-    elif node.var_type == TokenType.ARRAY_VAR:
+    elif node.var_type == TokenType.LIST_VAR:
       if not isinstance(value, list):
         raise Exception(f"Type Error: value assigned to {node.name} must be a list")
 
@@ -1515,16 +1515,16 @@ class Interpreter:
 
     raise Exception(f"Error: Unknown string variable '{node.value}'")
 
-  def visit_ArraySignNode(self, node):
+  def visit_ListSignNode(self, node):
     if node.value in self.variables:
         return self.variables[node.value]
 
-    raise Exception(f"Error: Unknown array variable '{node.value}'")
+    raise Exception(f"Error: Unknown list variable '{node.value}'")
 
   def visit_StringNode(self, node):
     return node.value
 
-  def visit_ArrayNode(self, node):
+  def visit_ListNode(self, node):
     return [self.visit(el) for el in node.elements]
 
   def visit_PrintNode(self, node):
@@ -2223,7 +2223,7 @@ if __name__ == '__main__':
     if tree is None: continue
     print(tree)
     value = interpreter.visit(tree)
-    if isinstance(tree, (NumberSignNode, StringSignNode, ArraySignNode)):
+    if isinstance(tree, (NumberSignNode, StringSignNode, ListSignNode)):
       continue
     if value is not None:
       print(value)
