@@ -617,6 +617,13 @@ class StringTypeNode:
     return f"(str?{self.node})"
 
 @dataclass
+class ListTypeNode:
+  node: any
+
+  def __repr__(self):
+    return f"(list?{self.node})"
+
+@dataclass
 class AndBooleanNode:
   node_x: any
   node_y: any
