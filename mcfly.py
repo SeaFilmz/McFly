@@ -173,6 +173,8 @@ class Lexer:
           yield Token(TokenType.FLOAT_TYPE)
         elif upper_word == "STR?":
           yield Token(TokenType.STRING_TYPE)
+        elif upper_word == "LIST?":
+          yield Token(TokenType.LIST_TYPE)
         elif upper_word == "ODD?":
           yield Token(TokenType.ODD_CHECK)
         elif upper_word == "EVEN?":
