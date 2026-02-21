@@ -47,6 +47,7 @@ class TokenType(Enum):
   INTEGER_TYPE   = auto()
   FLOAT_TYPE     = auto()
   STRING_TYPE    = auto()
+  LIST_TYPE      = auto()
   EVEN_CHECK     = auto()
   ODD_CHECK      = auto()
   POSITIVE_CHECK = auto()
