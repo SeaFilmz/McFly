@@ -797,7 +797,7 @@ class SquareRootNode:
 
 @dataclass
 class AbsoluteValueNode:
-  node: any
+  node: list
 
   def __repr__(self):
     return f"abs {self.node}"
