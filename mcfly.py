@@ -783,7 +783,7 @@ class RangeNode:
 
 @dataclass
 class SquareNode:
-  node: any
+  node: list
 
   def __repr__(self):
     return f"square {self.node}"
