@@ -804,7 +804,7 @@ class AbsoluteValueNode:
 
 @dataclass
 class CeilNode:
-  node: any
+  node: list
 
   def __repr__(self):
     return f"(ceil{self.node})"
