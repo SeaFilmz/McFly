@@ -1082,6 +1082,9 @@ class Parser:
   def factor(self):
     token = self.current_token
 
+    if token.type == TokenType.ABSOLUTE_VALUE:
+      return self.absoluteValueExpr()
+
     if token.type == TokenType.ROUND:
       return self.roundExpr()
 
@@ -1145,10 +1148,6 @@ class Parser:
     if token.type == TokenType.SQUARE_ROOT:
       self.advance()
       return SquareRootNode(self.factor())
-
-    if token.type == TokenType.ABSOLUTE_VALUE:
-      self.advance()
-      return AbsoluteValueNode(self.factor())
 
     # if token.type == TokenType.CONDITIONAL:
     #   self.advance()
@@ -1238,6 +1237,26 @@ class Parser:
       self.advance()
       return ErrorWordsNode(token.value)
     self.raise_error()
+
+  def absoluteValueExpr(self):
+    self.expect(TokenType.ABSOLUTE_VALUE)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+      args.append(self.expr())
+
+      while self.current_token.type == TokenType.COMMA:
+        self.advance()
+        args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return AbsoluteValueNode(args)
 
   def roundExpr(self):
     self.advance()
