@@ -1885,17 +1885,26 @@ class Interpreter:
       return result
 
   def visit_AbsoluteValueNode(self, node):
-    value = self.visit(node.node)
 
-    if not isinstance(value, (int, float)):
+    def apply_abs(value):
+      if isinstance(value, (int, float)):
+        return abs(value)
+
+      if isinstance(value, list):
+        return [apply_abs(v) for v in value]
+
       raise Exception("abs() requires numeric input")
 
-    result = abs(value)
+    results = []
 
-    if isinstance(result, float) and result.is_integer():
-      return int(result)
-    else:
-      return result
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(apply_abs(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_CeilNode(self, node):
     value = self.visit(node.node)
