@@ -790,7 +790,7 @@ class SquareNode:
 
 @dataclass
 class SquareRootNode:
-  node: any
+  node: list
 
   def __repr__(self):
     return f"sqrt {self.node}"
