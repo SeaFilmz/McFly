@@ -811,7 +811,7 @@ class CeilNode:
 
 @dataclass
 class FloorNode:
-  node: any
+  node: list
 
   def __repr__(self):
     return f"(floor{self.node})"
