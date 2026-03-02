@@ -1149,10 +1149,6 @@ class Parser:
       self.advance()
       return SquareRootNode(self.factor())
 
-    # if token.type == TokenType.CONDITIONAL:
-    #   self.advance()
-    #   return ConditionalNode(token.value)
-
     if token.type == TokenType.FUNCTION:
       self.advance()
       return FunctionNode(token.value)
