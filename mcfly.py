@@ -129,8 +129,9 @@ class Lexer:
         self.advance()
         yield Token(TokenType.MULTIPLY)
       elif self.current_char == '/':
-        self.advance()
-        yield Token(TokenType.DIVIDE)
+        token = self.generate_front_slash_action()
+        if token is not None:
+          yield token
       elif self.current_char == '(':
         self.advance()
         yield Token(TokenType.LPAREN)
@@ -362,6 +363,29 @@ class Lexer:
     if self.current_char == '=':
       self.advance()
       return Token(TokenType.NE)
+
+  def generate_front_slash_action(self):
+    # Check the next character safely
+    next_char = self.text[self.pos + 1] if self.pos + 1 < len(self.text) else None
+
+    # If "/-" → single-line comment
+    if next_char == '~':
+        self.advance()  # consume '/'
+        self.advance()  # consume '-'
+
+        # Skip everything until newline
+        while self.current_char is not None and self.current_char != '\n':
+            self.advance()
+
+        # Skip the newline itself
+        if self.current_char == '\n':
+            self.advance()
+
+        return None  # comment produces no token
+
+    # Otherwise it's division
+    self.advance()
+    return Token(TokenType.DIVIDE)
 
   def collect_word(self):
     """Collects letters plus allowed keyword suffix characters."""
