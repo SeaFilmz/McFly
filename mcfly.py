@@ -82,6 +82,7 @@ class TokenType(Enum):
   CEIL           = auto()
   FLOOR          = auto()
   ABSOLUTE_VALUE = auto()
+  COMMENT        = auto()
   PRINT          = auto()
   ERROR_WORDS    = auto()
 
