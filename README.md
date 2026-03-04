@@ -104,6 +104,11 @@ Conditionals evaluate logic and return a value from the first true branch.
 - `elif` checks another condition if previous ones were false.
 - `else` fallback value if no conditions are true.
 
+### Comments
+
+- `/~` is for single-line comments which allow you to add a note after it on the same line that are ignored during execution.
+
+
 
 ## Examples:
 - Input: `3+3-3*3/3` Outputs: `3`
