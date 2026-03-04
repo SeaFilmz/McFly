@@ -2279,19 +2279,29 @@ class PrintNode:
   def __init__(self, var_name):
     self.var_name = var_name
 
-if __name__ == '__main__':
-  interpreter = Interpreter()
-
-  while True:
-    text = input("Enter a math function: ")
+def run_text(text, interpreter):
     lexer = Lexer(text)
     tokens = list(lexer.generate_tokens())
+
     parser = Parser(tokens)
     tree = parser.parse()
-    if tree is None: continue
+
+    if tree is None:
+        return
+
     print(tree)
+
     value = interpreter.visit(tree)
+
     if isinstance(tree, (NumberSignNode, StringSignNode, ListSignNode)):
-      continue
+        return
+
     if value is not None:
-      print(value)
+        print(value)
+
+if __name__ == '__main__':
+    interpreter = Interpreter()
+
+    while True:
+        text = input("Enter a math function: ")
+        run_text(text, interpreter)
