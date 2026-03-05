@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from dataclasses import dataclass
+import sys
 
 # Dictionary #
 
@@ -2299,9 +2300,49 @@ def run_text(text, interpreter):
     if value is not None:
         print(value)
 
-if __name__ == '__main__':
-    interpreter = Interpreter()
+def run_file(filename, interpreter):
 
+  # Ensure the file uses the .McFly extension
+  if not filename.endswith(".mcfly"):
+    print("Error: McFly files must use the .mcfly extension")
+    return
+
+  try:
+    with open(filename, "r") as file:
+      for line in file:
+
+        # Skip blank lines
+        if line.strip() == "":
+          continue
+
+        # Skip single line comments
+        if line.strip().startswith("/~"):
+          continue
+
+        run_text(line, interpreter)
+
+  except FileNotFoundError:
+    print(f"File not found: {filename}")
+
+  except Exception as e:
+    print("Error:", e)
+
+
+if __name__ == '__main__':
+
+  interpreter = Interpreter()
+
+  # If a file is provided
+  if len(sys.argv) > 1:
+    filename = sys.argv[1]
+    run_file(filename, interpreter)
+
+  # Otherwise start REPL
+  else:
     while True:
-        text = input("Enter a math function: ")
-        run_text(text, interpreter)
+      text = input("McFly > ")
+
+      if text.strip().lower() == "exit":
+        break
+
+      run_text(text, interpreter)
