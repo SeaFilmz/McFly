@@ -136,11 +136,14 @@ Conditionals evaluate logic and return a value from the first true branch.
 1. Right click on the page and click `Save As...`
 1. Save that file in the mcfly folder as mcfly.py.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
-1. Click into the Explorer Address Bar to highlight the text.
-1. Delete the text, type `powershell` in the Address Bar, press enter.
-1. Powershell will open in the same directory you have navigated to.
-1. While in Powershell, run the command `python mcfly.py`. 
-1. McFly is running and ready to use if your terminal displays `Enter a math function:`
+
+### Steps for Running the REPL Version
+
+7. Click into the Explorer Address Bar to highlight the text.
+8. Delete the text, type `powershell` in the Address Bar, press enter.
+9. Powershell will open in the same directory you have navigated to.
+10. While in Powershell, run the command `python mcfly.py`. 
+11. McFly is running and ready to use if your terminal displays `Enter a math function:`
 
 >💡 If you close powershell, you will need to repeat instructions 6-9 to rerun McFly.
  
