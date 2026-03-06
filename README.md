@@ -137,6 +137,18 @@ Conditionals evaluate logic and return a value from the first true branch.
 1. Save that file in the mcfly folder as mcfly.py.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
 
+### Steps for Running the External File Version
+7. In the mcfly folder create a file with the extension `.mcfly` (example: `test.mcfly`).
+8. Open the `.mcfly` file in a text editor.
+9. Write your McFly code in that file.
+10. Save the McFly code in that file.
+11. Go back to the McFly folder.
+12. Click the Explorer Address Bar to highlight the current folder path.
+13. Delete the text, type `powershell`, and press Enter.
+14. Powershell will open in the same directory you have navigated to. 
+15. While in Powershell, run the command `python mcfly.py test.mcfly`.
+16. You should now see the execution of your `.mcfly` file in the terminal.
+
 ### Steps for Running the REPL Version
 
 7. Click into the Explorer Address Bar to highlight the text.
