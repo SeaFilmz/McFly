@@ -1534,7 +1534,8 @@ class Interpreter:
     # 2. Enforce type
     if node.var_type == TokenType.NUMBER_VAR:
       if not isinstance(value, (int, float)):
-        raise Exception(f"Type Error: value assigned to {node.name} must be a number")
+        print()
+        raise Exception(f'Type Error: {node.name} must be assigned a number. Change "{value}" ({type(value).__name__} to a number).')
 
     elif node.var_type == TokenType.STRING_VAR:
       if not isinstance(value, str):
