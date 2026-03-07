@@ -155,7 +155,7 @@ Conditionals evaluate logic and return a value from the first true branch.
 8. Delete the text, type `powershell` in the Address Bar, press enter.
 9. Powershell will open in the same directory you have navigated to.
 10. While in Powershell, run the command `python mcfly.py`. 
-11. McFly is running and ready to use if your terminal displays `Enter a math function:`
+11. McFly is running and ready to use if your terminal displays `Enter McFly Code:`
 
 >💡 If you close powershell, you will need to repeat instructions 6-9 to rerun McFly.
  
