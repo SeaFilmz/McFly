@@ -2340,7 +2340,7 @@ if __name__ == '__main__':
   # Otherwise start REPL
   else:
     while True:
-      text = input("McFly > ")
+      text = input("Enter McFly Code:")
 
       if text.strip().lower() == "exit":
         break
