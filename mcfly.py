@@ -1539,7 +1539,7 @@ class Interpreter:
 
     elif node.var_type == TokenType.STRING_VAR:
       if not isinstance(value, str):
-        raise Exception(f"Type Error: value assigned to {node.name} must be a string")
+        raise Exception(f'Type Error: {node.name} must be assigned a string. Change "{value}" from {type(value).__name__} to a string.')
 
     elif node.var_type == TokenType.LIST_VAR:
       if not isinstance(value, list):
