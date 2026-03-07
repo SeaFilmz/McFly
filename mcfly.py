@@ -1543,7 +1543,7 @@ class Interpreter:
 
     elif node.var_type == TokenType.LIST_VAR:
       if not isinstance(value, list):
-        raise Exception(f"Type Error: value assigned to {node.name} must be a list")
+        raise Exception(f'Type Error: {node.name} must be assigned a list. Change "{value}" from {type(value).__name__} to a list.')
 
     else:
       raise Exception("Invalid assignment target")
