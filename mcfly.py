@@ -27,6 +27,7 @@ class TokenType(Enum):
   MINUS          = auto()
   MULTIPLY       = auto()
   DIVIDE         = auto()
+  EXPONENT       = auto()
   LPAREN         = auto()
   RPAREN         = auto()
   LBRACKET       = auto()
