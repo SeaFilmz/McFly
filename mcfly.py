@@ -134,6 +134,9 @@ class Lexer:
         token = self.generate_front_slash_action()
         if token is not None:
           yield token
+      elif self.current_char == '^':
+        self.advance()
+        yield Token(TokenType.EXPONENT)
       elif self.current_char == '(':
         self.advance()
         yield Token(TokenType.LPAREN)
