@@ -2156,6 +2156,22 @@ class Interpreter:
     elif isinstance(quotient, float):
       return quotient
 
+  def visit_ExponentNode(self, node):
+    base = self.visit(node.node_a)
+    exponent = self.visit(node.node_b)
+
+    if not isinstance(base, (int, float)) or not isinstance(exponent, (int, float)):
+      raise Exception("Exponentiation requires numeric inputs")
+
+    result = base ** exponent
+
+    if isinstance(result, float) and result.is_integer():
+      return int(result)
+    elif isinstance(result, int):
+      return result
+    elif isinstance(result, float):
+      return result
+
   def visit_PlusNode(self, node):
     return self.visit(node.node)
 
