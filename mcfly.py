@@ -1105,17 +1105,27 @@ class Parser:
     return result
 
   def term(self):
-    result = self.factor()
+    result = self.exponent()
 
     while self.current_token is not None and self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
       if self.current_token.type == TokenType.MULTIPLY:
         self.advance()
-        result = MultiplyNode(result, self.factor())
+        result = MultiplyNode(result, self.exponent())
       elif self.current_token.type == TokenType.DIVIDE:
         self.advance()
-        result = DivideNode(result, self.factor())
+        result = DivideNode(result, self.exponent())
 
     return result
+
+  def exponent(self):
+    left = self.factor()
+
+    if self.current_token is not None and self.current_token.type == TokenType.EXPONENT:
+      self.advance()
+      right = self.exponent()
+      return ExponentNode(left, right)
+
+    return left
 
   def factor(self):
     token = self.current_token
