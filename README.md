@@ -131,6 +131,8 @@ Conditionals evaluate logic and return a value from the first true branch.
 
 ## How to run McFly on Windows:
 
+1. Open Terminal by pressing Windows Key + X on your keyboard. In the menu that appears, click on Terminal (it may also be listed as Windows PowerShell or Command Prompt).
+1. In the terminal type python3 --version and press Enter. If you see Python 3.7.x (or any version higher than 3.7), skip to Step 4. If python3 gives an error, try typing python --version instead. If you see a version lower than 3.7.x or get an error for both, you must install the latest version of Python 3 in Step 3.
 1. [Install Python version 3 or higher.](https://www.python.org/downloads/) (If you already have version 3 or higher of Python installed you may omit this step.)
 1. Create a folder called mcfly.
 1. [Navigate to the raw mcfly.py file on GitHub.]("https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py")
@@ -139,24 +141,24 @@ Conditionals evaluate logic and return a value from the first true branch.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
 
 ### Steps for Running the External File Version
-7. In the mcfly folder create a file with the extension `.mcfly` (example: `test.mcfly`).
-8. Open the `.mcfly` file in a text editor.
-9. Write your McFly code in that file.
-10. Save the McFly code in that file.
-11. Go back to the McFly folder.
-12. Click the Explorer Address Bar to highlight the current folder path.
-13. Delete the text, type `powershell`, and press Enter.
-14. Powershell will open in the same directory you have navigated to. 
-15. While in Powershell, run the command `python mcfly.py test.mcfly`.
-16. You should now see the execution of your `.mcfly` file in the terminal.
+9. In the mcfly folder create a file with the extension `.mcfly` (example: `test.mcfly`).
+10. Open the `.mcfly` file in a text editor.
+11. Write your McFly code in that file.
+12. Save the McFly code in that file.
+13. Go back to the McFly folder.
+14. Click the Explorer Address Bar to highlight the current folder path.
+15. Delete the text, type `powershell`, and press Enter.
+16. Powershell will open in the same directory you have navigated to. 
+17. While in Powershell, run the command `python mcfly.py test.mcfly`.
+18. You should now see the execution of your `.mcfly` file in the terminal.
 
 ### Steps for Running the REPL Version
 
-7. Click into the Explorer Address Bar to highlight the text.
-8. Delete the text, type `powershell` in the Address Bar, press enter.
-9. Powershell will open in the same directory you have navigated to.
-10. While in Powershell, run the command `python mcfly.py`. 
-11. McFly is running and ready to use if your terminal displays `Enter McFly Code:`
+9. Click into the Explorer Address Bar to highlight the text.
+10. Delete the text, type `powershell` in the Address Bar, press enter.
+11. Powershell will open in the same directory you have navigated to.
+12. While in Powershell, run the command `python mcfly.py`. 
+13. McFly is running and ready to use if your terminal displays `Enter McFly Code:`
 
 >💡 If you close powershell, you will need to repeat instructions 6-9 to rerun McFly.
  
