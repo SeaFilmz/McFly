@@ -136,7 +136,7 @@ Conditionals evaluate logic and return a value from the first true branch.
 1. [Install Python version 3 or higher.](https://www.python.org/downloads/) (If you already have version 3 or higher of Python installed you may omit this step.)
 1. Create a folder called mcfly.
 1. [Navigate to the raw mcfly.py file on GitHub.]("https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py")
-1. Right click on the page and click `Save As...`
+1. At the top right of the code view click Download raw file.
 1. Save that file in the mcfly folder as mcfly.py.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
 
