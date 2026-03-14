@@ -16,7 +16,8 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `-` for subtraction.
 - `*` for multiplication.
 - `/` for division.
-  
+- `^` for exponent.
+
 
 ### Math Functions
 
