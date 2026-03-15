@@ -141,16 +141,18 @@ Conditionals evaluate logic and return a value from the first true branch.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
 
 ### Steps for Running the External File Version
-9. In the mcfly folder create a file with the extension `.mcfly` (example: `test.mcfly`).
-10. Open the `.mcfly` file in a text editor.
-11. Write your McFly code in that file.
-12. Save the McFly code in that file.
-13. Go back to the McFly folder.
-14. Click the Explorer Address Bar to highlight the current folder path.
-15. Delete the text, type `powershell`, and press Enter.
-16. Powershell will open in the same directory you have navigated to. 
-17. While in Powershell, run the command `python mcfly.py test.mcfly`.
-18. You should now see the execution of your `.mcfly` file in the terminal.
+
+9. [Install VS Code.](https://code.visualstudio.com/) (If you already have VS Code installed you may omit this step.)
+10. Open VS Code.
+11. Go to file menu and click on Open Folder...
+12. Find your mcfly folder and open it.
+13. Go to the top left side and click on the Explorer tab.
+14. In that tab right click and select New File... from that menu.
+15. Type the name of file with the extension `.mcfly` (example: `test.mcfly`) and press Enter.
+16. Write your McFly code in that file.
+17. Save the McFly code in that file.
+18. Open Terminal pressing Ctrl + Shift + ` keys.
+19. At the botton below your code a box opened. Make sure your in the TERMINAL tab of that box. In that tab type `python3 mcfly.py test.mcfly` and press Enter. You should see the results of your code populate in that box. If the results did not populate in the box try typing python mcfly.py test.mcfly instead.
 
 ### Steps for Running the REPL Version
 
