@@ -150,17 +150,16 @@ Conditionals evaluate logic and return a value from the first true branch.
 14. In that tab right click and select New File... from that menu.
 15. Type the name of file with the extension `.mcfly` (example: `test.mcfly`) and press Enter.
 16. Write your McFly code in that file.
-17. Save the McFly code in that file.
 18. Open Terminal pressing Ctrl + Shift + ` keys.
 19. At the botton below your code a box opened. Make sure your in the TERMINAL tab of that box. In that tab type `python3 mcfly.py test.mcfly` and press Enter. You should see the results of your code populate in that box. If the results did not populate in the box try typing python mcfly.py test.mcfly instead.
 
 ### Steps for Running the REPL Version
 
-9. Click into the Explorer Address Bar to highlight the text.
-10. Delete the text, type `powershell` in the Address Bar, press enter.
-11. Powershell will open in the same directory you have navigated to.
-12. While in Powershell, run the command `python mcfly.py`. 
-13. McFly is running and ready to use if your terminal displays `Enter McFly Code:`
-
->💡 If you close powershell, you will need to repeat instructions 6-9 to rerun McFly.
- 
+9.  Do Step 1.
+10. Type cd and a space.
+11. Find your mcfly folder.
+12. Drag and Drop that folder into the terminal.
+13. Press Enter. You should now seen the address path to your mclfy folder in the terminal.
+14. Type `python3 mcfly.py` and press Enter. If your terminal displays `Enter McFly Code:` then Mcfly is running. If it did not display `Enter McFly Code:` then type `python mcfly.py` and press Enter.
+15. Write your McFly code in the terminal. 
+16. To run that McFly code you wrote press Enter.
