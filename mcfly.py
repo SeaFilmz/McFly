@@ -36,7 +36,7 @@ class TokenType(Enum):
   ASSIGN         = auto()
   NUMBER_VAR     = auto()
   STRING_VAR     = auto()
-  LIST_VAR      = auto()
+  LIST_VAR       = auto()
   GT             = auto()
   LT             = auto()
   GTE            = auto()
