@@ -104,7 +104,7 @@ class Lexer:
       self.current_char = None
 
   def generate_tokens(self):
-    while self.current_char != None:
+    while self.current_char is not None:
       if self.current_char.isspace():
         self.advance()
         continue
