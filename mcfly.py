@@ -759,6 +759,14 @@ class ConditionalNode:
     return " ".join(parts)
 
 @dataclass
+class CountNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"count({valuesList})"
+
+@dataclass
 class SumNode:
   values: list
 
