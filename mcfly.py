@@ -1147,6 +1147,9 @@ class Parser:
     if token.type == TokenType.ROUND:
       return self.roundExpr()
 
+    if token.type == TokenType.COUNT:
+      return self.countExpr()
+
     if token.type == TokenType.SUM:
       return self.sumExpr()
 
@@ -1335,6 +1338,26 @@ class Parser:
     self.advance()
 
     return RoundNode(value_node, precision_node)
+
+  def countExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+    self.advance()
+
+    values = []
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+    self.advance()
+
+    return CountNode(values)
 
   def sumExpr(self):
     self.advance()
