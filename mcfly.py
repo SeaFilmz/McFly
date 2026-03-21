@@ -1696,6 +1696,14 @@ class Interpreter:
     else:
       return float(result)
 
+  def visit_CountNode(self, node):
+    value = self.visit(node.values[0])
+
+    if isinstance(value, list):
+      return len(value)
+
+    raise Exception(f'Type Error: count() only accepts lists but got {type(value).__name__}. Change "{value}" from {type(value).__name__} to a list.')
+
   def visit_SumNode(self, node):
     values = []
 
