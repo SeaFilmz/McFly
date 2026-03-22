@@ -35,6 +35,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 
 ### Statistics Functions
 
+- `count()` returns the number of items in a list.
 - `mean()` returns the average of the given numeric values.
 - `median()` returns the middle value of the given numeric values when they are sorted.
 - `mode()` returns the value or values that appear most frequently in the given numeric values.
