@@ -1619,7 +1619,7 @@ class Interpreter:
     if node.value in self.variables:
       return self.variables[node.value]
 
-    raise Exception(f"Error: Unknown numeric constant or variable '{node.value}'")
+    raise Exception(f"Syntax Error: Numeric variable name contains invalid character(s). Remove invalid character(s) from the numeric variable name or change it to valid character(s).")
 
   def visit_StringSignNode(self, node):
     if node.value in self.variables:
