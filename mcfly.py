@@ -1631,7 +1631,7 @@ class Interpreter:
     if node.value in self.variables:
         return self.variables[node.value]
 
-    raise Exception(f"Error: Unknown list variable '{node.value}'")
+    raise Exception(f"Syntax Error: List variable name contains invalid character(s). Remove invalid character(s) from the list variable name or change it to valid character(s).")
 
   def visit_StringNode(self, node):
     return node.value
