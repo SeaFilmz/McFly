@@ -934,14 +934,10 @@ class Parser:
     if self.current_token is None:
       return None
 
-    # Function definitions disabled until fully implemented
-    # if self.current_token.type == TokenType.FUNCTION:
-    #     result = self.function_definition()
-    # else:
-    result = self.statement()
-
-    if self.current_token is not None:
-      self.raise_error()
+    if self.current_token.type == TokenType.FUNCTION:
+      result = self.function_definition()
+    else:
+      result = self.statement()
 
     return result
 
