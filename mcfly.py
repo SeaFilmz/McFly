@@ -733,6 +733,11 @@ class FunctionNode:
     return f"fun {self.name}({params}): {self.body} end"
 
 @dataclass
+class CallNode:
+  node_to_call: str
+  arg_nodes: list
+
+@dataclass
 class ConditionalNode:
   cases: list[tuple[object, object]]
   else_case: object | None = None
