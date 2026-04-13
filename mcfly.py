@@ -1702,6 +1702,40 @@ class Interpreter:
     self.functions[node.name] = node
     return None
 
+  def visit_CallNode(self, node):
+    # 1. Look up the function in the registry
+    func_node = self.functions.get(node.node_to_call)
+    if not func_node:
+      raise Exception(f"Undefined function: {node.node_to_call}")
+
+    # 2. Evaluate the arguments passed in the call (e.g., #x + 5)
+    # This converts the AST nodes into actual numbers, strings, or lists
+    args = [self.visit(arg) for arg in node.arg_nodes]
+
+    if len(args) != len(func_node.params):
+      raise Exception(
+        f"Function {node.node_to_call} expected {len(func_node.params)} "
+        f"arguments, got {len(args)}"
+      )
+
+    # 3. Save the current state of variables to create a Local Scope
+    # This ensures functions are "pure" and don't overwrite global data
+    old_variables = self.variables.copy()
+
+    # 4. Bind the evaluated arguments to the parameter names (#, @, or $)
+    for param_name, arg_value in zip(func_node.params, args):
+      self.variables[param_name] = arg_value
+
+    # 5. Execute the function body and capture the result
+    try:
+      result = self.visit(func_node.body)
+    finally:
+        # 6. Restore global variables (Cleanup)
+        # Even if the function crashes, we restore the environment
+        self.variables = old_variables
+
+    return result
+
   def visit_RoundNode(self, node):
     value = self.visit(node.value)
 
