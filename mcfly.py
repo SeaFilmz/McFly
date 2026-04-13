@@ -943,14 +943,39 @@ class Parser:
 
   def function_definition(self):
     self.expect(TokenType.FUNCTION)  # fun
-    name = self.expect(TokenType.IDENTIFIER).value
+
+    # Ensure we get the function name
+    if self.current_token.type != TokenType.IDENTIFIER:
+      self.raise_error()
+    name = self.current_token.value
+    self.advance()
 
     self.expect(TokenType.LPAREN)
     params = []
+
+    # Parse parameters (#num, $str, @list)
+    if self.current_token and self.current_token.type in (
+      TokenType.NUMBER_VAR, TokenType.STRING_VAR, TokenType.LIST_VAR
+    ):
+      params.append(self.current_token.value)
+      self.advance()
+      while self.current_token and self.current_token.type == TokenType.COMMA:
+        self.advance()
+        if self.current_token.type in (
+          TokenType.NUMBER_VAR, TokenType.LIST_VAR, TokenType.STRING_VAR
+        ):
+          params.append(self.current_token.value)
+          self.advance()
+        else:
+          self.raise_error()
+
     self.expect(TokenType.RPAREN)
 
-    self.expect(TokenType.EQUAL)
-    body = self.conditional()
+    self.expect(TokenType.ASSIGN)
+
+    body = self.statement()
+
+    self.expect(TokenType.END)
 
     return FunctionNode(name, params, body)
 
