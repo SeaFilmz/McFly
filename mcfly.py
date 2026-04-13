@@ -1167,6 +1167,9 @@ class Parser:
   def factor(self):
     token = self.current_token
 
+    if token.type == TokenType.IDENTIFIER and self.peek() and self.peek().type == TokenType.LPAREN:
+      return self.function_call()
+
     if token.type == TokenType.ABSOLUTE_VALUE:
       return self.absoluteValueExpr()
 
@@ -1586,6 +1589,21 @@ class Parser:
 
     self.advance()
     return ListNode(elements)
+
+  def function_call(self):
+    name = self.current_token.value
+    self.advance()
+    self.expect(TokenType.LPAREN)
+
+    args = []
+    if self.current_token.type != TokenType.RPAREN:
+      args.append(self.expr())
+      while self.current_token.type == TokenType.COMMA:
+        self.advance()
+        args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+    return CallNode(name, args)
 
 # Interpreter #
 
