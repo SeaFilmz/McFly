@@ -1613,6 +1613,10 @@ class Interpreter:
     self.functions = {}
 
   def visit(self, node):
+    # Manual override to force the call
+    if isinstance(node, CallNode):
+      return self.visit_CallNode(node)
+
     method_name = f'visit_{type(node).__name__}'
     method = getattr(self, method_name)
     return method(node)
