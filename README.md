@@ -106,6 +106,15 @@ Conditionals evaluate logic and return a value from the first true branch.
 - `elif` checks another condition if previous ones were false.
 - `else` fallback value if no conditions are true.
 
+
+### User-Defined Functions
+
+User-Defined Functions are immutable blocks of reusable logic.
+- `fun` declares the beginning of a new function.
+- `:` marks the transition from the function name to its code.
+- `end` signals the official end of the function block.
+
+
 ### Comments
 
 - `/~` is for single-line comments which allow you to add a note after it on the same line that are ignored during execution.
