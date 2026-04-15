@@ -105,6 +105,7 @@ Conditionals evaluate logic and return a value from the first true branch.
 - `if` checks the first condition.
 - `elif` checks another condition if previous ones were false.
 - `else` fallback value if no conditions are true.
+- `end` marks the official conclusion of the conditional block.
 
 
 ### User-Defined Functions
