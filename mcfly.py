@@ -1709,7 +1709,13 @@ class Interpreter:
     return None
 
   def visit_FunctionNode(self, node):
+    # Check if a function with this name already exists
+    if node.name in self.functions:
+      raise Exception(f"Function Error: '{node.name}' is already defined and cannot be modified.")
+
+    # Register the function blueprint
     self.functions[node.name] = node
+
     return None
 
   def visit_CallNode(self, node):
