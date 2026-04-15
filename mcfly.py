@@ -971,7 +971,7 @@ class Parser:
 
     self.expect(TokenType.RPAREN)
 
-    self.expect(TokenType.ASSIGN)
+    self.expect(TokenType.COLON)
 
     body = self.statement()
 
