@@ -1713,36 +1713,37 @@ class Interpreter:
     return None
 
   def visit_CallNode(self, node):
-    # 1. Look up the function in the registry
     func_node = self.functions.get(node.node_to_call)
     if not func_node:
       raise Exception(f"Undefined function: {node.node_to_call}")
 
-    # 2. Evaluate the arguments passed in the call (e.g., #x + 5)
-    # This converts the AST nodes into actual numbers, strings, or lists
     args = [self.visit(arg) for arg in node.arg_nodes]
 
     if len(args) != len(func_node.params):
-      raise Exception(
-        f"Function {node.node_to_call} expected {len(func_node.params)} "
-        f"arguments, got {len(args)}"
-      )
+      raise Exception(f"Expected {len(func_node.params)} args, got {len(args)}")
 
-    # 3. Save the current state of variables to create a Local Scope
-    # This ensures functions are "pure" and don't overwrite global data
     old_variables = self.variables.copy()
 
-    # 4. Bind the evaluated arguments to the parameter names (#, @, or $)
+    # --- TYPE CHECKING LOGIC ---
     for param_name, arg_value in zip(func_node.params, args):
+      # Check for Number Variables (#)
+      if param_name.startswith('#') and not isinstance(arg_value, (int, float)):
+        raise Exception(f"Type Error: Parameter {param_name} expects a number, got {type(arg_value).__name__}")
+
+      # Check for String Variables ($)
+      if param_name.startswith('$') and not isinstance(arg_value, str):
+        raise Exception(f"Type Error: Parameter {param_name} expects a string, got {type(arg_value).__name__}")
+
+      # Check for List Variables (@)
+      if param_name.startswith('@') and not isinstance(arg_value, list):
+        raise Exception(f"Type Error: Parameter {param_name} expects a list, got {type(arg_value).__name__}")
+
       self.variables[param_name] = arg_value
 
-    # 5. Execute the function body and capture the result
     try:
       result = self.visit(func_node.body)
     finally:
-        # 6. Restore global variables (Cleanup)
-        # Even if the function crashes, we restore the environment
-        self.variables = old_variables
+      self.variables = old_variables
 
     return result
 
