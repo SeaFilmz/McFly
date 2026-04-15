@@ -1678,7 +1678,13 @@ class Interpreter:
     raise Exception(f"Syntax Error: List variable name contains invalid character(s). Remove invalid character(s) from the list variable name or change it to valid character(s).")
 
   def visit_StringNode(self, node):
-    return node.value
+    result_string = node.value
+
+    for var_name, var_value in self.variables.items():
+      if var_name.startswith('$'):
+        result_string = result_string.replace(var_name, str(var_value))
+
+    return result_string
 
   def visit_ListNode(self, node):
     return [self.visit(el) for el in node.elements]
