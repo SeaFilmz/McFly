@@ -135,9 +135,7 @@ User-Defined Functions are immutable blocks of reusable logic.
 
 ## Upcoming Features:
 
-- User-Defined Functions 
 
-  
 ## Optimizations:  
 
 ## How to run McFly on Windows:
