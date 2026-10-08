@@ -128,7 +128,6 @@ User-Defined Functions are immutable blocks of reusable logic.
 - Input: `3+#pi*2` Outputs: `9.283185307179586`
 - Input: `3.0==3` Outputs: `True`
 - Input: `3.14==3.5` Outputs: `False`
-- Input: `3.0===3` Outputs: `False`
 - Input: `True or True` Outputs: `True`
 - Input: `"Hello World!"` Outputs: `Hello World!`
 
