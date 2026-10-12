@@ -1,6 +1,7 @@
 from enum import Enum, auto
 from dataclasses import dataclass
 import sys
+import token
 
 # Dictionary #
 
@@ -1173,6 +1174,9 @@ class Parser:
     if token.type == TokenType.ABSOLUTE_VALUE:
       return self.absoluteValueExpr()
 
+    if token.type == TokenType.CEIL:
+      return self.ceilExpr()
+
     if token.type == TokenType.ROUND:
       return self.roundExpr()
 
@@ -1223,10 +1227,6 @@ class Parser:
     if token.type == TokenType.MINUS:
       self.advance()
       return MinusNode(self.factor())
-
-    if token.type == TokenType.CEIL:
-      self.advance()
-      return CeilNode(self.factor())
 
     if token.type == TokenType.FLOOR:
       self.advance()
@@ -1340,6 +1340,26 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     return AbsoluteValueNode(args)
+
+  def ceilExpr(self):
+    self.expect(TokenType.CEIL)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+      args.append(self.expr())
+
+      while self.current_token.type == TokenType.COMMA:
+        self.advance()
+        args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return CeilNode(args)
 
   def roundExpr(self):
     self.advance()
