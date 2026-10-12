@@ -868,7 +868,7 @@ class FloorNode:
   node: list
 
   def __repr__(self):
-    return f"(floor{self.node})"
+    return f"floor {self.node}"
 
 @dataclass
 class RoundNode:
