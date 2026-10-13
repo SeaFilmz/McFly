@@ -1180,6 +1180,9 @@ class Parser:
     if token.type == TokenType.FLOOR:
       return self.floorExpr()
 
+    if token.type == TokenType.SQUARE:
+      return self.squareExpr()
+
     if token.type == TokenType.ROUND:
       return self.roundExpr()
 
@@ -1230,10 +1233,6 @@ class Parser:
     if token.type == TokenType.MINUS:
       self.advance()
       return MinusNode(self.factor())
-
-    if token.type == TokenType.SQUARE:
-      self.advance()
-      return SquareNode(self.factor())
 
     if token.type == TokenType.SQUARE_ROOT:
       self.advance()
@@ -1379,6 +1378,26 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     return FloorNode(args)
+
+  def squareExpr(self):
+    self.expect(TokenType.SQUARE)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+      args.append(self.expr())
+
+      while self.current_token.type == TokenType.COMMA:
+        self.advance()
+        args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return SquareNode(args)
 
   def roundExpr(self):
     self.advance()
