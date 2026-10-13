@@ -25,7 +25,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `sqrt` returns the square root of a numeric value.
 - `abs()` returns the absolute (non-negative) value of numeric input. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
 - `ceil()` rounds a numeric value up to the nearest integer. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
-- `floor` rounds a numeric value down to the nearest integer.
+- `floor()` rounds a numeric value down to the nearest integer. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
 - `round()` rounds a numeric value to the specified number of decimal places (default is 0) using standard rounding rules: 
   - next digit 0–4 rounds down
   - next digit 5–9 rounds up
