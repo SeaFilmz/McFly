@@ -2155,23 +2155,37 @@ class Interpreter:
 
     return results
 
+
   def visit_FloorNode(self, node):
-    value = self.visit(node.node)
 
-    if not isinstance(value, (int, float)):
-      raise Exception("floor() requires numeric input")
+    def apply_floor(value):
+        if isinstance(value, (int, float)):
+            if isinstance(value, int):
+                return value
 
-    if isinstance(value, int):
-      result = value
-    else:
-      if value.is_integer():
-        result = int(value)
-      elif value > 0:
-        result = int(value)
-      else:
-        result = int(value) - 1
+            if value.is_integer():
+                return int(value)
 
-    return result
+            if value > 0:
+                return int(value)
+
+            return int(value) - 1
+
+        if isinstance(value, list):
+            return [apply_floor(v) for v in value]
+
+        raise Exception("floor() requires numeric input")
+
+    results = []
+
+    for arg in node.node:
+        value = self.visit(arg)
+        results.append(apply_floor(value))
+
+    if len(results) == 1:
+        return results[0]
+
+    return results
 
   def visit_EqualNode(self, node):
     check_x = self.visit(node.node_x)
