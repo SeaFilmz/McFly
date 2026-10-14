@@ -21,7 +21,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 
 ### Math Functions
 
-- `square` returns the square of a numeric value.
+- `square()` returns the square of a numeric value. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
 - `sqrt` returns the square root of a numeric value.
 - `abs()` returns the absolute (non-negative) value of numeric input. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
 - `ceil()` rounds a numeric value up to the nearest integer. It supports a single number, multiple numbers, a number variable, or a list (including list variables). When give multiple values or a list, the function applies to each item individually.
