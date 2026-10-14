@@ -2104,21 +2104,27 @@ class Interpreter:
     else:
       return result
 
-  def visit_SquareRootNode(self, node):
-    value = self.visit(node.node)
+  def visit_SquareNode(self, node):
 
-    if not isinstance(value, (int, float)):
-      raise Exception("sqrt() requires numeric input")
+    def apply_square(value):
+      if isinstance(value, (int, float)):
+        return value ** 2
 
-    if value < 0:
-      raise Exception("sqrt() requires non-negative input")
+      if isinstance(value, list):
+        return [apply_square(v) for v in value]
 
-    result = value ** 0.5
+      raise Exception("square() requires numeric input")
 
-    if isinstance(result, float) and result.is_integer():
-      return int(result)
-    else:
-      return result
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(apply_square(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_AbsoluteValueNode(self, node):
 
