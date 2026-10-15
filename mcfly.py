@@ -1213,6 +1213,9 @@ class Parser:
     if token.type == TokenType.MODE:
       return self.modeExpr()
 
+    if token.type == TokenType.NUMBER_TYPE:
+      return self.numberTypeExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1237,10 +1240,6 @@ class Parser:
     if token.type == TokenType.SQUARE_ROOT:
       self.advance()
       return SquareRootNode(self.factor())
-
-    if token.type == TokenType.NUMBER_TYPE:
-      self.advance()
-      return NumberTypeNode(self.factor())
 
     if token.type == TokenType.INTEGER_TYPE:
       self.advance()
@@ -1626,6 +1625,26 @@ class Parser:
     self.advance()
 
     return ModeNode(values)
+
+  def numberTypeExpr(self):
+    self.expect(TokenType.NUMBER_TYPE)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+        args.append(self.expr())
+
+        while self.current_token.type == TokenType.COMMA:
+            self.advance()
+            args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return NumberTypeNode(args)
 
   def listExpr(self):
     elements = []
