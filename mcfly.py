@@ -2624,12 +2624,26 @@ class Interpreter:
     return results
 
   def visit_PositiveCheckNode(self, node):
-    value = self.visit(node.node)
 
-    if not isinstance(value, (int, float)):
+    def check_positive(value):
+      if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return value > 0
+
+      if isinstance(value, list):
+        return [check_positive(v) for v in value]
+
       return False
 
-    return value > 0
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_positive(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_NegativeCheckNode(self, node):
     value = self.visit(node.node)
