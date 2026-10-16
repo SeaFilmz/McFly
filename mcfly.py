@@ -2554,17 +2554,6 @@ class Interpreter:
 
     return False
 
-  def visit_EvenCheckNode(self, node):
-    value = self.visit(node.node)
-
-    if isinstance(value, float) and value.is_integer():
-      value = int(value)
-
-    if isinstance(value, int):
-      return value % 2 == 0
-
-    return False
-
   def visit_OddCheckNode(self, node):
 
     def check_odd(value):
@@ -2584,6 +2573,31 @@ class Interpreter:
     for arg in node.node:
       value = self.visit(arg)
       results.append(check_odd(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
+
+  def visit_EvenCheckNode(self, node):
+
+    def check_even(value):
+      if isinstance(value, float) and value.is_integer():
+        value = int(value)
+
+      if isinstance(value, int) and not isinstance(value, bool):
+        return value % 2 == 0
+
+      if isinstance(value, list):
+        return [check_even(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_even(value))
 
     if len(results) == 1:
       return results[0]
