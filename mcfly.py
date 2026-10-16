@@ -2577,9 +2577,26 @@ class Interpreter:
     return results
 
   def visit_StringTypeNode(self, node):
-    value = self.visit(node.node)
 
-    return isinstance(value, str)
+    def check_string(value):
+      if isinstance(value, str):
+        return True
+
+      if isinstance(value, list):
+        return [check_string(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_string(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_ListTypeNode(self, node):
     value = self.visit(node.node)
