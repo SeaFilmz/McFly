@@ -1219,6 +1219,9 @@ class Parser:
     if token.type == TokenType.ZERO_CHECK:
       return self.zeroCheckExpr()
 
+    if token.type == TokenType.STRING_TYPE:
+      return self.stringTypeExpr()
+
     if token.type == TokenType.LPAREN:
       self.advance()
       result = self.expr()
@@ -1255,10 +1258,6 @@ class Parser:
     if token.type == TokenType.FLOAT_TYPE:
       self.advance()
       return FloatTypeNode(self.factor())
-
-    if token.type == TokenType.STRING_TYPE:
-      self.advance()
-      return StringTypeNode(self.factor())
 
     if token.type == TokenType.LIST_TYPE:
       self.advance()
@@ -1664,6 +1663,26 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     return ZeroCheckNode(args)
+
+  def stringTypeExpr(self):
+    self.expect(TokenType.STRING_TYPE)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+        args.append(self.expr())
+
+        while self.current_token.type == TokenType.COMMA:
+            self.advance()
+            args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return StringTypeNode(args)
 
   def listExpr(self):
     elements = []
