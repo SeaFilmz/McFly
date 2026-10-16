@@ -2427,10 +2427,29 @@ class Interpreter:
 
     return -check_num
 
-  def visit_NumberTypeNode(self, node):
-    value = self.visit(node.node)
 
-    return isinstance(value, (int, float))
+  def visit_NumberTypeNode(self, node):
+
+    def check_number(value):
+      if isinstance(value, (int, float)):
+        return True
+
+      if isinstance(value, list):
+        return [check_number(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_number(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
+
 
   def visit_IntegerTypeNode(self, node):
     value = self.visit(node.node)
