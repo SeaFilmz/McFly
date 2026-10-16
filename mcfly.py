@@ -2604,12 +2604,26 @@ class Interpreter:
     return False
 
   def visit_FloatTypeNode(self, node):
-    value = self.visit(node.node)
 
-    if isinstance(value, float):
+    def check_float(value):
+      if isinstance(value, float):
         return True
 
-    return False
+      if isinstance(value, list):
+        return [check_float(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_float(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_OddCheckNode(self, node):
 
