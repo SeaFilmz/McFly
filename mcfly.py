@@ -2665,12 +2665,26 @@ class Interpreter:
     return results
 
   def visit_NegativeCheckNode(self, node):
-    value = self.visit(node.node)
 
-    if not isinstance(value, (int, float)):
-        return False
+    def check_negative(value):
+      if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return value < 0
 
-    return value < 0
+      if isinstance(value, list):
+        return [check_negative(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_negative(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_ZeroCheckNode(self, node):
 
