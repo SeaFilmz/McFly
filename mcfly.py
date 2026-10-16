@@ -1216,6 +1216,9 @@ class Parser:
     if token.type == TokenType.NUMBER_TYPE:
       return self.numberTypeExpr()
 
+    if token.type == TokenType.ODD_CHECK:
+      return self.oddCheckExpr()
+
     if token.type == TokenType.ZERO_CHECK:
       return self.zeroCheckExpr()
 
@@ -1266,10 +1269,6 @@ class Parser:
     if token.type == TokenType.EVEN_CHECK:
       self.advance()
       return EvenCheckNode(self.factor())
-
-    if token.type == TokenType.ODD_CHECK:
-      self.advance()
-      return OddCheckNode(self.factor())
 
     if token.type == TokenType.POSITIVE_CHECK:
       self.advance()
@@ -1643,6 +1642,26 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     return NumberTypeNode(args)
+
+  def oddCheckExpr(self):
+    self.expect(TokenType.ODD_CHECK)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+        args.append(self.expr())
+
+        while self.current_token.type == TokenType.COMMA:
+            self.advance()
+            args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return OddCheckNode(args)
 
   def zeroCheckExpr(self):
     self.expect(TokenType.ZERO_CHECK)
