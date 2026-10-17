@@ -2621,15 +2621,6 @@ class Interpreter:
 
     return results
 
-
-  def visit_IntegerTypeNode(self, node):
-    value = self.visit(node.node)
-
-    if isinstance(value, int):
-      return True
-
-    return False
-
   def visit_IntegerCheckNode(self, node):
 
     def check_integer(value):
@@ -2649,6 +2640,28 @@ class Interpreter:
     for arg in node.node:
       value = self.visit(arg)
       results.append(check_integer(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
+
+  def visit_IntegerTypeNode(self, node):
+
+    def check_integer_type(value):
+      if isinstance(value, int) and not isinstance(value, bool):
+        return True
+
+      if isinstance(value, list):
+        return [check_integer_type(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_integer_type(value))
 
     if len(results) == 1:
       return results[0]
