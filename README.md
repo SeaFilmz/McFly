@@ -67,7 +67,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 ### Type / Checker Operators
 
 - `num?()` checks whether a value is a number (integer or float). It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
-- `intNum?` checks if a number is an integer based on math rules (whole numbers, including values like 3.0).
+- `intNum?()` checks whether a number is an integer based on mathematical rules (whole numbers, including values like 3.0). It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `intType?` checks if a value is stored as an integer type.
 - `float?` checks if a value is stored as a float.
 - `even?` checks if a number is even.
