@@ -2612,15 +2612,29 @@ class Interpreter:
     return False
 
   def visit_IntegerCheckNode(self, node):
-    value = self.visit(node.node)
 
-    if isinstance(value, int):
-      return True
+    def check_integer(value):
+      if isinstance(value, int) and not isinstance(value, bool):
+        return True
 
-    if isinstance(value, float) and value.is_integer():
-      return True
+      if isinstance(value, float) and value.is_integer():
+        return True
 
-    return False
+      if isinstance(value, list):
+        return [check_integer(v) for v in value]
+
+      return False
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(check_integer(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
 
   def visit_FloatTypeNode(self, node):
 
