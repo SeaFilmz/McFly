@@ -1216,6 +1216,9 @@ class Parser:
     if token.type == TokenType.NUMBER_TYPE:
       return self.numberTypeExpr()
 
+    if token.type == TokenType.INTEGER_NUMBER:
+      return self.integerCheckExpr()
+
     if token.type == TokenType.FLOAT_TYPE:
       return self.floatTypeExpr()
 
@@ -1265,10 +1268,6 @@ class Parser:
     if token.type == TokenType.INTEGER_TYPE:
       self.advance()
       return IntegerTypeNode(self.factor())
-
-    if token.type == TokenType.INTEGER_NUMBER:
-      self.advance()
-      return IntegerCheckNode(self.factor())
 
     if token.type == TokenType.LIST_TYPE:
       self.advance()
@@ -1638,6 +1637,26 @@ class Parser:
     self.expect(TokenType.RPAREN)
 
     return NumberTypeNode(args)
+
+  def integerCheckExpr(self):
+    self.expect(TokenType.INTEGER_NUMBER)
+
+    # Require parentheses
+    self.expect(TokenType.LPAREN)
+
+    args = []
+
+    # If not empty
+    if self.current_token.type != TokenType.RPAREN:
+        args.append(self.expr())
+
+        while self.current_token.type == TokenType.COMMA:
+            self.advance()
+            args.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    return IntegerCheckNode(args)
 
   def floatTypeExpr(self):
     self.expect(TokenType.FLOAT_TYPE)
