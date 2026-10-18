@@ -75,7 +75,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `positive?` checks if a number is positive (>0).
 - `negative?` checks if a number is negative (<0).
 - `str?` checks if a value is a string.
-- `zero?` checks if a number is equal to 0 using math rules.
+- `zero?()` checks if a number is equal to 0 using math rules. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `list?` checks whether a value is of type list.
   
   
