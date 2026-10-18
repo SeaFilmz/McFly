@@ -72,7 +72,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `float?()` checks if a value is stored as a float. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `even?()` checks if a number is even. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `odd?()` checks if a number is odd. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
-- `positive?` checks if a number is positive (>0).
+- `positive?()` checks if a number is positive (> 0). It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `negative?` checks if a number is negative (<0).
 - `str?()` checks if a value is a string. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `zero?()` checks if a number is equal to 0 using math rules. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
