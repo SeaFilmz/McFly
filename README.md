@@ -70,7 +70,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `intNum?()` checks whether a number is an integer based on mathematical rules (whole numbers, including values like 3.0). It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `intType?()` checks whether a value is stored as an integer type. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `float?()` checks if a value is stored as a float. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
-- `even?` checks if a number is even.
+- `even?()` checks if a number is even. It supports a single value, multiple values, number variables, string variables, and list variables. When given multiple values or a list variable, it checks each value individually.
 - `odd?` checks if a number is odd.
 - `positive?` checks if a number is positive (>0).
 - `negative?` checks if a number is negative (<0).
