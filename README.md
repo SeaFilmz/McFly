@@ -143,7 +143,7 @@ User-Defined Functions are immutable blocks of reusable logic.
 1. In the terminal type python3 --version and press Enter. If you see Python 3.7.x (or any version higher than 3.7), skip to Step 4. If python3 gives an error, try typing python --version instead. If you see a version lower than 3.7.x or get an error for both, you must install the latest version of Python 3 in Step 3.
 1. [Install Python version 3 or higher.](https://www.python.org/downloads/) (If you already have version 3 or higher of Python installed you may omit this step.)
 1. Create a folder called mcfly.
-1. [Navigate to the raw mcfly.py file on GitHub.]("https://raw.githubusercontent.com/SeaFilmz/McFly/DevCode/mcfly.py")
+1. [Navigate to the mcfly.py file on GitHub.](https://github.com/SeaFilmz/McFly/blob/DevCode/mcfly.py)
 1. At the top right of the code view click Download raw file.
 1. Save that file in the mcfly folder as mcfly.py.
 1. Use Windows Explorer to navigate to the mcfly folder (make sure that folder has a mcfly.py file)
