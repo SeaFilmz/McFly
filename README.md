@@ -140,7 +140,7 @@ User-Defined Functions are immutable blocks of reusable logic.
 ## How to run McFly on Windows:
 
 1. Open Terminal by pressing Windows Key + X on your keyboard. In the menu that appears, click on Terminal (it may also be listed as Windows PowerShell or Command Prompt).
-1. In the terminal type python3 --version and press Enter. If you see Python 3.7.x (or any version higher than 3.7), skip to Step 4. If python3 gives an error, try typing python --version instead. If you see a version lower than 3.7.x or get an error for both, you must install the latest version of Python 3 in Step 3.
+1. In the terminal type python --version and press Enter. If you see Python 3.7.x (or any version higher than 3.7), skip to Step 4. If python gives an error, try typing python3 --version instead. If you see a version lower than 3.7.x or get an error for both, you must install the latest version of Python 3 in Step 3.
 1. [Install Python version 3 or higher.](https://www.python.org/downloads/) (If you already have version 3 or higher of Python installed you may omit this step.)
 1. Create a folder called mcfly.
 1. [Navigate to the mcfly.py file on GitHub.](https://github.com/SeaFilmz/McFly/blob/DevCode/mcfly.py)
