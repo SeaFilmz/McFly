@@ -2891,9 +2891,14 @@ def run_text(text, interpreter):
     if tree is None:
         return
 
-    print(tree)
-
     value = interpreter.visit(tree)
+
+    # Print string results only once
+    if isinstance(value, str):
+        print(value)
+        return
+
+    print(tree)
 
     if isinstance(tree, (NumberSignNode, StringSignNode, ListSignNode)):
         return
