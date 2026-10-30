@@ -832,6 +832,14 @@ class MinNode:
     return f"min({valuesList})"
 
 @dataclass
+class MinMaxNode:
+  values: list
+
+  def __repr__(self):
+    valuesList = ", ".join(map(str, self.values))
+    return f"minmax({valuesList})"
+
+@dataclass
 class RangeNode:
   values: list
 
