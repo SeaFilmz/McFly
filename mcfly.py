@@ -1218,6 +1218,9 @@ class Parser:
     if token.type == TokenType.MIN:
       return self.minExpr()
 
+    if token.type == TokenType.MIN:
+      return self.minMaxExpr()
+
     if token.type == TokenType.RANGE:
       return self.rangeExpr()
 
@@ -1581,6 +1584,29 @@ class Parser:
     self.advance()
 
     return MinNode(values)
+
+  def minMaxExpr(self):
+    self.advance()
+
+    if self.current_token.type != TokenType.LPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    values = []
+
+    values.append(self.expr())
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      self.advance()
+      values.append(self.expr())
+
+    if self.current_token.type != TokenType.RPAREN:
+      self.raise_error()
+
+    self.advance()
+
+    return MinMaxNode(values)
 
   def rangeExpr(self):
     self.advance()
