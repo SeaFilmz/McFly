@@ -79,6 +79,7 @@ class TokenType(Enum):
   MODE           = auto()
   MAX            = auto()
   MIN            = auto()
+  MINMAX         = auto()
   RANGE          = auto()
   SQUARE         = auto()
   SQUARE_ROOT    = auto()
