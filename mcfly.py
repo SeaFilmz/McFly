@@ -1218,7 +1218,7 @@ class Parser:
     if token.type == TokenType.MIN:
       return self.minExpr()
 
-    if token.type == TokenType.MIN:
+    if token.type == TokenType.MINMAX:
       return self.minMaxExpr()
 
     if token.type == TokenType.RANGE:
