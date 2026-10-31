@@ -2259,6 +2259,33 @@ class Interpreter:
     elif isinstance(min_value, float):
       return min_value
 
+  def visit_MinMaxNode(self, node):
+    values = []
+    for expr in node.values:
+      value = self.visit(expr)
+      if isinstance(value, list):
+        values.extend(value)
+      else:
+        values.append(value)
+
+    for v in values:
+      if not isinstance(v, (int, float)):
+        raise Exception("minMax() requires numeric values")
+
+    if not values:
+      raise Exception("minMax() requires at least one value")
+
+    min_value = min(values)
+    max_value = max(values)
+
+    if isinstance(min_value, float) and min_value.is_integer():
+      min_value = int(min_value)
+
+    if isinstance(max_value, float) and max_value.is_integer():
+      max_value = int(max_value)
+
+    return [min_value, max_value]
+
   def visit_RangeNode(self, node):
     values = []
     for expr in node.values:
