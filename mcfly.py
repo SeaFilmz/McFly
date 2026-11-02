@@ -1316,7 +1316,25 @@ class Parser:
 
     if token.type == TokenType.LIST_VAR:
       self.advance()
-      return ListSignNode(token.value)
+
+      result = ListSignNode(token.value)
+
+      while self.current_token is not None and self.current_token.type == TokenType.LBRACKET:
+        self.advance()
+
+        if self.current_token is None or self.current_token.type == TokenType.RBRACKET:
+          self.raise_error()
+
+        index = self.expr()
+
+        if self.current_token is None or self.current_token.type != TokenType.RBRACKET:
+          self.raise_error()
+
+        self.advance()
+
+        result = ListAccessNode(result, index)
+
+      return result
 
     if token.type == TokenType.TRUE:
       self.advance()
