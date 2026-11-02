@@ -2009,6 +2009,21 @@ class Interpreter:
     print(self.variables[var_name])
     return None
 
+  def visit_ListAccessNode(self, node):
+    list_value = self.visit(node.node)
+    index = self.visit(node.index)
+
+    if not isinstance(list_value, list):
+        raise Exception("List indexing requires a list")
+
+    if not isinstance(index, int) or isinstance(index, bool):
+        raise Exception("List index must be an integer")
+
+    if index < 0 or index >= len(list_value):
+        raise Exception("List index out of range")
+
+    return list_value[index]
+
   def visit_ConditionalNode(self, node):
     for condition_node, expr_node in node.cases:
       if self.visit(condition_node) == True:
