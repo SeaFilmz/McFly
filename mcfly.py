@@ -449,6 +449,14 @@ class ListNode:
     return f"[{elementsList}]"
 
 @dataclass
+class ListAccessNode:
+  node: any
+  index: any
+
+  def __repr__(self):
+    return f"{self.node}[{self.index}]"
+
+@dataclass
 class AddNode:
   node_a: any
   node_b: any
