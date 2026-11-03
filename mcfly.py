@@ -1048,18 +1048,9 @@ class Parser:
   def print_statement(self):
     self.expect(TokenType.PRINT)
 
-    token = self.current_token
+    value = self.expr()
 
-    if token.type not in (
-      TokenType.NUMBER_VAR,
-      TokenType.STRING_VAR,
-      TokenType.LIST_VAR,
-    ):
-      raise Exception("Syntax Error: print expects a variable")
-
-    self.advance()
-
-    return PrintNode(token.value)
+    return PrintNode(value)
 
   def peek(self):
     if self.token_index + 1 < len(self.tokens):
@@ -2001,12 +1992,8 @@ class Interpreter:
     return [self.visit(el) for el in node.elements]
 
   def visit_PrintNode(self, node):
-    var_name = node.var_name
-
-    if var_name not in self.variables:
-      raise Exception(f"Error: Undefined variable '{var_name}'")
-
-    print(self.variables[var_name])
+    value = self.visit(node.var_name)
+    print(value)
     return None
 
   def visit_ListAccessNode(self, node):
@@ -3003,10 +2990,10 @@ def run_text(text, interpreter):
         print(value)
         return
 
-    print(tree)
-
-    if isinstance(tree, (NumberSignNode, StringSignNode, ListSignNode)):
+    if isinstance(tree, (NumberSignNode, StringSignNode, ListSignNode, ListAccessNode)):
         return
+
+    print(tree)
 
     if value is not None:
         print(value)
