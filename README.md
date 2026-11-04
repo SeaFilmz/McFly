@@ -41,6 +41,7 @@ McFly coding language is a math- and statistics-focused programmable calculator 
 - `mode()` returns the value or values that appear most frequently in the given numeric values.
 - `max()` returns the largest numeric value from the given inputs.
 - `min()` returns the smallest numeric value from the given inputs.
+- `minMax()` returns the smallest and largest numeric values from the given inputs.
 - `range()` returns the difference between the maximum and minimum values of the given inputs.
 
 
