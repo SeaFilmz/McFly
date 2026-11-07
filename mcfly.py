@@ -64,6 +64,7 @@ class TokenType(Enum):
   NOT_BOOLEAN    = auto()
   TRUE           = auto()
   FALSE          = auto()
+  FOR            = auto()
   IDENTIFIER     = auto()
   FUNCTION       = auto()
   CONDITIONAL    = auto()
