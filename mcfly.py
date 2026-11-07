@@ -240,6 +240,8 @@ class Lexer:
           yield Token(TokenType.XOR_BOOLEAN)
         elif upper_word == "NOR":
           yield Token(TokenType.NOR_BOOLEAN)
+        elif upper_word == "FOR":
+          yield Token(TokenType.FOR)
         elif upper_word == "IF":
           yield Token(TokenType.CONDITIONAL)
         elif upper_word == "ELSE":
