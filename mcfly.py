@@ -1044,6 +1044,25 @@ class Parser:
 
   def statement(self):
     if self.current_token.type == TokenType.CONDITIONAL:
+        return self.conditional()
+
+    if self.current_token.type == TokenType.FOR:
+        return self.for_statement()
+
+    if self.current_token.type == TokenType.PRINT:
+        return self.print_statement()
+
+    if (self.current_token.type in (
+      TokenType.NUMBER_VAR,
+      TokenType.STRING_VAR,
+      TokenType.LIST_VAR,
+    ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
+      return self.assignment()
+
+    return self.orCheck()
+
+  def statement(self):
+    if self.current_token.type == TokenType.CONDITIONAL:
       return self.conditional()
 
     if self.current_token.type == TokenType.PRINT:
