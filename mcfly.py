@@ -1042,28 +1042,37 @@ class Parser:
 
     return ConditionalNode(cases, else_case)
 
-  def statement(self):
-    if self.current_token.type == TokenType.CONDITIONAL:
-        return self.conditional()
+  def for_statement(self):
+    self.expect(TokenType.FOR)
 
-    if self.current_token.type == TokenType.FOR:
-        return self.for_statement()
+    # Initialization
+    initialization = self.assignment()
 
-    if self.current_token.type == TokenType.PRINT:
-        return self.print_statement()
+    self.expect(TokenType.COMMA)
 
-    if (self.current_token.type in (
-      TokenType.NUMBER_VAR,
-      TokenType.STRING_VAR,
-      TokenType.LIST_VAR,
-    ) and self.peek() is not None and self.peek().type == TokenType.ASSIGN):
-      return self.assignment()
+    # Condition
+    condition = self.orCheck()
 
-    return self.orCheck()
+    self.expect(TokenType.COMMA)
+
+    # Update
+    update = self.assignment()
+
+    self.expect(TokenType.COLON)
+
+    # Loop body
+    body = self.statement()
+
+    self.expect(TokenType.END)
+
+    return ForNode(initialization, condition, update, body)
 
   def statement(self):
     if self.current_token.type == TokenType.CONDITIONAL:
       return self.conditional()
+
+    if self.current_token.type == TokenType.FOR:
+      return self.for_statement()
 
     if self.current_token.type == TokenType.PRINT:
       return self.print_statement()
