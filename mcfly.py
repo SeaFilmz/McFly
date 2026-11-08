@@ -738,6 +738,16 @@ class ASTNode:
     pass
 
 @dataclass
+class ForNode:
+  initialization: "ASTNode"
+  condition: "ASTNode"
+  update: "ASTNode"
+  body: "ASTNode"
+
+  def __repr__(self):
+    return f"for {self.initialization}; {self.condition}; {self.update}: {self.body} end"
+
+@dataclass
 class FunctionNode:
   name: str
   params: list[str]
