@@ -2043,6 +2043,42 @@ class Interpreter:
 
     return list_value[index]
 
+  def update_loop_variable(self, node):
+    # 1. Evaluate right-hand side
+    value = self.visit(node.value)
+
+    # 2. Enforce type
+    if node.var_type == TokenType.NUMBER_VAR:
+      if not isinstance(value, (int, float)):
+        raise Exception(f'Type Error: {node.name} must be assigned a number.')
+
+    elif node.var_type == TokenType.STRING_VAR:
+      if not isinstance(value, str):
+        raise Exception(f'Type Error: {node.name} must be assigned a string.')
+
+    elif node.var_type == TokenType.LIST_VAR:
+      if not isinstance(value, list):
+        raise Exception(f'Type Error: {node.name} must be assigned a list.')
+
+    else:
+      raise Exception("Invalid assignment target")
+
+    # 3. Update loop variable internally
+    if node.name not in self.variables:
+      raise Exception(f"Variable '{node.name}' does not exist")
+
+    self.variables[node.name] = value
+    return None
+
+  def visit_ForNode(self, node):
+    self.visit(node.initialization)
+
+    while self.visit(node.condition) == True:
+        self.visit(node.body)
+        self.update_loop_variable(node.update)
+
+    return None
+
   def visit_ConditionalNode(self, node):
     for condition_node, expr_node in node.cases:
       if self.visit(condition_node) == True:
