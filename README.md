@@ -93,6 +93,14 @@ Variables in this language are immutable, meaning they can only be assigned once
 - List variable names start with `@` and can store ordered collections of values.
 
 
+### Indexes
+
+Indexes are used to access individual items in a list by their position. Indexes start at 0, meaning the first item is at index 0, the second item is at index 1, and so on.
+- @list[0] accesses the first item in a list.
+- @list[1] accesses the second item in a list.
+- @list[#i] accesses an item using a number variable as its index.
+
+
 ### Constants
   
 - `#pi` is equal to `3.141592653589793`
