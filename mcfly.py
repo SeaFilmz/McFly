@@ -286,7 +286,7 @@ class Lexer:
     if decimal_point_count == 0:
       return Token(TokenType.INTEGER, int(number_str))
     else:
-      return Token(TokenType.FLOAT, float(number_str))
+      return Token(TokenType.FLOAT, number_str)
 
   def generate_string(self):
     self.advance()
