@@ -2772,7 +2772,7 @@ class Interpreter:
   def visit_NumberTypeNode(self, node):
 
     def check_number(value):
-      if isinstance(value, (int, float)):
+      if isinstance(value, (int, Decimal)):
         return True
 
       if isinstance(value, list):
