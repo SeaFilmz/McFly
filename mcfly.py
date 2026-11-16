@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from dataclasses import dataclass
+from decimal import Decimal
 import sys
 import token
 
