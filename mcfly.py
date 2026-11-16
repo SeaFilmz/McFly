@@ -2841,7 +2841,7 @@ class Interpreter:
   def visit_FloatTypeNode(self, node):
 
     def check_float(value):
-      if isinstance(value, float):
+      if isinstance(value, Decimal):
         return True
 
       if isinstance(value, list):
