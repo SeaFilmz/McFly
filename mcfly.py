@@ -2797,7 +2797,7 @@ class Interpreter:
       if isinstance(value, int) and not isinstance(value, bool):
         return True
 
-      if isinstance(value, float) and value.is_integer():
+      if isinstance(value, Decimal) and value == value.to_integral_value():
         return True
 
       if isinstance(value, list):
