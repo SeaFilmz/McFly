@@ -1969,7 +1969,7 @@ class Interpreter:
     return node.value
 
   def visit_FloatNode(self, node):
-    return node.value
+    return Decimal(node.value)
 
   def visit_AssignNode(self, node):
     # 1. Evaluate right-hand side
