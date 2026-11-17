@@ -2863,7 +2863,7 @@ class Interpreter:
   def visit_OddCheckNode(self, node):
 
     def check_odd(value):
-      if isinstance(value, float) and value.is_integer():
+      if isinstance(value, Decimal) and value == value.to_integral_value():
         value = int(value)
 
       if isinstance(value, int) and not isinstance(value, bool):
