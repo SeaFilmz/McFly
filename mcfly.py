@@ -2726,7 +2726,7 @@ class Interpreter:
     value_a = self.visit(node.node_a)
     value_b = self.visit(node.node_b)
 
-    if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
+    if not isinstance(value_a, (int, Decimal)) or isinstance(value_a, bool) or not isinstance(value_b, (int, Decimal)) or isinstance(value_b, bool):
       raise Exception("Division requires numeric inputs")
 
     if value_b == 0:
@@ -2734,11 +2734,11 @@ class Interpreter:
 
     quotient = value_a / value_b
 
-    if isinstance(quotient, float) and quotient.is_integer():
+    if isinstance(quotient, Decimal) and quotient == quotient.to_integral_value():
       return int(quotient)
     elif isinstance(quotient, int):
       return quotient
-    elif isinstance(quotient, float):
+    elif isinstance(quotient, Decimal):
       return quotient
 
   def visit_ExponentNode(self, node):
