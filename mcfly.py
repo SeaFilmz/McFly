@@ -2763,11 +2763,10 @@ class Interpreter:
   def visit_MinusNode(self, node):
     check_num = self.visit(node.node)
 
-    if not isinstance(check_num, (int, float)):
+    if not isinstance(check_num, (int, Decimal)):
       raise Exception("Minus requires a numeric value")
 
     return -check_num
-
 
   def visit_NumberTypeNode(self, node):
 
