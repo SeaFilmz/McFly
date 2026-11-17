@@ -2694,16 +2694,16 @@ class Interpreter:
     value_a = self.visit(node.node_a)
     value_b = self.visit(node.node_b)
 
-    if not isinstance(value_a, (int, float)) or not isinstance(value_b, (int, float)):
+    if not isinstance(value_a, (int, Decimal)) or isinstance(value_a, bool) or not isinstance(value_b, (int, Decimal)) or isinstance(value_b, bool):
       raise Exception("Subtraction requires numeric inputs")
 
     result = value_a - value_b
 
-    if isinstance(result, float) and result.is_integer():
+    if isinstance(result, Decimal) and result == result.to_integral_value():
       return int(result)
     elif isinstance(result, int):
       return result
-    elif isinstance(result, float):
+    elif isinstance(result, Decimal):
       return result
 
   def visit_MultiplyNode(self, node):
