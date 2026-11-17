@@ -2541,31 +2541,31 @@ class Interpreter:
   def visit_FloorNode(self, node):
 
     def apply_floor(value):
-        if isinstance(value, (int, float)):
-            if isinstance(value, int):
-                return value
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
+        if isinstance(value, int):
+          return value
 
-            if value.is_integer():
-                return int(value)
+        if value == value.to_integral_value():
+          return int(value)
 
-            if value > 0:
-                return int(value)
+        if value > 0:
+          return int(value)
 
-            return int(value) - 1
+        return int(value) - 1
 
-        if isinstance(value, list):
-            return [apply_floor(v) for v in value]
+      if isinstance(value, list):
+        return [apply_floor(v) for v in value]
 
-        raise Exception("floor() requires numeric input")
+      raise Exception("floor() requires numeric input")
 
     results = []
 
     for arg in node.node:
-        value = self.visit(arg)
-        results.append(apply_floor(value))
+      value = self.visit(arg)
+      results.append(apply_floor(value))
 
     if len(results) == 1:
-        return results[0]
+      return results[0]
 
     return results
 
