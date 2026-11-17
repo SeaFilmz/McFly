@@ -2510,11 +2510,11 @@ class Interpreter:
   def visit_CeilNode(self, node):
 
     def apply_ceil(value):
-      if isinstance(value, (int, float)):
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         if isinstance(value, int):
           return value
 
-        if value.is_integer():
+        if value == value.to_integral_value():
           return int(value)
 
         if value > 0:
@@ -2537,7 +2537,6 @@ class Interpreter:
       return results[0]
 
     return results
-
 
   def visit_FloorNode(self, node):
 
