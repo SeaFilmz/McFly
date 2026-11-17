@@ -2913,7 +2913,7 @@ class Interpreter:
   def visit_PositiveCheckNode(self, node):
 
     def check_positive(value):
-      if isinstance(value, (int, float)) and not isinstance(value, bool):
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         return value > 0
 
       if isinstance(value, list):
