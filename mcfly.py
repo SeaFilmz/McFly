@@ -2957,7 +2957,7 @@ class Interpreter:
   def visit_ZeroCheckNode(self, node):
 
     def check_zero(value):
-      if isinstance(value, (int, float)):
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         return value == 0
 
       if isinstance(value, list):
