@@ -2059,7 +2059,7 @@ class Interpreter:
 
     # 2. Enforce type
     if node.var_type == TokenType.NUMBER_VAR:
-      if not isinstance(value, (int, float)):
+      if not isinstance(value, (int, Decimal)):
         raise Exception(f'Type Error: {node.name} must be assigned a number.')
 
     elif node.var_type == TokenType.STRING_VAR:
