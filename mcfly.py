@@ -2628,7 +2628,7 @@ class Interpreter:
     right = self.visit(node.node_y)
 
     # number != number
-    if isinstance(left, (int, float)) and isinstance(right, (int, float)):
+    if isinstance(left, (int, Decimal)) and isinstance(right, (int, Decimal)):
       return left != right
 
     # string != string
