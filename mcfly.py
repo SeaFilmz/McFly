@@ -2487,7 +2487,7 @@ class Interpreter:
   def visit_AbsoluteValueNode(self, node):
 
     def apply_abs(value):
-      if isinstance(value, (int, float)):
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         return abs(value)
 
       if isinstance(value, list):
@@ -2505,7 +2505,6 @@ class Interpreter:
       return results[0]
 
     return results
-
 
   def visit_CeilNode(self, node):
 
