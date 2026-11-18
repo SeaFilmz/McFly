@@ -2618,7 +2618,7 @@ class Interpreter:
     check_x = self.visit(node.node_x)
     check_y = self.visit(node.node_y)
 
-    if not isinstance(check_x, (int, float)) or not isinstance(check_y, (int, float)):
+    if not isinstance(check_x, (int, Decimal)) or not isinstance(check_y, (int, Decimal)):
         raise Exception("LessThanEqualNode requires numeric values")
 
     return check_x <= check_y
