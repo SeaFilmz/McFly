@@ -2124,7 +2124,7 @@ class Interpreter:
     # --- TYPE CHECKING LOGIC ---
     for param_name, arg_value in zip(func_node.params, args):
       # Check for Number Variables (#)
-      if param_name.startswith('#') and not isinstance(arg_value, (int, float)):
+      if param_name.startswith('#') and not isinstance(arg_value, (int, Decimal)):
         raise Exception(f"Type Error: Parameter {param_name} expects a number, got {type(arg_value).__name__}")
 
       # Check for String Variables ($)
