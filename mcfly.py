@@ -2741,16 +2741,16 @@ class Interpreter:
     base = self.visit(node.node_a)
     exponent = self.visit(node.node_b)
 
-    if not isinstance(base, (int, float)) or not isinstance(exponent, (int, float)):
+    if not isinstance(base, (int, Decimal)) or isinstance(base, bool) or not isinstance(exponent, (int, Decimal)) or isinstance(exponent, bool):
       raise Exception("Exponentiation requires numeric inputs")
 
     result = base ** exponent
 
-    if isinstance(result, float) and result.is_integer():
+    if isinstance(result, Decimal) and result == result.to_integral_value():
       return int(result)
     elif isinstance(result, int):
       return result
-    elif isinstance(result, float):
+    elif isinstance(result, Decimal):
       return result
 
   def visit_PlusNode(self, node):
