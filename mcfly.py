@@ -2427,7 +2427,7 @@ class Interpreter:
         values.append(value_node)
 
     for v in values:
-      if not isinstance(v, (int, float)):
+      if not isinstance(v, (int, Decimal)) or isinstance(v, bool):
         raise Exception("mode() requires numeric values")
 
     if not values:
