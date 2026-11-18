@@ -2348,7 +2348,7 @@ class Interpreter:
         values.append(value)
 
     for v in values:
-      if not isinstance(v, (int, float)):
+      if not isinstance(v, (int, Decimal)) or isinstance(v, bool):
         raise Exception("min() requires numeric values")
 
     if not values:
@@ -2356,11 +2356,11 @@ class Interpreter:
 
     min_value = min(values)
 
-    if isinstance(min_value, float) and min_value.is_integer():
+    if isinstance(min_value, Decimal) and min_value == min_value.to_integral_value():
       return int(min_value)
     elif isinstance(min_value, int):
       return min_value
-    elif isinstance(min_value, float):
+    elif isinstance(min_value, Decimal):
       return min_value
 
   def visit_MinMaxNode(self, node):
