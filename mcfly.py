@@ -2196,7 +2196,7 @@ class Interpreter:
             raise Exception("sum() requires numeric values")
           values.append(item)
 
-      elif isinstance(value, (int, Decimal)):
+      elif isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         values.append(value)
 
       else:
