@@ -2284,11 +2284,11 @@ class Interpreter:
 
       if isinstance(value, list):
         for item in value:
-          if not isinstance(item, (int, float)):
+          if not isinstance(item, (int, Decimal)) or isinstance(item, bool):
             raise Exception("median() requires numeric values")
           values.append(item)
 
-      elif isinstance(value, (int, float)):
+      elif isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         values.append(value)
 
       else:
@@ -2306,11 +2306,11 @@ class Interpreter:
     else:
       median = (values[mid - 1] + values[mid]) / 2
 
-    if isinstance(median, float) and median.is_integer():
+    if isinstance(median, Decimal) and median == median.to_integral_value():
       return int(median)
     elif isinstance(median, int):
       return median
-    elif isinstance(median, float):
+    elif isinstance(median, Decimal):
       return median
 
   def visit_MaxNode(self, node):
