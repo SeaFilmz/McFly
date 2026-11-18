@@ -2573,7 +2573,7 @@ class Interpreter:
     check_y = self.visit(node.node_y)
 
     # Allow number == number
-    if isinstance(check_x, (int, float)) and isinstance(check_y, (int, float)):
+    if isinstance(check_x, (int, Decimal)) and not isinstance(check_x, bool) and isinstance(check_y, (int, Decimal)) and not isinstance(check_y, bool):
       return check_x == check_y
 
     # Allow string == string
