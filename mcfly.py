@@ -2222,11 +2222,11 @@ class Interpreter:
 
       if isinstance(value, list):
         for item in value:
-          if not isinstance(item, (int, float)):
+          if not isinstance(item, (int, Decimal)) or isinstance(item, bool):
             raise Exception("product() requires numeric values")
           values.append(item)
 
-      elif isinstance(value, (int, float)):
+      elif isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         values.append(value)
 
       else:
@@ -2239,11 +2239,11 @@ class Interpreter:
     for v in values:
       result *= v
 
-    if isinstance(result, float) and result.is_integer():
+    if isinstance(result, Decimal) and result == result.to_integral_value():
       return int(result)
     elif isinstance(result, int):
       return result
-    elif isinstance(result, float):
+    elif isinstance(result, Decimal):
       return result
 
   def visit_MeanNode(self, node):
