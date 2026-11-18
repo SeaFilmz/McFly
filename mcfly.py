@@ -2465,7 +2465,7 @@ class Interpreter:
   def visit_SquareNode(self, node):
 
     def apply_square(value):
-      if isinstance(value, (int, float)):
+      if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
         return value ** 2
 
       if isinstance(value, list):
