@@ -432,7 +432,7 @@ class IntNode:
 
 @dataclass
 class FloatNode:
-  value: float
+  value: Decimal
 
   def __repr__(self):
     return f"{self.value}"
