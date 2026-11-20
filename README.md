@@ -115,7 +115,7 @@ Conditionals evaluate logic and return a value from the first true branch.
 - `elif` checks another condition if previous ones were false.
 - `else` fallback value if no conditions are true.
 - `end` marks the official conclusion of the conditional block.
-
+ 
 
 ### Traditional For Loops
 
@@ -125,6 +125,11 @@ Traditional For Loops allow code to repeat while a condition is true.
 - The condition determines when the loop should stop.
 - `:` marks the transition from the loop header to its code.
 - `end` signals the official end of the loop block.
+
+Example:
+```
+for #i=0, #i<6, #i=#i+1: print #i end
+```
 
 
 ### User-Defined Functions
