@@ -122,6 +122,7 @@ Conditionals evaluate logic and return a value from the first true branch.
 Traditional For Loops allow code to repeat while a condition is true.
 - `for` declares the beginning of a new loop.
 - The starting value initializes the loop variable.
+- `,` separates the starting value, condition, and increment or decrement.
 - The condition determines when the loop should stop.
 - `:` marks the transition from the loop header to its code.
 - `end` signals the official end of the loop block.
