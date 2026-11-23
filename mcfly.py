@@ -1485,6 +1485,24 @@ class Parser:
 
     return RoundNode(value_node, precision_node)
 
+  def roundValuesExpr(self):
+    self.expect(TokenType.LPAREN)
+
+    values = [self.expr()]
+    multiple_values = False
+
+    while self.current_token is not None and self.current_token.type == TokenType.COMMA:
+      multiple_values = True
+      self.advance()
+      values.append(self.expr())
+
+    self.expect(TokenType.RPAREN)
+
+    if multiple_values:
+      return ListNode(values)
+
+    return values[0]
+
   def countExpr(self):
     self.advance()
 
