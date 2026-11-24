@@ -2165,6 +2165,23 @@ class Interpreter:
 
     return result
 
+  def roundValue(self, value, precision):
+    if not isinstance(value, (int, Decimal)) or isinstance(value, bool):
+      raise Exception("Error: round() expects numeric values")
+
+    factor = 10 ** precision
+    shifted = value * factor
+
+    if shifted >= 0:
+      shifted_rounded = int(shifted + Decimal("0.5"))
+    else:
+      shifted_rounded = int(shifted - Decimal("0.5"))
+
+    if precision == 0:
+      return shifted_rounded
+
+    return Decimal(shifted_rounded) / Decimal(factor)
+
   def visit_RoundNode(self, node):
     value = self.visit(node.value)
 
