@@ -116,7 +116,12 @@ Conditionals evaluate logic and return a value from the first true branch.
 - `else` fallback value if no conditions are true.
 - `:` separates the conditional expression from the code to execute.
 - `end` marks the official conclusion of the conditional block.
- 
+
+Example
+```
+if even?(3): "Even" elif odd?(3): "Odd" else: "Something Else" end
+```
+
 
 ### Traditional For Loops
 
