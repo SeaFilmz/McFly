@@ -1470,7 +1470,10 @@ class Parser:
 
     self.advance()
 
-    value_node = self.expr()
+    if self.current_token.type == TokenType.LPAREN:
+      value_node = self.roundValuesExpr()
+    else:
+      value_node = self.expr()
 
     precision_node = None
 
