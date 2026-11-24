@@ -2185,9 +2185,6 @@ class Interpreter:
   def visit_RoundNode(self, node):
     value = self.visit(node.value)
 
-    if not isinstance(value, (int, Decimal)) or isinstance(value, bool):
-      raise Exception("Error: round() expects a numeric value")
-
     precision = 0
 
     if node.precision is not None:
@@ -2201,18 +2198,13 @@ class Interpreter:
 
       precision = precision_value
 
-    factor = 10 ** precision
-    shifted = value * factor
+    if isinstance(value, list):
+      return [
+        float(self.roundValue(item, precision))
+        for item in value
+      ]
 
-    if shifted >= 0:
-      shifted_rounded = int(shifted + Decimal("0.5"))
-    else:
-      shifted_rounded = int(shifted - Decimal("0.5"))
-
-    if precision == 0:
-      return shifted_rounded
-
-    return Decimal(shifted_rounded) / Decimal(factor)
+    return self.roundValue(value, precision)
 
   def visit_CountNode(self, node):
     value = self.visit(node.values[0])
