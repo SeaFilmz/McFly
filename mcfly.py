@@ -73,6 +73,7 @@ class TokenType(Enum):
   ELIF           = auto()
   COLON          = auto()
   END            = auto()
+  STRING_LENGTH  = auto()
   COUNT          = auto()
   SUM            = auto()
   PRODUCT        = auto()
