@@ -2793,17 +2793,18 @@ class Interpreter:
     if not isinstance(value_a, (int, Decimal)) or isinstance(value_a, bool) or not isinstance(value_b, (int, Decimal)) or isinstance(value_b, bool):
       raise Exception("Division requires numeric inputs")
 
+    value_a = Decimal(str(value_a))
+    value_b = Decimal(str(value_b))
+
     if value_b == 0:
       raise Exception("Division by zero")
 
     quotient = value_a / value_b
 
-    if isinstance(quotient, Decimal) and quotient == quotient.to_integral_value():
+    if quotient == quotient.to_integral_value():
       return int(quotient)
-    elif isinstance(quotient, int):
-      return quotient
-    elif isinstance(quotient, Decimal):
-      return quotient
+
+    return quotient
 
   def visit_ExponentNode(self, node):
     base = self.visit(node.node_a)
