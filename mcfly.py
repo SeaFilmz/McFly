@@ -2500,19 +2500,6 @@ class Interpreter:
       return modes
 
   def visit_SquareNode(self, node):
-    value = self.visit(node.node)
-
-    if not isinstance(value, (int, float)):
-      raise Exception("square() requires numeric input")
-
-    result = value * value
-
-    if isinstance(result, float) and result.is_integer():
-      return int(result)
-    else:
-      return result
-
-  def visit_SquareNode(self, node):
 
     def apply_square(value):
       if isinstance(value, (int, Decimal)) and not isinstance(value, bool):
@@ -2528,6 +2515,33 @@ class Interpreter:
     for arg in node.node:
       value = self.visit(arg)
       results.append(apply_square(value))
+
+    if len(results) == 1:
+      return results[0]
+
+    return results
+
+  def visit_SquareRootNode(self, node):
+
+    def apply_square_root(value):
+      if isinstance(value, (int, float, Decimal)) and not isinstance(value, bool):
+        number = value if isinstance(value, Decimal) else Decimal(str(value))
+
+        if number < 0:
+          raise Exception("sqrt() cannot calculate the square root of a negative number")
+
+        return number.sqrt()
+
+      if isinstance(value, list):
+        return [apply_square_root(v) for v in value]
+
+      raise Exception("sqrt() requires numeric input")
+
+    results = []
+
+    for arg in node.node:
+      value = self.visit(arg)
+      results.append(apply_square_root(value))
 
     if len(results) == 1:
       return results[0]
