@@ -2529,7 +2529,12 @@ class Interpreter:
         if number < 0:
           raise Exception("sqrt() cannot calculate the square root of a negative number")
 
-        return number.sqrt()
+        result = number.sqrt()
+
+        if result == result.to_integral_value():
+          return int(result)
+
+        return result
 
       if isinstance(value, list):
         return [apply_square_root(v) for v in value]
