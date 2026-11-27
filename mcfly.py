@@ -1323,10 +1323,6 @@ class Parser:
       self.advance()
       return MinusNode(self.factor())
 
-    if token.type == TokenType.SQUARE_ROOT:
-      self.advance()
-      return SquareRootNode(self.factor())
-
     if token.type == TokenType.LIST_TYPE:
       self.advance()
       return ListTypeNode(self.factor())
