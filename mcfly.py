@@ -1236,8 +1236,7 @@ class Parser:
       return self.squareExpr()
 
     if token.type == TokenType.SQUARE_ROOT:
-      self.advance()
-      return SquareRootNode(self.squareRootExpr())
+      return self.squareRootExpr()
 
     if token.type == TokenType.ROUND:
       return self.roundExpr()
