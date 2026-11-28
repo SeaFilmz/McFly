@@ -211,6 +211,8 @@ class Lexer:
           yield Token(TokenType.SQUARE)
         elif upper_word == "SQRT":
           yield Token(TokenType.SQUARE_ROOT)
+        elif upper_word == "STRLEN":
+          yield Token(TokenType.STRING_LENGTH)
         elif upper_word == "COUNT":
           yield Token(TokenType.COUNT)
         elif upper_word == "SUM":
